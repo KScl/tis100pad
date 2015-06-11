@@ -6,12 +6,12 @@ header {
   color: #B5B5B5;
   font-family: "Trebuchet MS", sans-serif;
   font-size: 60px;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 
 #menu {
   float: left;
-  margin: 20px 10px 20px 20px;
+  margin: 20px 10px 20px 10px;
   width: 206px;
   color: #B5B5B5;
   font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
