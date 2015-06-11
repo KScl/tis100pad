@@ -167,7 +167,7 @@ function submitSolution() {
     }
   }
   if (blank) {
-    window.displayMessage("NO CHANGES TO SAVE");
+    displayMessage("NO CHANGES TO SAVE");
     return;
   }
   var XHR = new XMLHttpRequest();
@@ -196,20 +196,20 @@ function submitSolution() {
     if (this.status === 200) {
       var response = this.responseText.split("/");
       var newUrl = "/" + response[0];
-      if (parseInt(response[1])) {
+      if (parseInt(response[1], 10)) {
         newUrl = newUrl + "/" + response[1];
       }
       window.history.replaceState("TIS-100 NOTEPAD", "", newUrl);
-      window.displayMessage("SOLUTION SAVED");
+      displayMessage("SOLUTION SAVED");
     } else if (this.status === 202) {
-      window.displayMessage("NO CHANGES TO SAVE");
+      displayMessage("NO CHANGES TO SAVE");
     } else {
       submitError();
     }
   }
   
   function submitError() {
-    window.displayMessage("SUBMISSION ERROR. PLEASE TRY AGAIN.");
+    displayMessage("SUBMISSION ERROR. PLEASE TRY AGAIN.");
   }
 }
 
@@ -232,7 +232,7 @@ function loadSolution() {
       var response = JSON.parse(this.responseText);
       fillSolution(response);
     } else if (this.status === 404) {
-      window.displayMessage("SOLUTION NOT FOUND")
+      displayMessage("SOLUTION NOT FOUND")
       window.history.replaceState("TIS-100 NOTEPAD", "", "/");
     } else {
       loadError();
@@ -240,7 +240,7 @@ function loadSolution() {
   }
   
   function loadError() {
-    window.displayMessage("ERROR LOADING SOLUTION. PLEASE TRY AGAIN.");
+    displayMessage("ERROR LOADING SOLUTION. PLEASE TRY AGAIN.");
     window.history.replaceState("TIS-100 NOTEPAD", "", "/");
   }
 }
@@ -260,14 +260,14 @@ function uploadFile() {
       var response = JSON.parse(this.responseText);
       fillSolution(response);
     } else if (this.status === 400) {
-      window.displayMessage("INVALID SAVE FILE");
+      displayMessage("INVALID SAVE FILE");
     } else {
       uploadError();
     }
   }
   
   function uploadError() {
-    window.displayMessage("FILE UPLOAD ERROR. PLEASE TRY AGAIN.");
+    displayMessage("FILE UPLOAD ERROR. PLEASE TRY AGAIN.");
   }
 }
 
@@ -283,13 +283,11 @@ function clearScreen() {
 }
 
 function fillSolution(solution) {
+  clearScreen();
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
   for (var i = 0; i < textareas.length; i++) {
-    textareas[i].parentNode.getElementsByClassName("exec")[0].click();
     var thisnode = solution[textareas[i].name];
-    if (thisnode === undefined) {
-      textareas[i].value = "";
-    } else {
+    if (thisnode !== undefined) {
       textareas[i].value = solution[textareas[i].name].trim();
     }
     if (textareas[i].value === "█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████") {

@@ -57,23 +57,19 @@ def upload_save():
     if levelname not in definitions.levels:
         return ('Invalid file.', 400)
     entries = file.read().split('@')
-    textfields = dict()
-    incrementer = 0
+    entries.pop(0)
+    text = ['', '', '', '', '', '', '', '', '', '', '', '']
+    for i in range(0, 12):
+        if definitions.levels[levelname][i] == 1:
+            text[i] = '█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████'
+        if definitions.levels[levelname][i] == 2:
+            text[i] = '██████████████\n\nCOMMUNICATION\nFAILURE\n\n██████████████'
     for entry in entries:
-        if entry == '':
-            continue
         nl = entry.find('\n')
-        entryno = str(int(entry[0:nl]) + incrementer)
-        if definitions.levels[levelname][int(entryno)] == 1:
-            textfields['@' + entryno] = '\n\n\n\n\n█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████'
-            textfields['@' + str(int(entryno) + 1)] = entry[nl + 1:]
-            incrementer += 1
-        elif definitions.levels[levelname][int(entryno)] == 2:
-            textfields['@' + entryno] = '\n\n\n\n██████████████\n\nCOMMUNICATION\nFAILURE\n\n██████████████'
-            textfields['@' + str(int(entryno) + 1)] = entry[nl + 1:]
-            incrementer += 1
-        else:
-            textfields['@' + entryno] = entry[nl + 1:]
+        text[text.index('')] = entry[nl + 1:]
+    textfields = dict()
+    for i in range (0, 12):
+        textfields['@' + str(i)] = text[i]
     return json.dumps(textfields)
 
 
