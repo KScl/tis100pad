@@ -76,7 +76,7 @@ def upload_save():
 @app.route('/<int:solution>', methods=['POST'])
 def load_solution(solution):
     db = get_db()
-    row = db.execute('SELECT * FROM solutions WHERE rowid=? AND master IS NULL', (solution, None)).fetchone()
+    row = db.execute('SELECT * FROM solutions WHERE rowid=? AND master IS NULL', (solution,)).fetchone()
     if row is None:
         return ('Solution not found.', 404)
     textfields = dict()
