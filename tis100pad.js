@@ -32,7 +32,9 @@ window.addEventListener("load",
     document.getElementById("uploadbutton").addEventListener("click", function() {
       fileinput.click();
     }, false);
-    document.getElementById("newbutton").addEventListener("click", clearScreen, false);
+    document.getElementById("newbutton").addEventListener("click", function() {
+      clearScreen(true);
+    }, false);
     
     if (window.location.pathname !== "" && window.location.pathname !== "/") {
       loadSolution();
@@ -230,7 +232,7 @@ function loadSolution() {
   function insertLoadedSolution() {
     if (this.status === 200) {
       var response = JSON.parse(this.responseText);
-      fillSolution(response);
+      fillSolution(response, false);
     } else if (this.status === 404) {
       displayMessage("SOLUTION NOT FOUND")
       window.history.replaceState("TIS-100 NOTEPAD", "", "/");
@@ -258,7 +260,7 @@ function uploadFile() {
   function loadFileData() {
     if (this.status === 200) {
       var response = JSON.parse(this.responseText);
-      fillSolution(response);
+      fillSolution(response, true);
     } else if (this.status === 400) {
       displayMessage("INVALID SAVE FILE");
     } else {
@@ -271,19 +273,19 @@ function uploadFile() {
   }
 }
 
-function clearScreen() {
+function clearScreen(resetpath) {
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
   for (var i = 0; i < textareas.length; i++) {
     textareas[i].parentNode.getElementsByClassName("exec")[0].click();
     textareas[i].value = "";
   }
-  if (window.location.pathname !== "" && window.location.pathname !== "/") {
+  if (window.location.pathname !== "" && window.location.pathname !== "/" && resetpath) {
     window.history.pushState("TIS-100 NOTEPAD", "", "/");
   }
 }
 
-function fillSolution(solution) {
-  clearScreen();
+function fillSolution(solution, resetpath) {
+  clearScreen(resetpath);
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
   for (var i = 0; i < textareas.length; i++) {
     var thisnode = solution[textareas[i].name];
