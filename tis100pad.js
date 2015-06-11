@@ -87,7 +87,7 @@ function makeNodeErr() {
 
 // Adapted from https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement#Maximum_length_and_number_of_lines_example
 function limitText(e) {
-  var	nKey = e.keyCode,
+  var nKey = e.keyCode,
   nCols = this.cols,
   nRows = this.rows,
   nSelS = this.selectionStart, nSelE = this.selectionEnd,
