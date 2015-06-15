@@ -47,7 +47,13 @@ window.addEventListener("load",
       clearScreen(true);
     }, false);
 
-    document.getElementById("downloadbutton").addEventListener("click", downloadSave, false);
+    form.addEventListener("submit", function() {
+      document.getElementsByName("levelname")[0].value = window.levelname;
+    }, false);
+
+    document.getElementById("downloadbutton").addEventListener("click", function() {
+      document.getElementById("dlsubmit").click();
+    }, false);
     
     if (window.location.pathname !== "" && window.location.pathname !== "/") {
       loadSolution();
@@ -185,6 +191,7 @@ function submitSolution() {
     displayMessage("NO CHANGES TO SAVE");
     return;
   }
+  document.getElementsByName("levelname")[0].value = window.levelname;
   var XHR = new XMLHttpRequest();
   var disabledlist = [];
   for (var i = 0; i < textareas.length; i++) {
@@ -208,7 +215,6 @@ function submitSolution() {
   }
   FD.append("master", master);
   FD.append("ports", ports);
-  FD.append("levelname", window.levelname);
   XHR.addEventListener("load", confirmSubmit, false);
   XHR.addEventListener("error", submitError, false);
   XHR.open("POST", "/db/submit");
@@ -331,4 +337,8 @@ function fillSolution(solution, resetpath) {
       textareas[i].parentNode.getElementsByClassName("err")[0].click();
     }
   }
+}
+
+function downloadSave() {
+  document.getElementsByName("levelname")[0].value = window.levelname;
 }

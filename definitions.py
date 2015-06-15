@@ -1,6 +1,8 @@
 database = ''
 logfile = ''
 
+stcknode = '\n\n\n\n\n█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████'
+errnode = '\n\n\n\n██████████████\n\nCOMMUNICATION\nFAILURE\n\n██████████████'
 levels = {
     '00150': (0, 2, 0, 0, 0, 2, 0, 2, 0, 2, 0, 0, '10011001', 'Self-test diagnostic'),
     '10981': (0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 0, 0, '01000010', 'Signal amplifier'),

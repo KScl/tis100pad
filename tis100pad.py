@@ -66,9 +66,9 @@ def upload_save():
     text = ['', '', '', '', '', '', '', '', '', '', '', '']
     for i in range(0, 12):
         if definitions.levels[levelcode][i] == 1:
-            text[i] = '█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████'
+            text[i] = definitions.stcknode
         if definitions.levels[levelcode][i] == 2:
-            text[i] = '██████████████\n\nCOMMUNICATION\nFAILURE\n\n██████████████'
+            text[i] = definitions.errnode
     for entry in entries:
         text[text.index('')] = entry[entry.find('\n'):]
     textfields = dict()
@@ -83,12 +83,15 @@ def upload_save():
 def produce_file():
     levelname = request.form['levelname'] if request.form['levelname'] else 'level'
     text = ''
+    offset = 0
     for i in range(0, 12):
-        text += '@' + str(i) + '\n' + request.form['@' + str(i)]
+        if request.form['@' + str(i)] == definitions.stcknode or request.form['@' + str(i)] == definitions.errnode:
+            offset += 1
+            continue
+        text += '@' + str(i - offset) + '\n' + request.form['@' + str(i)]
         text += '\n\n'
-    filename = definitions.dldirectory + savdir + '/' + request.form['levelname'] + '.0.txt'
     response = make_response(text, 200)
-    response.headers['Content-Disposition'] = 'attachment; filename=' + filename
+    response.headers['Content-Disposition'] = 'attachment; filename=' + levelname + '.0.txt'
     return response
 
 

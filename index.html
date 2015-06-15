@@ -12,11 +12,13 @@
   <div id="menu">
     <p id="statusmessage"></p>
     <div id="savebutton"><p>SAVE</p></div>
-    <div id="downloadbutton"><p>DOWNLOAD SAVE FILE</p></div>
+    <div id="downloadbutton"><p>DOWNLOAD SOLUTION</p></div>
     <div id="uploadbutton"><p>UPLOAD SAVE FILE</p><input type="file" accept="text/plain"></div>
     <div id="newbutton"><p>NEW SOLUTION</p></div>
   </div>
-  <form id="nodes">
+  <form id="nodes" action="/db/download" method="post">
+  <input type="submit" id="dlsubmit">
+  <input name="levelname" type="hidden">
   <div class="inout" id="inputrow">
     <p class="ioport inactive">IN&nbsp;&nbsp;&nbsp;<span>&#8681;</span></p>
     <p class="ioport inactive">IN&nbsp;&nbsp;&nbsp;<span>&#8681;</span></p>

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Fixedsys";
+  src: url("Fixedsys500c.woff");
+}
+
 html {
   background-color: #000000;
 }
@@ -5,7 +10,7 @@ html {
 header {
   color: #B5B5B5;
   float: left;
-  font-family: "Trebuchet MS", sans-serif;
+  font-family: "Fixedsys", "Trebuchet MS", sans-serif;
   font-size: 60px;
   margin-left: 10px;
 }
@@ -13,9 +18,9 @@ header {
 #levelname {
   color: #B5B5B5;
   float: right;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 24px;
-  margin: 43px 20px 0 0;
+  margin: 38px 20px 0 0;
   text-transform: uppercase;
 }
 
@@ -23,9 +28,8 @@ header {
   clear: left;
   color: #B5B5B5;
   float: left;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 16px;
-  font-weight: 900;
   margin: 20px 10px 20px 10px;
   width: 206px;
 }
@@ -44,6 +48,10 @@ header {
 }
 
 #uploadbutton input {
+  display: none;
+}
+
+#dlsubmit {
   display: none;
 }
 
@@ -74,9 +82,8 @@ header {
   color: #B5B5B5;
   cursor: default;
   display: inline-table;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 13px;
-  font-weight: 900;
   margin: 0 20px;
   text-align: center;
   width: 212px;
@@ -110,9 +117,8 @@ header {
   border: none;
   border-right: 3px double #B3B3B3;
   color: #B5B5B5;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 13px;
-  font-weight: 900;
   height: 192px;
   line-height: 0.98em;
   margin: 0 0 -4px 2px;
@@ -133,9 +139,8 @@ header {
 .sidecell {
   color: #B5B5B5;
   cursor: default;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 13px;
-  font-weight: 900;
   height: 46px;
   text-align: center;
   width: 46px;
