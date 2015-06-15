@@ -3,44 +3,57 @@
 window.addEventListener("load", 
   function() { 
     var form = document.getElementById("nodes");
+    var ioports = document.getElementsByClassName("ioport");
     var execbuttons = form.getElementsByClassName("exec");
     var stckbuttons = form.getElementsByClassName("stck");
     var errbuttons = form.getElementsByClassName("err");
     var textareas = form.getElementsByTagName("textarea");
-    
+    var uploadbutton = document.getElementById("uploadbutton");
+    var fileinput = uploadbutton.getElementsByTagName("input")[0];
+    window.levelname = "";
+
+    for (var i = 0; i < ioports.length; i++) {
+      ioports[i].addEventListener("click", function() {
+	this.classList.toggle("inactive");
+      }, false);
+    }
+
     for (var i = 0; i < execbuttons.length; i++) {
       execbuttons[i].addEventListener("click", makeNodeExec, false);
     }
-    
+
     for (var i = 0; i < stckbuttons.length; i++) {
       stckbuttons[i].addEventListener("click", makeNodeStck, false);
     }
-    
+
     for (var i = 0; i < errbuttons.length; i++) {
       errbuttons[i].addEventListener("click", makeNodeErr, false);
     }
-    
+
     for (var i = 0; i < textareas.length; i++) {
       textareas[i].value = "";
       textareas[i].addEventListener("keypress", limitText, false);
       textareas[i].addEventListener("paste", trimText, false);
     }
-    
-    var fileinput = document.getElementById("uploadbutton").getElementsByTagName("input")[0];
+
     fileinput.addEventListener("change", uploadFile, false);
     document.getElementById("savebutton").addEventListener("click", submitSolution, false);
-    document.getElementById("uploadbutton").addEventListener("click", function() {
+
+    uploadbutton.addEventListener("click", function() {
       fileinput.click();
     }, false);
+
     document.getElementById("newbutton").addEventListener("click", function() {
       clearScreen(true);
     }, false);
+
+    document.getElementById("downloadbutton").addEventListener("click", downloadSave, false);
     
     if (window.location.pathname !== "" && window.location.pathname !== "/") {
       loadSolution();
     }
   }, false);
-  
+
 function makeNodeExec() {
   var node = this.parentNode.parentNode;
   node.classList.remove("stcknode");
@@ -188,7 +201,14 @@ function submitSolution() {
   }
   var path = window.location.pathname.split("/");
   var master = path[1] ? path[1] : "0";
+  var ioports = document.getElementsByClassName("ioport");
+  var ports = "";
+  for (var i = 0; i < ioports.length; i++) {
+    ports += ioports[i].classList.contains("inactive") ? "0" : "1";
+  }
   FD.append("master", master);
+  FD.append("ports", ports);
+  FD.append("levelname", window.levelname);
   XHR.addEventListener("load", confirmSubmit, false);
   XHR.addEventListener("error", submitError, false);
   XHR.open("POST", "/db/submit");
@@ -201,7 +221,7 @@ function submitSolution() {
       if (parseInt(response[1], 10)) {
         newUrl = newUrl + "/" + response[1];
       }
-      window.history.replaceState("TIS-100 NOTEPAD", "", newUrl);
+      window.history.replaceState("TIS-100 PAD", "", newUrl);
       displayMessage("SOLUTION SAVED");
     } else if (this.status === 202) {
       displayMessage("NO CHANGES TO SAVE");
@@ -231,11 +251,10 @@ function loadSolution() {
   
   function insertLoadedSolution() {
     if (this.status === 200) {
-      var response = JSON.parse(this.responseText);
-      fillSolution(response, false);
+      fillSolution(JSON.parse(this.responseText), false);
     } else if (this.status === 404) {
       displayMessage("SOLUTION NOT FOUND")
-      window.history.replaceState("TIS-100 NOTEPAD", "", "/");
+      window.history.replaceState("TIS-100 PAD", "", "/");
     } else {
       loadError();
     }
@@ -243,7 +262,7 @@ function loadSolution() {
   
   function loadError() {
     displayMessage("ERROR LOADING SOLUTION. PLEASE TRY AGAIN.");
-    window.history.replaceState("TIS-100 NOTEPAD", "", "/");
+    window.history.replaceState("TIS-100 PAD", "", "/");
   }
 }
 
@@ -259,8 +278,7 @@ function uploadFile() {
   
   function loadFileData() {
     if (this.status === 200) {
-      var response = JSON.parse(this.responseText);
-      fillSolution(response, true);
+      fillSolution(JSON.parse(this.responseText), true);
     } else if (this.status === 400) {
       displayMessage("INVALID SAVE FILE");
     } else {
@@ -274,23 +292,35 @@ function uploadFile() {
 }
 
 function clearScreen(resetpath) {
+  window.levelname = "";
+  document.getElementById("levelname").innerHTML = "";
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
   for (var i = 0; i < textareas.length; i++) {
     textareas[i].parentNode.getElementsByClassName("exec")[0].click();
     textareas[i].value = "";
   }
-  if (window.location.pathname !== "" && window.location.pathname !== "/" && resetpath) {
-    window.history.pushState("TIS-100 NOTEPAD", "", "/");
+  if (resetpath && window.location.pathname !== "" && window.location.pathname !== "/") {
+    window.history.pushState("TIS-100 PAD", "", "/");
   }
 }
 
 function fillSolution(solution, resetpath) {
   clearScreen(resetpath);
+  window.levelname = solution.levelname ? solution.levelname : "";
+  if (window.levelname) {
+    document.getElementById("levelname").innerHTML = window.levelname;
+  }
+  var ports = document.getElementsByClassName("ioport");
+  for (var i = 0; i < solution.ports.length; i++) {
+    if (solution.ports[i] === "1") {
+      ports[i].click();
+    }
+  }
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
   for (var i = 0; i < textareas.length; i++) {
     var thisnode = solution[textareas[i].name];
     if (thisnode !== undefined) {
-      textareas[i].value = solution[textareas[i].name].trim();
+      textareas[i].value = thisnode.trim();
     }
     if (textareas[i].value === "█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████") {
       textareas[i].value = "";
