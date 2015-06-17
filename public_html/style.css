@@ -7,6 +7,10 @@ html {
   background-color: #000000;
 }
 
+body {
+  max-width: 1246px;
+}
+
 header {
   color: #B5B5B5;
   float: left;

@@ -11,6 +11,7 @@ window.addEventListener("load",
     var uploadbutton = document.getElementById("uploadbutton");
     var fileinput = uploadbutton.getElementsByTagName("input")[0];
     window.levelname = "";
+    window.levelcode = undefined;
 
     for (var i = 0; i < ioports.length; i++) {
       ioports[i].addEventListener("click", function() {
@@ -47,9 +48,7 @@ window.addEventListener("load",
       clearScreen(true);
     }, false);
 
-    form.addEventListener("submit", function() {
-      document.getElementsByName("levelname")[0].value = window.levelname;
-    }, false);
+    form.addEventListener("submit", downloadFile, false);
 
     document.getElementById("downloadbutton").addEventListener("click", function() {
       document.getElementById("dlsubmit").click();
@@ -313,6 +312,7 @@ function clearScreen(resetpath) {
 function fillSolution(solution, resetpath) {
   clearScreen(resetpath);
   window.levelname = solution.levelname ? solution.levelname : "";
+  window.levelcode = solution.levelcode ? solution.levelcode : "";
   if (window.levelname) {
     document.getElementById("levelname").innerHTML = window.levelname;
   }
@@ -339,6 +339,10 @@ function fillSolution(solution, resetpath) {
   }
 }
 
-function downloadSave() {
-  document.getElementsByName("levelname")[0].value = window.levelname;
+function downloadFile() {
+  var textareas = document.getElementsByTagName("textarea");
+  document.getElementsByName("levelcode")[0].value = window.levelcode;
+  for (var i = 0; i < textareas.length; i++) {
+    textareas[i].disabled = false;
+  }
 }

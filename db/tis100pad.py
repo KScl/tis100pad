@@ -37,13 +37,13 @@ def submit_solution():
     else:
         currentfork = None
     forkno = currentfork + 1 if currentfork is not None else None
-    levelname = request.form['levelname'] if request.form['levelname'] else None
+    levelcode = request.form['levelcode'] if request.form['levelcode'] else None
     ports = request.form['ports']
     row = (master, forkno,
            request.form['@0'], request.form['@1'], request.form['@2'], request.form['@3'], 
            request.form['@4'], request.form['@5'], request.form['@6'], request.form['@7'], 
            request.form['@8'], request.form['@9'], request.form['@10'], request.form['@11'],
-           ports, levelname)
+           ports, levelcode)
     if currentfork:
         if row[2:14] == db.execute('SELECT * FROM solutions WHERE master=? AND forkno=?', (master, currentfork)).fetchone()[2:14]:
             return ('No changes.', 202)
@@ -74,6 +74,7 @@ def upload_save():
     textfields = dict()
     textfields['ports'] = definitions.levels[levelcode][12]
     textfields['levelname'] = definitions.levels[levelcode][13]
+    textfields['levelcode'] = levelcode
     for i in range (0, 12):
         textfields['@' + str(i)] = text[i]
     return json.dumps(textfields)
@@ -81,17 +82,18 @@ def upload_save():
 
 @app.route('/download', methods=['POST'])
 def produce_file():
-    levelname = request.form['levelname'] if request.form['levelname'] else 'level'
+    levelcode = request.form['levelcode'] if request.form['levelcode'] else 'level'
     text = ''
     offset = 0
     for i in range(0, 12):
-        if request.form['@' + str(i)] == definitions.stcknode or request.form['@' + str(i)] == definitions.errnode:
+        entry = request.form['@' + str(i)].replace('\r', '')
+        if entry == definitions.stcknode or entry == definitions.errnode:
             offset += 1
             continue
         text += '@' + str(i - offset) + '\n' + request.form['@' + str(i)]
         text += '\n\n'
     response = make_response(text, 200)
-    response.headers['Content-Disposition'] = 'attachment; filename=' + levelname + '.0.txt'
+    response.headers['Content-Disposition'] = 'attachment; filename=' + levelcode + '.0.txt'
     return response
 
 
@@ -103,7 +105,8 @@ def load_solution(solution):
         return ('Solution not found.', 404)
     textfields = dict()
     textfields['ports'] = row[14]
-    textfields['levelname'] = row[15]
+    textfields['levelcode'] = row[15]
+    textfields['levelname'] = definitions.levels[textfields['levelcode']][13]
     for i in range(2, 14):
         textfields['@' + str(i - 2)] = row[i]
     return json.dumps(textfields)
@@ -118,6 +121,7 @@ def load_fork(solution, fork):
     textfields = dict()
     textfields['ports'] = row[14]
     textfields['levelname'] = row[15]
+    textfields['levelname'] = definitions.levels[textfields['levelcode']][13]
     for i in range(2, 14):
         textfields['@' + str(i - 2)] = row[i]
     return json.dumps(textfields)
