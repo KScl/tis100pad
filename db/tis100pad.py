@@ -106,7 +106,7 @@ def load_solution(solution):
     textfields = dict()
     textfields['ports'] = row[14]
     textfields['levelcode'] = row[15]
-    textfields['levelname'] = definitions.levels[textfields['levelcode']][13] if textfields['levelcode'] = row[15] else ''
+    textfields['levelname'] = definitions.levels[textfields['levelcode']][13] if textfields['levelcode'] else ''
     for i in range(2, 14):
         textfields['@' + str(i - 2)] = row[i]
     return json.dumps(textfields)
@@ -121,7 +121,7 @@ def load_fork(solution, fork):
     textfields = dict()
     textfields['ports'] = row[14]
     textfields['levelname'] = row[15]
-    textfields['levelname'] = definitions.levels[textfields['levelcode']][13] if textfields['levelcode'] = row[15] else ''
+    textfields['levelname'] = definitions.levels[textfields['levelcode']][13] if textfields['levelcode'] else ''
     for i in range(2, 14):
         textfields['@' + str(i - 2)] = row[i]
     return json.dumps(textfields)
