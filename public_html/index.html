@@ -8,13 +8,23 @@
   </head>
   <body>
   <header>TIS-100 PAD</header>
+  <p id="levelname"></p>
   <div id="menu">
     <p id="statusmessage"></p>
     <div id="savebutton"><p>SAVE</p></div>
+    <div id="downloadbutton"><p>DOWNLOAD SOLUTION</p></div>
     <div id="uploadbutton"><p>UPLOAD SAVE FILE</p><input type="file" accept="text/plain"></div>
     <div id="newbutton"><p>NEW SOLUTION</p></div>
   </div>
-  <form id="nodes">
+  <form id="nodes" action="/db/download" method="post">
+  <input type="submit" id="dlsubmit">
+  <input name="levelcode" type="hidden">
+  <div class="inout" id="inputrow">
+    <p class="ioport inactive">IN&nbsp;&nbsp;&nbsp;<span>&#8681;</span></p>
+    <p class="ioport inactive">IN&nbsp;&nbsp;&nbsp;<span>&#8681;</span></p>
+    <p class="ioport inactive">IN&nbsp;&nbsp;&nbsp;<span>&#8681;</span></p>
+    <p class="ioport inactive">IN&nbsp;&nbsp;&nbsp;<span>&#8681;</span></p>
+  </div>
   <div class="row">
     <div class="node execnode">
       <textarea name="@0" rows="15" cols="18" maxlength="285" wrap="hard" spellcheck="false"></textarea>
@@ -128,6 +138,12 @@
         <div class="sidecell bottom"></div>
       </div>
     </div>
+  </div>
+  <div class="inout" id="outputrow">
+    <p class="ioport inactive">OUT&nbsp;&nbsp;<span>&#8681;</span></p>
+    <p class="ioport inactive">OUT&nbsp;&nbsp;<span>&#8681;</span></p>
+    <p class="ioport inactive">OUT&nbsp;&nbsp;<span>&#8681;</span></p>
+    <p class="ioport inactive">OUT&nbsp;&nbsp;<span>&#8681;</span></p>
   </div>
   </form>
   <footer>TIS-100 is ©2015 <a href="http://www.zachtronics.com/tis-100/">Zachtronics LLC</a>. This site is not affiliated with or endorsed by Zachtronics LLC.

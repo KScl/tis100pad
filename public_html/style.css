@@ -1,22 +1,41 @@
+@font-face {
+  font-family: "Fixedsys";
+  src: url("Fixedsys500c.woff");
+}
+
 html {
   background-color: #000000;
 }
 
+body {
+  max-width: 1246px;
+}
+
 header {
   color: #B5B5B5;
-  font-family: "Trebuchet MS", sans-serif;
+  float: left;
+  font-family: "Fixedsys", "Trebuchet MS", sans-serif;
   font-size: 60px;
   margin-left: 10px;
 }
 
+#levelname {
+  color: #B5B5B5;
+  float: right;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 24px;
+  margin: 38px 20px 0 0;
+  text-transform: uppercase;
+}
+
 #menu {
+  clear: left;
+  color: #B5B5B5;
   float: left;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 16px;
   margin: 20px 10px 20px 10px;
   width: 206px;
-  color: #B5B5B5;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-  font-size: 16px;
-  font-weight: 900;
 }
 
 #menu div {
@@ -36,6 +55,10 @@ header {
   display: none;
 }
 
+#dlsubmit {
+  display: none;
+}
+
 #statusmessage {
   height: 17px;
   margin: -22px 0 5px 0;
@@ -49,6 +72,39 @@ header {
 
 .row {
   clear: right;
+}
+
+#inputrow {
+  margin-bottom: -19px;
+}
+
+#outputrow {
+  margin-top: -19px;
+}
+
+.inout p {
+  color: #B5B5B5;
+  cursor: default;
+  display: inline-table;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 13px;
+  margin: 0 20px;
+  text-align: center;
+  width: 212px;
+}
+
+.inout p span {
+  font-size: 24px;
+  line-height: 0;
+  vertical-align: sub;
+}
+
+.inactive {
+  opacity: 0;
+}
+
+.inactive:hover {
+  opacity: 0.4;
 }
 
 .node {
@@ -65,14 +121,13 @@ header {
   border: none;
   border-right: 3px double #B3B3B3;
   color: #B5B5B5;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 13px;
-  font-weight: 900;
   height: 192px;
   line-height: 0.98em;
   margin: 0 0 -4px 2px;
   outline: none;
-  overflow: auto;
+  overflow: hidden;
   padding: 0;
   resize: none;
   text-transform: uppercase;
@@ -88,9 +143,8 @@ header {
 .sidecell {
   color: #B5B5B5;
   cursor: default;
-  font-family: "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   font-size: 13px;
-  font-weight: 900;
   height: 46px;
   text-align: center;
   width: 46px;
@@ -146,4 +200,5 @@ footer {
   color: white;
   float: left;
   font-size: 12px;
+  margin-top: 15px;
 }
