@@ -61,7 +61,7 @@ def upload_save():
     levelcode = file.filename.split('.')[0]
     if levelcode not in definitions.levels:
         return ('Invalid file.', 400)
-    entries = file.read()..replace('\r', '').split('@')
+    entries = file.read().replace('\r', '').split('@')
     entries.pop(0)
     text = ['', '', '', '', '', '', '', '', '', '', '', '']
     for i in range(0, 12):
@@ -87,7 +87,7 @@ def produce_file():
     offset = 0
     nl = '\r\n' if '\r\n' in request.form['@0'] else '\n'
     for i in range(0, 12):
-        if '██████████████' in request.form['@' + str(i)]:
+        if 'STACK MEMORY NODE' in request.form['@' + str(i)] or 'COMMUNICATION\nFAILURE' in request.form['@' + str(i)]:
             offset += 1
             continue
         text += '@' + str(i - offset) + nl + request.form['@' + str(i)]
