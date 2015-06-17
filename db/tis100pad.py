@@ -86,7 +86,7 @@ def produce_file():
     text = ''
     offset = 0
     for i in range(0, 12):
-        if not request.form['@' + str(i)]:
+        if '@' + str(i) not in request.form:
             offset += 1
             continue
         text += '@' + str(i - offset) + '\n' + request.form['@' + str(i)].upper()
