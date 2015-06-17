@@ -85,13 +85,14 @@ def produce_file():
     levelcode = request.form['levelcode'] if request.form['levelcode'] else 'level'
     text = ''
     offset = 0
+    nl = '\r\n' if '\r\n' in request.form['@0'] else '\n'
     for i in range(0, 12):
         entry = request.form['@' + str(i)].replace('\r', '')
         if entry == definitions.stcknode or entry == definitions.errnode:
             offset += 1
             continue
-        text += '@' + str(i - offset) + '\n' + request.form['@' + str(i)]
-        text += '\n\n'
+        text += '@' + str(i - offset) + nl + request.form['@' + str(i)]
+        text += nl + nl
     response = make_response(text, 200)
     response.headers['Content-Disposition'] = 'attachment; filename=' + levelcode + '.0.txt'
     return response
