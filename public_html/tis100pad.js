@@ -11,7 +11,7 @@ window.addEventListener("load",
     var uploadbutton = document.getElementById("uploadbutton");
     var fileinput = uploadbutton.getElementsByTagName("input")[0];
     window.levelname = "";
-    window.levelcode = undefined;
+    window.levelcode = "";
 
     for (var i = 0; i < ioports.length; i++) {
       ioports[i].addEventListener("click", function() {
@@ -48,7 +48,9 @@ window.addEventListener("load",
       clearScreen(true);
     }, false);
 
-    form.addEventListener("submit", downloadFile, false);
+    form.addEventListener("submit", function() {
+      document.getElementsByName("levelcode")[0].value = window.levelcode;
+    }, false);
 
     document.getElementById("downloadbutton").addEventListener("click", function() {
       document.getElementById("dlsubmit").click();
@@ -299,6 +301,10 @@ function uploadFile() {
 function clearScreen(resetpath) {
   window.levelname = "";
   document.getElementById("levelname").innerHTML = "";
+  var ports = document.getElementsByClassName("ioport");
+  for (var i = 0; i < ports.length; i++) {
+    ports[i].classList.add("inactive");
+  }
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
   for (var i = 0; i < textareas.length; i++) {
     textareas[i].parentNode.getElementsByClassName("exec")[0].click();
@@ -338,13 +344,5 @@ function fillSolution(solution, resetpath) {
       textareas[i].value = "";
       textareas[i].parentNode.getElementsByClassName("err")[0].click();
     }
-  }
-}
-
-function downloadFile() {
-  var textareas = document.getElementsByTagName("textarea");
-  document.getElementsByName("levelcode")[0].value = window.levelcode;
-  for (var i = 0; i < textareas.length; i++) {
-    textareas[i].disabled = false;
   }
 }

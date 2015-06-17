@@ -85,13 +85,12 @@ def produce_file():
     levelcode = request.form['levelcode'] if request.form['levelcode'] else 'level'
     text = ''
     offset = 0
-    nl = '\r\n' if '\r\n' in request.form['@0'] else '\n'
     for i in range(0, 12):
-        if 'STACK MEMORY NODE' in request.form['@' + str(i)] or 'COMMUNICATION\nFAILURE' in request.form['@' + str(i)]:
+        if not request.form['@' + str(i)]:
             offset += 1
             continue
-        text += '@' + str(i - offset) + nl + request.form['@' + str(i)]
-        text += nl + nl
+        text += '@' + str(i - offset) + '\n' + request.form['@' + str(i)].upper()
+        text += '\n\n'
     response = make_response(text, 200)
     response.headers['Content-Disposition'] = 'attachment; filename=' + levelcode + '.0.txt'
     return response
