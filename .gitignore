@@ -1,5 +1,7 @@
 *.txt
 *.db
 *.pyc
-log
+*.sh
+*.wsgi
+*log
 /min/*
