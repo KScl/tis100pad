@@ -61,7 +61,7 @@ def upload_save():
     levelcode = file.filename.split('.')[0]
     if levelcode not in definitions.levels:
         return ('Invalid file.', 400)
-    entries = file.read().split('@')
+    entries = file.read()..replace('\r', '').split('@')
     entries.pop(0)
     text = ['', '', '', '', '', '', '', '', '', '', '', '']
     for i in range(0, 12):
@@ -87,8 +87,7 @@ def produce_file():
     offset = 0
     nl = '\r\n' if '\r\n' in request.form['@0'] else '\n'
     for i in range(0, 12):
-        entry = request.form['@' + str(i)].replace('\r', '')
-        if entry == definitions.stcknode or entry == definitions.errnode:
+        if '██████████████' in request.form['@' + str(i)]:
             offset += 1
             continue
         text += '@' + str(i - offset) + nl + request.form['@' + str(i)]

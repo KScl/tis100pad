@@ -190,7 +190,7 @@ function submitSolution() {
     displayMessage("NO CHANGES TO SAVE");
     return;
   }
-  document.getElementsByName("levelname")[0].value = window.levelname;
+  document.getElementsByName("levelcode")[0].value = window.levelcode;
   var XHR = new XMLHttpRequest();
   var disabledlist = [];
   for (var i = 0; i < textareas.length; i++) {
@@ -317,9 +317,11 @@ function fillSolution(solution, resetpath) {
     document.getElementById("levelname").innerHTML = window.levelname;
   }
   var ports = document.getElementsByClassName("ioport");
-  for (var i = 0; i < solution.ports.length; i++) {
-    if (solution.ports[i] === "1") {
-      ports[i].click();
+  if (solution.ports) {
+    for (var i = 0; i < solution.ports.length; i++) {
+      if (solution.ports[i] === "1") {
+        ports[i].click();
+      }
     }
   }
   var textareas = document.getElementById("nodes").getElementsByTagName("textarea");
