@@ -63,7 +63,7 @@ window.addEventListener("load",
 
 function makeNodeExec() {
   var node = this.parentNode.parentNode;
-  var prevExec = node.classList.contains("exec");
+  var prevExec = node.classList.contains("execnode");
   node.classList.remove("stcknode");
   node.classList.remove("errnode");
   node.classList.add("execnode");
