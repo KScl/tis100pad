@@ -2,8 +2,6 @@
 
 from flask import Flask, request, g, json, make_response
 from logging import FileHandler
-from random import randint
-from os import mkdir
 import definitions
 import sqlite3
 
