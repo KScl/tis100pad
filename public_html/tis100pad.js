@@ -63,15 +63,18 @@ window.addEventListener("load",
 
 function makeNodeExec() {
   var node = this.parentNode.parentNode;
+  var prevExec = node.classList.contains("exec");
   node.classList.remove("stcknode");
   node.classList.remove("errnode");
   node.classList.add("execnode");
 
   var textarea = node.getElementsByTagName("textarea")[0];
-  if (textarea.savedValue) {
-    textarea.value = textarea.savedValue;
-  } else {
-    textarea.value = "";
+  if (!prevExec) {
+    if (textarea.savedValue) {
+      textarea.value = textarea.savedValue;
+    } else {
+      textarea.value = "";
+    }
   }
   textarea.disabled = false;
   textarea.focus();
