@@ -10,7 +10,7 @@ window.addEventListener("load",
     var textareas = form.getElementsByTagName("textarea");
     var uploadbutton = document.getElementById("uploadbutton");
     var fileinput = uploadbutton.getElementsByTagName("input")[0];
-    window.levelname = "";
+    window.lname = "";
     window.levelcode = "";
 
     for (var i = 0; i < ioports.length; i++) {
@@ -302,7 +302,7 @@ function uploadFile() {
 }
 
 function clearScreen(resetpath) {
-  window.levelname = "";
+  window.lname = "";
   document.getElementById("levelname").innerHTML = "";
   var ports = document.getElementsByClassName("ioport");
   for (var i = 0; i < ports.length; i++) {
@@ -320,10 +320,10 @@ function clearScreen(resetpath) {
 
 function fillSolution(solution, resetpath) {
   clearScreen(resetpath);
-  window.levelname = solution.levelname ? solution.levelname : "";
+  window.lname = solution.levelname ? solution.levelname : "";
   window.levelcode = solution.levelcode ? solution.levelcode : "";
-  if (window.levelname) {
-    document.getElementById("levelname").innerHTML = window.levelname;
+  if (window.lname) {
+    document.getElementById("levelname").innerHTML = window.lname;
   }
   var ports = document.getElementsByClassName("ioport");
   if (solution.ports) {
