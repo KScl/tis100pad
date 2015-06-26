@@ -15,7 +15,7 @@ window.addEventListener("load",
 
     for (var i = 0; i < ioports.length; i++) {
       ioports[i].addEventListener("click", function() {
-	this.classList.toggle("inactive");
+        this.classList.toggle("inactive");
       }, false);
     }
 
