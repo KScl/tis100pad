@@ -38,8 +38,8 @@ def submit_solution():
     levelcode = request.form['levelcode'] if request.form['levelcode'] else None
     ports = request.form['ports']
     row = (master, forkno,
-           request.form['@0'], request.form['@1'], request.form['@2'], request.form['@3'], 
-           request.form['@4'], request.form['@5'], request.form['@6'], request.form['@7'], 
+           request.form['@0'], request.form['@1'], request.form['@2'], request.form['@3'],
+           request.form['@4'], request.form['@5'], request.form['@6'], request.form['@7'],
            request.form['@8'], request.form['@9'], request.form['@10'], request.form['@11'],
            ports, levelcode)
     if currentfork:
@@ -47,7 +47,7 @@ def submit_solution():
             return ('No changes.', 202)
     elif master:
         if row[2:14] == db.execute('SELECT * FROM solutions WHERE rowid=?',(master,)).fetchone()[2:14]:
-            return ('No changes.', 202)           
+            return ('No changes.', 202)
     newrow = db.execute('INSERT INTO solutions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)', row).lastrowid
     db.commit()
     return str(newrow if not forkno else master) + '/' + str(forkno if forkno else 0)
@@ -59,8 +59,7 @@ def upload_save():
     levelcode = file.filename.split('.')[0]
     if levelcode not in definitions.levels:
         return ('Invalid file.', 400)
-    entries = file.read().replace('\r', '').split('@')
-    entries.pop(0)
+    entries = file.read().replace('\r', '').split('@')[1:]
     text = ['', '', '', '', '', '', '', '', '', '', '', '']
     for i in range(0, 12):
         if definitions.levels[levelcode][i] == 1:
@@ -107,7 +106,7 @@ def load_solution(solution):
     for i in range(2, 14):
         textfields['@' + str(i - 2)] = row[i]
     return json.dumps(textfields)
-    
+
 
 @app.route('/<int:solution>/<int:fork>', methods=['POST'])
 def load_fork(solution, fork):
