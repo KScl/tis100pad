@@ -2,13 +2,20 @@
 <html ng-app="{% block app%}{% endblock %}">
   <head>
     {% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/angularjs/angular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
     <title>{% block title %}{% endblock %} - TIS </title>
     {% endblock %}
   </head>
   <body>
-    <div class="content">{% block content %}{% endblock %}</div>
+    <div class="container">
+      {% block content %}
+        <div class="header">TIS-100 PAD</div>
+      {% endblock %}
+    </div>
     <footer>TIS-100 is ©2015 <a href="http://www.zachtronics.com/tis-100/">Zachtronics LLC</a>. This site is not affiliated with or endorsed by Zachtronics LLC.
     tis100pad.com is released under the MIT License.
    

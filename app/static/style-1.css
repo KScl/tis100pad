@@ -1,0 +1,196 @@
+@font-face {
+  font-family: "Fixedsys";
+  src: url("Fixedsys500c.woff");
+}
+
+html {
+  background-color: #000000;
+}
+
+body {
+}
+
+.header {
+  color: #B5B5B5;
+  font-family: "Fixedsys", "Trebuchet MS", sans-serif;
+  font-size: 60px;
+}
+
+#levelname {
+  color: #B5B5B5;
+  float: right;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 24px;
+  margin: 38px 20px 0 0;
+  text-transform: uppercase;
+}
+
+#menu {
+  clear: left;
+  color: #B5B5B5;
+  float: left;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 16px;
+  margin: 20px 10px 20px 10px;
+  width: 206px;
+}
+
+#menu div {
+  border: 3px double #B3B3B3;
+  cursor: default;
+  height: 50px;
+  margin-bottom: 20px;
+  text-align: center;
+  width: 200px;
+}
+
+#menu div p {
+  margin: 17px 0 17px 0;
+}
+
+#uploadbutton input {
+  display: none;
+}
+
+#dlsubmit {
+  display: none;
+}
+
+#statusmessage {
+  height: 17px;
+  margin: -22px 0 5px 0;
+  width: 1000px;
+}
+
+#nodes {
+  float: left;
+  min-width: 1024px;
+}
+
+.row {
+  clear: right;
+}
+
+#inputrow {
+  margin-bottom: -20px;
+}
+
+#outputrow {
+  margin-top: -20px;
+}
+
+.inout p {
+  color: #B5B5B5;
+  cursor: default;
+  display: inline-table;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 13px;
+  margin: 0 20px;
+  text-align: center;
+  width: 212px;
+}
+
+.inout p span {
+  font-size: 24px;
+  line-height: 0;
+  vertical-align: sub;
+}
+
+.inactive {
+  opacity: 0;
+}
+
+.inactive:hover {
+  opacity: 0.4;
+}
+
+.node {
+  background-color: #000000;
+  border: 3px double #B3B3B3;
+}
+
+.node textarea {
+  background-color: #000000;
+  border: none;
+  border-right: 3px double #B3B3B3;
+  color: #B5B5B5;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 13px;
+  height: 192px;
+  line-height: 0.98em;
+  margin: 0 0 -4px 2px;
+  outline: none;
+  overflow: hidden;
+  padding: 0;
+  resize: none;
+  text-transform: uppercase;
+}
+
+.sidecolumn {
+  float: right;
+  height: 192px;
+  width: 46px;
+}
+
+.sidecell {
+  color: #B5B5B5;
+  cursor: default;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 13px;
+  height: 46px;
+  text-align: center;
+  width: 46px;
+}
+
+.sidecell:not(.bottom) {
+  border-bottom: 3px double #B3B3B3;
+}
+
+.sidecell p {
+  margin: 0;
+  padding-top: 8px;
+}
+
+.execnode .sidecolumn .exec {
+  background-color: #B3B3B3;
+  color: #000000;
+}
+
+.stcknode .sidecolumn .stck {
+  background-color: #B3B3B3;
+  color: #000000;
+}
+
+.stcknode textarea {
+  text-align: center;
+}
+
+.errnode {
+  border: 3px solid #A40D0D;
+}
+
+.errnode textarea {
+  border-right: 3px solid #A40D0D;
+  color: #A40D0D;
+  text-align: center;
+}
+
+.errnode .sidecolumn .sidecell {
+  color: #A40D0D;
+}
+
+.errnode .sidecolumn .sidecell:not(.bottom) {
+  border-bottom: 3px solid #A40D0D;
+}
+
+.errnode .sidecolumn .err {
+  background-color: #A40D0D;
+  color: #000000;
+}
+
+footer {
+  color: white;
+  float: left;
+  font-size: 12px;
+  margin-top: 15px;
+}
