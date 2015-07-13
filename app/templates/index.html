@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8">
     <title>TIS-100 PAD</title>
-    <link rel="stylesheet" type="text/css" href="/style.css">
-    <script src="/tis100pad.js"></script>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script src="/static/tis100pad.js"></script>
   </head>
   <body>
   <header>TIS-100 PAD</header>
@@ -16,7 +16,7 @@
     <div id="uploadbutton"><p>UPLOAD SAVE FILE</p><input type="file" accept="text/plain"></div>
     <div id="newbutton"><p>NEW SOLUTION</p></div>
   </div>
-  <form id="nodes" action="/db/download" method="post">
+  <form id="nodes" action="/download" method="post">
   <input type="submit" id="dlsubmit">
   <input name="levelcode" type="hidden">
   <div class="inout" id="inputrow">

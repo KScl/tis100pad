@@ -1,20 +1,28 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*- 
 
-from flask import Flask, request, g, json, make_response
+import sys
+from flask import Flask, request, g, json, make_response, render_template
 from logging import FileHandler
+from flask.ext.sqlalchemy import SQLAlchemy
 import definitions
 import sqlite3
+from model.Solution import Solution
 
 app = Flask(__name__)
+app.dbug = True
 app.config['MAX_CONTENT_LENGTH'] = 10240
 app.logger.addHandler(FileHandler(definitions.logfile))
-DATABASE = definitions.database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
+application = app
 
+@app.route('/')
+def hello_world():
+    return render_template("index.html")
 
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
+        db = SQLAlchemy(application)
     return db
 
 
@@ -121,3 +129,6 @@ def load_fork(solution, fork):
     for i in range(2, 14):
         textfields['@' + str(i - 2)] = row[i]
     return json.dumps(textfields)
+
+if __name__== "__main__":
+  app.run()

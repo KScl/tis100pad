@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-database = ''
-logfile = ''
+database = 'tis100.db'
+logfile = 'error.log'
 
 stcknode = '\n\n\n\n\n█████████████████\n\nSTACK MEMORY NODE\n\n█████████████████'
 errnode = '\n\n\n\n██████████████\n\nCOMMUNICATION\nFAILURE\n\n██████████████'

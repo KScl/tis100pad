@@ -221,7 +221,7 @@ function submitSolution() {
   FD.append("ports", ports);
   XHR.addEventListener("load", confirmSubmit, false);
   XHR.addEventListener("error", submitError, false);
-  XHR.open("POST", "/db/submit");
+  XHR.open("POST", "submit");
   XHR.send(FD);
   
   function confirmSubmit() {
@@ -249,7 +249,7 @@ function loadSolution() {
   var path = window.location.pathname.split("/");
   var master = path[1];
   var forkno = path[2] ? path[2] : "0";
-  var requestPath = path[2] ? "/db/" + path[1] + "/" + path[2] : "/db/" + path[1];
+  var requestPath = path[2] ? "" + path[1] + "/" + path[2] : "" + path[1];
   var XHR = new XMLHttpRequest();
   var FD = new FormData(document.getElementById("nodes"));
   FD.append("master", master);
@@ -283,7 +283,7 @@ function uploadFile() {
   FD.append("file", file);
   XHR.addEventListener("load", loadFileData, false);
   XHR.addEventListener("error", uploadError, false);
-  XHR.open("POST", "/db/upload");
+  XHR.open("POST", "upload");
   XHR.send(FD);
   
   function loadFileData() {
