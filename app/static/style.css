@@ -1,9 +1,32 @@
 
+@font-face {
+  font-family: "Fixedsys";
+  src: url("/static/Fixedsys500c.woff");
+}
 
-.node>div{
-	background: black;
-	min-height: 200px;
+body{
+  background: black;
+}
+
+
+.node-container{
+	margin: 15px;
+
+}
+
+.node .node-block{
 	padding: 0px;
+
+}
+
+.node-row{
+	margin-bottom: 20px;
+}
+
+.node {
+  background-color: #000000;
+  border: 3px double #B3B3B3;
+  margin: 0px;
 }
 
 .sidecell {
@@ -23,5 +46,81 @@
   padding-top: 8px;
 }
 .pad{
-	width: 700px;
+	
+}
+
+.node textarea {
+	width: 100%;
+	height: 100%;
+
+  background-color: #000000;
+  border: none;
+  border-right: 3px double #B3B3B3;
+  color: #B5B5B5;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 13px;
+  line-height: 0.98em;
+  outline: none;
+  overflow: hidden;
+  resize: none;
+  text-transform: uppercase;
+
+
+}
+
+
+
+.execnode .sidecolumn .exec {
+  background-color: #B3B3B3;
+  color: #000000;
+}
+
+.stcknode .sidecolumn .stck {
+  background-color: #B3B3B3;
+  color: #000000;
+}
+
+.errnode .sidecolumn .err {
+  background-color: #A40D0D;
+  color: #000000;
+}
+
+
+.stcknode textarea {
+  text-align: center;
+}
+
+.errnode {
+  border: 3px solid #A40D0D;
+}
+
+.errnode textarea {
+  border-right: 3px solid #A40D0D;
+  color: #A40D0D;
+  text-align: center;
+}
+
+.errnode .sidecolumn .sidecell {
+  color: #A40D0D;
+}
+
+.errnode .sidecolumn .sidecell:not(.bottom) {
+  border-bottom: 3px solid #A40D0D;
+}
+
+.tis-button{
+  border: 3px double #B3B3B3;
+  cursor: default;
+  height: 50px;
+  text-align: center;
+  width: 200px;
+  margin: 17px 0;
+    clear: left;
+  color: #B5B5B5;
+  float: left;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 16px;
+  margin: 20px 10px 20px 10px;
+  width: 206px;
+  vertical-align: center;
 }

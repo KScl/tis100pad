@@ -1,12 +1,14 @@
 <!doctype html>
-<html ng-app="{% block app%}{% endblock %}">
+<html {% block app %} {% endblock %}>
   <head>
     {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/angularjs/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
     <title>{% block title %}{% endblock %} - TIS </title>
     {% endblock %}
   </head>

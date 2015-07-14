@@ -1,38 +1,44 @@
 {% extends "layout.html" %}
 
-{% block app%}ng-app{% endblock %}
+{% block app %} ng-app="{% block ngapp %}main{% endblock %}"  resize {% endblock %} 
 
 {% block title %}Index{% endblock %}
 
 {% block head %}
 	{{ super() }}
+  <script src="{{ url_for('static', filename='PadController.js') }}"></script>
 {% endblock %}
 
 {% block content %}
   {{super()}}
-  <div class="container pad">
-    <div class="row">
-      <div class="col-xs-4">
-      </div>
-      <div class="col-xs-4 node">
-          <div class="col-xs-8"></div>
-          <div class="col-xs-4">
-            <div class="sidecell exec"><p>EXEC<br>NODE</p></div>
-            <div class="sidecell stck"><p>STCK<br>NODE</p></div>
-            <div class="sidecell err"><p>ERR<br>NODE</p></div>
-            <div class="sidecell bottom"></div></div>
-      </div>
-      <div class="col-xs-4">tes</div>
+
+
+  <div class="container pad" ng-controller="PadController">
+  {% for x in range(0,3) %}
+    <div class="row node-row" >
+     {% for y in range(0,4) %}
+        <div class="col-xs-3" rows="{{x}}" column="{{x}}" >
+            <div class="row node " >
+              <div class="col-xs-9 node-block">
+                <textarea ></textarea>
+              </div>
+              <div class="col-xs-3 sidecolumn node-block">
+                <div class="sidecell exec"><p>EXEC<br>NODE</p></div>
+                <div class="sidecell stck"><p>STCK<br>NODE</p></div>
+                <div class="sidecell err"><p>ERR<br>NODE</p></div>
+                <div class="sidecell bottom"></div>
+              </div>
+            </div>
+        </div>
+       {% endfor %}
     </div>
-    <div class="row">
-      <div class="col-xs-4">test</div>
-      <div class="col-xs-4">test</div>
-      <div class="col-xs-4">tes</div>
-    </div>
-    <div class="row">
-      <div class="col-xs-4">test</div>
-      <div class="col-xs-4">test</div>
-      <div class="col-xs-4">tes</div>
+    {% endfor %}
+
+    <div>
+      <div class="tis-button">Download Solution</div>
+      <div class="tis-button">Upload Save File</div>
+      <div class="tis-button">New Solution</div>
+      <div class="tis-button">Save</div>
     </div>
   </div>
 {% endblock %}
