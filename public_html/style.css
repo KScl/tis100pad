@@ -8,7 +8,7 @@ html {
 }
 
 body {
-  max-width: 1246px;
+  max-width: 1250px;
 }
 
 header {
@@ -67,7 +67,7 @@ header {
 
 #nodes {
   float: left;
-  min-width: 1020px;
+  min-width: 1024px;
 }
 
 .row {
@@ -75,11 +75,11 @@ header {
 }
 
 #inputrow {
-  margin-bottom: -19px;
+  margin-bottom: -20px;
 }
 
 #outputrow {
-  margin-top: -19px;
+  margin-top: -20px;
 }
 
 .inout p {

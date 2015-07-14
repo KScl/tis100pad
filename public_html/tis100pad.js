@@ -10,12 +10,12 @@ window.addEventListener("load",
     var textareas = form.getElementsByTagName("textarea");
     var uploadbutton = document.getElementById("uploadbutton");
     var fileinput = uploadbutton.getElementsByTagName("input")[0];
-    window.levelname = "";
+    window.lname = "";
     window.levelcode = "";
 
     for (var i = 0; i < ioports.length; i++) {
       ioports[i].addEventListener("click", function() {
-	this.classList.toggle("inactive");
+        this.classList.toggle("inactive");
       }, false);
     }
 
@@ -63,15 +63,18 @@ window.addEventListener("load",
 
 function makeNodeExec() {
   var node = this.parentNode.parentNode;
+  var prevExec = node.classList.contains("execnode");
   node.classList.remove("stcknode");
   node.classList.remove("errnode");
   node.classList.add("execnode");
 
   var textarea = node.getElementsByTagName("textarea")[0];
-  if (textarea.savedValue) {
-    textarea.value = textarea.savedValue;
-  } else {
-    textarea.value = "";
+  if (!prevExec) {
+    if (textarea.savedValue) {
+      textarea.value = textarea.savedValue;
+    } else {
+      textarea.value = "";
+    }
   }
   textarea.disabled = false;
   textarea.focus();
@@ -299,7 +302,7 @@ function uploadFile() {
 }
 
 function clearScreen(resetpath) {
-  window.levelname = "";
+  window.lname = "";
   document.getElementById("levelname").innerHTML = "";
   var ports = document.getElementsByClassName("ioport");
   for (var i = 0; i < ports.length; i++) {
@@ -317,10 +320,10 @@ function clearScreen(resetpath) {
 
 function fillSolution(solution, resetpath) {
   clearScreen(resetpath);
-  window.levelname = solution.levelname ? solution.levelname : "";
+  window.lname = solution.levelname ? solution.levelname : "";
   window.levelcode = solution.levelcode ? solution.levelcode : "";
-  if (window.levelname) {
-    document.getElementById("levelname").innerHTML = window.levelname;
+  if (window.lname) {
+    document.getElementById("levelname").innerHTML = window.lname;
   }
   var ports = document.getElementsByClassName("ioport");
   if (solution.ports) {
