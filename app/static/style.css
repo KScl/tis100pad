@@ -33,7 +33,6 @@ body{
   color: #B5B5B5;
   cursor: default;
   font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-  font-size: 13px;
   text-align: center;
 }
 
@@ -119,8 +118,37 @@ body{
   color: #B5B5B5;
   float: left;
   font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-  font-size: 16px;
   margin: 20px 10px 20px 10px;
   width: 206px;
   vertical-align: center;
+  background: black;
+}
+
+.tis-button:hover{
+  background: gray;
+  }
+
+@media(max-width:767px){
+.sidecolumn{
+    font-size: 5px;
+  }
+}
+
+@media(min-width:768px){
+.sidecolumn{
+    font-size: 10px;
+  }
+}
+
+@media(min-width:992px){
+.sidecolumn{
+    font-size: 10px;
+  }
+}
+
+
+@media(min-width:1200px){
+  .sidecolumn{
+      font-size: 13px;
+  }
 }

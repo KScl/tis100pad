@@ -15,3 +15,4 @@ def not_found(error):
 
 from app.views.home import mod as homeModule
 app.register_blueprint(homeModule)
+

@@ -5,6 +5,10 @@ from app.model.solution import Solution
 
 mod = Blueprint('pad', __name__, url_prefix='/')
 
-@mod.route('/')
+@mod.route('')
 def root():
 	return render_template("index.html")
+
+@mod.route('<int:solution>')
+def getSolution(solution):
+	return render_template("index.html",solution = Solution.query.filter_by(id = solution).first())

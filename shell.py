@@ -5,5 +5,6 @@ from pprint import pprint
 
 from flask import *
 from app import *
+db.create_all()
 
 os.environ['PYTHONINSPECT'] = 'True'

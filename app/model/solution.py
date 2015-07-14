@@ -38,6 +38,9 @@ class Solution(db.Model):
 	def getRegisters(self):
 		return [self.a0,self.a1,self.a2,self.a3,self.a4,self.a5,self.a6,self.a7,self.a8,self.a9,self.a10,self.a11]
 
+	def getRegistersGrid(self):
+			return [[self.a0,self.a1,self.a2,self.a3],[self.a4,self.a5,self.a6,self.a7],[self.a8,self.a9,self.a10,self.a11]]
+
 	def getFile(self):
 		levelcode = self.levelcode if self.levelcode else 'level'
 		text = ''
@@ -51,4 +54,4 @@ class Solution(db.Model):
 		return text
 
 	def __repr__(self):
-		return '<User %r>' % self.username
+		return '<solution %r>' % self.id
