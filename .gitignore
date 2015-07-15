@@ -5,3 +5,5 @@
 *.wsgi
 *log
 /min/*
+
+/config.py

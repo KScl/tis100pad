@@ -7,12 +7,19 @@ mod = Blueprint('pad', __name__, url_prefix='/')
 
 @mod.route('')
 def root():
-	return render_template("index.html")
+ return render_template("index.html")
 
 @mod.route('<int:solution>')
 def getSolution(solution):
-	return render_template("index.html",solution = Solution.query.filter_by(id = solution).first())
+ return render_template("index.html",solution = Solution.query.filter_by(id = solution).first())
 
-@mod.route('save')
+@mod.route('save', methods=['POST','GET'])
 def save():
-	return jsonify(saved=True)
+ nodes = request.get_json().get("nodes")
+ solution = Solution( 
+  nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
+  nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
+  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),0,0)
+ db.session.add(solution)
+ db.session.commit()
+ return jsonify(saved=True)
