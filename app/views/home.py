@@ -28,7 +28,12 @@ def save():
  db.session.commit()
  return jsonify(id= solution.id)
 
-@mod.route('download/<int:solution>')
-def download(solution):
- return Solution.query.filter_by(id = solution).first().getFile()
+@mod.route('download', methods=['POST','GET'])
+def download():
+ nodes = request.get_json().get("nodes")
+ solution = Solution( 
+  nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
+  nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
+  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),0,0)
+ return solution.getFile()
 

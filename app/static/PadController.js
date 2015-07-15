@@ -102,7 +102,21 @@ function PadController($scope, $http,$window) {
     }
 
     $scope.download = function() {
-        
+        $http.post('/download',{
+            nodes : $scope.nodes
+        }).
+        success(function(data, status, headers, config) {
+             var anchor = angular.element('<a/>');
+             anchor.attr({
+                 href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+                 target: '_blank',
+                 download: 'soltuon.txt'
+             })[0].click();
+
+        }).
+        error(function(data, status, headers, config) {
+
+        });
     }
 
     $scope.upload_save = function() {
