@@ -1,7 +1,7 @@
 app.controller("PadController", PadController);
 
 
-function PadController($scope, $http) {
+function PadController($scope, $http,$window) {
 
     $scope.STATE = {
         EXEC: 0,
@@ -46,9 +46,25 @@ function PadController($scope, $http) {
             text: ""
         }, {
             state: $scope.STATE.EXEC,
-            text: "resawefawe"
+            text: ""
         }]
     ]
+
+    angular.element(document).ready(function () {
+        $http.post('/solution/' +  $scope.solutionId, {}).
+        success(function(data, status, headers, config) {
+            for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+               for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+
+                   $scope.nodes[x][y].text = data.solution[x][y];
+               };
+               
+            };
+        }).
+        error(function(data, status, headers, config) {
+
+        });
+    });
 
 
     $scope.getClass = function(node) {
@@ -66,6 +82,8 @@ function PadController($scope, $http) {
 
     }
 
+
+
     $scope.setState = function(node, state) {
         node.state = state;
     }
@@ -74,14 +92,17 @@ function PadController($scope, $http) {
         $http.post('/save', {
             nodes: $scope.nodes
         }).
-        success(function(data, status, headers, config) {}).
+        success(function(data, status, headers, config) {
+            $window.location.href =  data.id;
+
+        }).
         error(function(data, status, headers, config) {
 
         });
     }
 
     $scope.download = function() {
-
+        
     }
 
     $scope.upload_save = function() {
