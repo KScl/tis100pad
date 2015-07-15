@@ -103,6 +103,11 @@ body{
   color: #A40D0D;
 }
 
+
+.errnode .sidecolumn .err {
+  color: black;
+}
+
 .errnode .sidecolumn .sidecell:not(.bottom) {
   border-bottom: 3px solid #A40D0D;
 }

@@ -2,7 +2,7 @@
 app.controller("PadController",PadController);
 
 
-function PadController($scope) {
+function PadController($scope,$http) {
 
     $scope.STATE = {
         EXEC : 0,
@@ -36,9 +36,19 @@ function PadController($scope) {
         
     }
 
+    $scope.setState = function(node,state)
+    {
+        node.state = state;
+    }
+
     $scope.save = function()
     {
+        $http.post('/someUrl', {msg:'hello word!'}).
+            success(function(data, status, headers, config) {
+            }).
+            error(function(data, status, headers, config) {
 
+            });
     }
 
     $scope.download = function()

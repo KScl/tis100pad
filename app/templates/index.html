@@ -35,9 +35,9 @@
                     </textarea>
                   </div>
                   <div class="col-xs-3 sidecolumn node-block">
-                    <div class="sidecell exec"><p>EXEC<br>NODE</p></div>
-                    <div class="sidecell stck"><p>STCK<br>NODE</p></div>
-                    <div class="sidecell err"><p>ERR<br>NODE</p></div>
+                    <div ng-click="setState(a[{{x}}][{{y}}], STATE.EXEC)" class="sidecell exec"><p>EXEC<br>NODE</p></div>
+                    <div ng-click="setState(a[{{x}}][{{y}}], STATE.STCK)"class="sidecell stck"><p>STCK<br>NODE</p></div>
+                    <div ng-click="setState(a[{{x}}][{{y}}], STATE.ERR)" class="sidecell err"><p>ERR<br>NODE</p></div>
                     <div class="sidecell bottom"></div>
                   </div>
                 </div>

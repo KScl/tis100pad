@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for
+from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for, jsonify
 
 from app import db
 from app.model.solution import Solution
@@ -12,3 +12,7 @@ def root():
 @mod.route('<int:solution>')
 def getSolution(solution):
 	return render_template("index.html",solution = Solution.query.filter_by(id = solution).first())
+
+@mod.route('save')
+def save():
+	return jsonify(saved=True)
