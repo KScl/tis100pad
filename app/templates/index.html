@@ -15,7 +15,8 @@
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-10">
+      <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
+      <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
       {% for x in range(0,3) %}
         <div class="row node-row" >
          {% for y in range(0,4) %}
@@ -40,7 +41,7 @@
         <div  class="col-md-2">       
           <button class="tis-button" ng-click="download()">Download Solution</button>
 
-          <button  class="tis-button" ngf-select ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
+          <button  class="tis-button" ngf-select  ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
 
           <button class="tis-button" ng-click="new_solution()">New Solution</button>
           <button class="tis-button" ng-click="save()">Save</button>

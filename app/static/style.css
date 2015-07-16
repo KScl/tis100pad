@@ -131,6 +131,23 @@ body{
   background: gray;
   }
 
+  .node-window-drag .drag-overlay{
+    position: absolute;
+    z-index: 100;
+    font-size: 70px;
+    color: white;
+     display:block;
+    text-align:center;
+    top: calc(50% - 10px); 
+    width: 100%;
+
+    display: block;
+  }
+
+.drag-overlay{
+  display: none;
+}
+
 @media(max-width:767px){
 .sidecolumn{
     font-size: 5px;

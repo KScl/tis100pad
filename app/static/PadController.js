@@ -127,6 +127,10 @@ function PadController($scope,Upload, $http,$window) {
          $window.location.href =  "/";
     }
 
+  $scope.$watch('upload_file', function () {
+        $scope.upload_save($scope.upload_file);
+    });
+
     $scope.upload_save = function (files) {
         FileAPI.readAsText(files[0], function (evt){
             for (var x = $scope.nodes.length - 1; x >= 0; x--) {
