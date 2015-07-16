@@ -11,9 +11,6 @@
 
 {% block content %}
   {{super()}}
-
-
-
   <div class="container pad" ng-controller="PadController" ng-init="solutionId ='{%- if id %} {{- id}} {%- endif %}'">
 
   <div class="container-fluid">
@@ -25,11 +22,7 @@
             <div class="col-xs-3" >
                 <div class="row node" ng-class="getClass(nodes[{{x}}][{{y}}])" >
                   <div class="col-xs-9 node-block">
-                    <textarea ng-model="nodes[{{x}}][{{y}}].text" ng-init="nodes[{{x}}][{{y}}].text = '  
-                      {%- if grid %}
-                        {{ grid[x][y] }}
-                      {%- endif -%}'" > 
-                    </textarea>
+                    <textarea ng-model="nodes[{{x}}][{{y}}].text"></textarea>
                   </div>
                   <div class="col-xs-3 sidecolumn node-block">
                     <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.EXEC)" class="sidecell exec"><p>EXEC<br>NODE</p></div>
@@ -43,10 +36,12 @@
         </div>
         {% endfor %}
         </div>
-
-        <div  class="col-md-2">
+<!--input type="file" id="files" name="files[]" multiple /-->
+        <div  class="col-md-2">       
           <button class="tis-button" ng-click="download()">Download Solution</button>
-          <button class="tis-button" ng-click="upload_save()">Upload Save File</button>
+
+          <button  class="tis-button" ngf-select ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
+
           <button class="tis-button" ng-click="new_solution()">New Solution</button>
           <button class="tis-button" ng-click="save()">Save</button>
         </div>

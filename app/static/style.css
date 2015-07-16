@@ -113,18 +113,16 @@ body{
 }
 
 .tis-button{
+  width:100%;
   border: 3px double #B3B3B3;
   cursor: default;
   height: 50px;
   text-align: center;
-  width: 200px;
-  margin: 17px 0;
     clear: left;
   color: #B5B5B5;
   float: left;
   font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-  margin: 20px 10px 20px 10px;
-  width: 206px;
+  margin-bottom: 20px;
   vertical-align: center;
   background: black;
 }
@@ -137,10 +135,17 @@ body{
 .sidecolumn{
     font-size: 5px;
   }
+  .node textarea{
+    font-size: 10px;
+  }
 }
 
 @media(min-width:768px){
 .sidecolumn{
+    font-size: 10px;
+  }
+
+  .node textarea{
     font-size: 10px;
   }
 }
@@ -149,11 +154,19 @@ body{
 .sidecolumn{
     font-size: 10px;
   }
+
+  .node textarea{
+    font-size: 11px;
+  }
 }
 
 
 @media(min-width:1200px){
   .sidecolumn{
       font-size: 13px;
+  }
+
+  .node textarea{
+    font-size: 12px;
   }
 }
