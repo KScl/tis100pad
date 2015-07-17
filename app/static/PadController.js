@@ -1,7 +1,18 @@
 app.controller("PadController", PadController);
 
+app.config(function ($routeProvider, $locationProvider) {
+    //configure the routing rules here
+    $routeProvider.when('/:id', {
+        controller: PadController
+    })
+    .when('/',{
+        controller : PadController
+    });
 
-function PadController($scope,Upload, $http,$window) {
+    
+});
+
+function PadController($scope,Upload, $http,$window,$location,$routeParams) {
 
     $scope.STATE = {
         EXEC: 0,
@@ -50,20 +61,34 @@ function PadController($scope,Upload, $http,$window) {
         }]
     ]
 
-    angular.element(document).ready(function () {
-        $http.post('/solution/' +  $scope.solutionId, {}).
-        success(function(data, status, headers, config) {
-            for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-               for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+    $scope.$on('$routeChangeSuccess', function () {
+        console.log($routeParams.id);
 
-                   $scope.nodes[x][y].text = data.solution[x][y];
-               };
-               
-            };
-        }).
-        error(function(data, status, headers, config) {
+        if($routeParams.id)
+        {
+            $http.post('/solution/' +  $routeParams.id, {}).
+            success(function(data, status, headers, config) {
+                for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+                   for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
 
-        });
+                       $scope.nodes[x][y].text = data.solution[x][y];
+                   };
+                   
+                };
+            }).
+            error(function(data, status, headers, config) {
+
+            });
+        } 
+        else
+        {
+             for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+          for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+              $scope.nodes[x][y].text = "";
+          };
+       };
+        }   
+
     });
 
 
@@ -83,7 +108,6 @@ function PadController($scope,Upload, $http,$window) {
     }
 
 
-
     $scope.setState = function(node, state) {
         node.state = state;
     }
@@ -93,7 +117,10 @@ function PadController($scope,Upload, $http,$window) {
             nodes: $scope.nodes
         }).
         success(function(data, status, headers, config) {
-            $window.location.href =  data.id;
+            
+
+            $location.path(data.id);
+
 
         }).
         error(function(data, status, headers, config) {
@@ -124,20 +151,22 @@ function PadController($scope,Upload, $http,$window) {
     }
 
     $scope.new_solution = function() {
-         $window.location.href =  "/";
+        $location.path("");
+     for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+          for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+              $scope.nodes[x][y].text = "";
+          };
+       };
     }
 
   $scope.$watch('upload_file', function () {
+    if($scope.upload_file)
         $scope.upload_save($scope.upload_file);
     });
 
     $scope.upload_save = function (files) {
         FileAPI.readAsText(files[0], function (evt){
-            for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-              for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-                  $scope.nodes[x][y].text = "";
-              };
-           };
+            $scope.new_solution();
 
             if( evt.type == 'load' )
             {

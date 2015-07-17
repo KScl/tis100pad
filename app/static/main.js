@@ -1,2 +1,2 @@
-var app = angular.module('main', ['ngFileUpload']);
+var app = angular.module('main', ['ngFileUpload','ngRoute']);
 

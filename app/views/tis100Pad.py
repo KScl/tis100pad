@@ -5,11 +5,10 @@ from app.model.solution import Solution
 
 mod = Blueprint('pad', __name__, url_prefix='/')
 
-@mod.route('<int:solution>/')
-@mod.route('<int:solution>')
-@mod.route('')
-def root(solution =None):
- return render_template("index.html",id = solution)
+@mod.route('/', defaults={'path': ''})
+@mod.route('<path:path>')
+def root(path):
+ return render_template("Tis100PadView.html")
 
 @mod.route('solution/<int:solution>', methods=['POST','GET'])
 def getSolution(solution):
@@ -27,13 +26,4 @@ def save():
  db.session.flush()
  db.session.commit()
  return jsonify(id= solution.id)
-
-@mod.route('download', methods=['POST','GET'])
-def download():
- nodes = request.get_json().get("nodes")
- solution = Solution( 
-  nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
-  nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
-  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),0,0)
- return solution.getFile()
 

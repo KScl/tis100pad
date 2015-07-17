@@ -13,6 +13,6 @@ db = SQLAlchemy(app)
 def not_found(error):
 	return render_template('404.html'), 404
 
-from app.views.home import mod as homeModule
-app.register_blueprint(homeModule)
+from app.views.tis100Pad import mod as tis100PadModule
+app.register_blueprint(tis100PadModule)
 
