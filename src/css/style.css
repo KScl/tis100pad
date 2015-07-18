@@ -143,10 +143,9 @@ body{
 .drag-overlay{
   display: none;
 }
-
 @media(max-width:767px){
 .sidecolumn{
-    font-size: 5px;
+    font-size: 7px;
   }
   .node textarea{
     font-size: 10px;

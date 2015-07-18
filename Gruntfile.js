@@ -33,8 +33,8 @@ module.exports = function(grunt) {
 
           mangle:false,
           expand: true,
-          cwd: 'src',
-          src: ['!**/controller/*js','**/*js'],
+          cwd: '<%= config.src_dir %>',
+          src: ['**/*js'],
           dest: '<%= config.build_dir %>/app/static/'
         }]
       }
@@ -76,7 +76,7 @@ module.exports = function(grunt) {
                files: [{
                     expand: true,
                     flatten: true,
-                    cwd: 'src/css',
+                    cwd: '<%= config.src_dir %>/css',
                     src: ['**/*css'],
                     dest: '<%= config.build_dir %>/app/static/css'
                 }]
@@ -84,7 +84,7 @@ module.exports = function(grunt) {
             server : {
                files: [{
                     expand: true,
-                    cwd: 'src/server',
+                    cwd: '<%= config.src_dir %>/server',
                     src: ['**'],
                     dest: '<%= config.build_dir %>/'
                 }]
@@ -92,23 +92,45 @@ module.exports = function(grunt) {
       },
       watch: {
         scripts: {
-          files: ['src/**/*'],
+          files: ['<%= config.src_dir %>/**/*'],
           tasks: ['build'],
           options: {
             spawn: false,
           },
         },
-      }
+      },
+      
+      //shell command to start server
+      shell: {
+        pythonServer: {
+            options: {
+                stdout: true
+            },
+            command: ['cd bin','python run.py'].join(';')
+        }
+      },
 
+      //runs both the python server and watches the file change
+      concurrent: {
+        watch: {
+          tasks: ['shell:pythonServer','watch'],
+          options: {
+                logConcurrentOutput: true
+            }
+          }
+      }
+      
   });
 
-     grunt.loadNpmTasks('grunt-sync');
+    grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-sync');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-concurrent');
 
-    grunt.registerTask('wtch',['build','watch']);
+    grunt.registerTask('wtch',['build',"concurrent:watch"]);
     grunt.registerTask('build', ['uglify','copy']);
     grunt.registerTask('default',['build']);
     grunt.registerTask('cln',['clean']);

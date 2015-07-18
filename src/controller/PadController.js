@@ -8,6 +8,8 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
         ERR: 3
         
     }
+    
+
     $scope.nodes = [
         [{
             state: $scope.STATE.EXEC,
@@ -147,7 +149,7 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
           };
        };
     }
-
+    
   $scope.$watch('upload_file', function () {
     if($scope.upload_file)
         $scope.upload_save($scope.upload_file);
