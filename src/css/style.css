@@ -1,0 +1,189 @@
+
+@font-face {
+  font-family: "Fixedsys";
+  src: url("/static/assets/Fixedsys500c.woff");
+}
+
+body{
+  background: black;
+}
+
+
+.node-container{
+	margin: 15px;
+
+}
+
+.node .node-block{
+	padding: 0px;
+
+}
+
+.node-row{
+	margin-bottom: 20px;
+}
+
+.node {
+  background-color: #000000;
+  border: 3px double #B3B3B3;
+  margin: 0px;
+}
+
+.sidecell {
+  color: #B5B5B5;
+  cursor: default;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  text-align: center;
+}
+
+.sidecell:not(.bottom) {
+  border-bottom: 3px double #B3B3B3;
+}
+
+.sidecell p {
+  margin: 0;
+  padding-top: 8px;
+}
+.pad{
+	
+}
+
+.node textarea {
+	width: 100%;
+	height: 100%;
+
+  background-color: #000000;
+  border: none;
+  border-right: 3px double #B3B3B3;
+  color: #B5B5B5;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  font-size: 13px;
+  line-height: 0.98em;
+  outline: none;
+  overflow: hidden;
+  resize: none;
+  text-transform: uppercase;
+
+
+}
+
+
+
+.execnode .sidecolumn .exec {
+  background-color: #B3B3B3;
+  color: #000000;
+}
+
+.stcknode .sidecolumn .stck {
+  background-color: #B3B3B3;
+  color: #000000;
+}
+
+.errnode .sidecolumn .err {
+  background-color: #A40D0D;
+  color: #000000;
+}
+
+
+.stcknode textarea {
+  text-align: center;
+}
+
+.errnode {
+  border: 3px solid #A40D0D;
+}
+
+.errnode textarea {
+  border-right: 3px solid #A40D0D;
+  color: #A40D0D;
+  text-align: center;
+}
+
+.errnode .sidecolumn .sidecell {
+  color: #A40D0D;
+}
+
+
+.errnode .sidecolumn .err {
+  color: black;
+}
+
+.errnode .sidecolumn .sidecell:not(.bottom) {
+  border-bottom: 3px solid #A40D0D;
+}
+
+.tis-button{
+  width:100%;
+  border: 3px double #B3B3B3;
+  cursor: default;
+  height: 50px;
+  text-align: center;
+    clear: left;
+  color: #B5B5B5;
+  float: left;
+  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+  margin-bottom: 20px;
+  vertical-align: center;
+  background: black;
+}
+
+.tis-button:hover{
+  background: gray;
+  }
+
+  .node-window-drag .drag-overlay{
+    position: absolute;
+    z-index: 100;
+    font-size: 70px;
+    color: white;
+     display:block;
+    text-align:center;
+    top: calc(50% - 10px); 
+    width: 100%;
+
+    display: block;
+  }
+
+.drag-overlay{
+  display: none;
+}
+
+@media(max-width:767px){
+.sidecolumn{
+    font-size: 5px;
+  }
+  .node textarea{
+    font-size: 10px;
+  }
+}
+
+@media(min-width:768px){
+.sidecolumn{
+    font-size: 10px;
+  }
+
+  .node textarea{
+    font-size: 10px;
+  }
+}
+
+@media(min-width:992px){
+.sidecolumn{
+    font-size: 10px;
+  }
+
+  .node textarea{
+    font-size: 11px;
+  }
+}
+
+
+@media(min-width:1200px){
+  .sidecolumn{
+      font-size: 13px;
+  }
+
+  .node textarea{
+    font-size: 12px;
+  }
+}

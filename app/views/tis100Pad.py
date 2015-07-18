@@ -8,7 +8,7 @@ mod = Blueprint('pad', __name__, url_prefix='/')
 @mod.route('/', defaults={'path': ''})
 @mod.route('<path:path>')
 def root(path):
- return render_template("Tis100PadView.html")
+ return render_template("PadView.html")
 
 @mod.route('solution/<int:solution>', methods=['POST','GET'])
 def getSolution(solution):

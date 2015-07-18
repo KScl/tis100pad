@@ -1,0 +1,25 @@
+{
+  "name": "lib",
+  "version": "0.0.0",
+  "homepage": "https://github.com/pollend/tis100pad",
+  "authors": [
+    "michael pollind <m_pollen@yahoo.com>"
+  ],
+  "description": "libraries",
+  "main": "components",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.4.3",
+    "angular-ui-router": "~0.2.15",
+    "angularjs": "~1.4.2",
+    "bootstrap": "~3.3.5",
+    "ng-file-upload": "~5.0.9"
+  }
+}

@@ -1,0 +1,3 @@
+{
+ "lib" : {"src":"bower_components/**/*.min.js","dest":"app/static/lib/"}
+}

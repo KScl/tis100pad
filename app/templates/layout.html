@@ -2,18 +2,19 @@
 <html {% block app %} {% endblock %}>
   <head>
     {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='bower_components/bootstrap/dist/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='lib/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-    <script src="{{ url_for('static', filename='bower_components/jquery/dist/jquery.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/angularjs/angular.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/angular-route/angular-route.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/ng-file-upload/FileAPI.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/ng-file-upload/ng-file-upload-shim.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='bower_components/ng-file-upload/ng-file-upload.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/angular.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/angular-route.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/FileAPI.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
 
-    <script src="{{ url_for('static', filename='main.js') }}"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script src="{{ url_for('static', filename='route.js') }}"></script>
     <title>{% block title %}{% endblock %} - TIS </title>
     {% endblock %}
   </head>
