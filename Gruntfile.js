@@ -35,13 +35,13 @@ module.exports = function(grunt) {
           expand: true,
           cwd: 'src',
           src: ['!**/controller/*js','**/*js'],
-          dest: 'app/static/'
+          dest: '<%= config.build_dir %>/app/static/'
         }]
       }
     },
 
     clean: {
-      js: ["app/static/**"]
+      js: ["<%= config.build_dir %>/**"]
     },
 
       copy: {
@@ -51,7 +51,7 @@ module.exports = function(grunt) {
                     flatten: true,
                     cwd: 'bower_components/',
                     src: ['**/*min.js'],
-                    dest: 'app/static/lib/js'
+                    dest: '<%= config.build_dir %>/app/static/lib/js'
                 }]
             },
             libcss : {
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                     flatten: true,
                     cwd: 'bower_components/',
                     src: ['**/*.css'],
-                    dest: 'app/static/lib/css'
+                    dest: '<%= config.build_dir %>/app/static/lib/css'
                 }]
             },
             assets:{
@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                     flatten: true,
                     cwd: 'src/assets',
                     src: ['**'],
-                    dest: 'app/static/assets'
+                    dest: '<%= config.build_dir %>/app/static/assets'
                 }]
             },
             css : {
@@ -78,17 +78,38 @@ module.exports = function(grunt) {
                     flatten: true,
                     cwd: 'src/css',
                     src: ['**/*css'],
-                    dest: 'app/static/css'
+                    dest: '<%= config.build_dir %>/app/static/css'
+                }]
+            },
+            server : {
+               files: [{
+                    expand: true,
+                    cwd: 'src/server',
+                    src: ['**'],
+                    dest: '<%= config.build_dir %>/'
                 }]
             }
+      },
+      watch: {
+        scripts: {
+          files: ['src/**/*'],
+          tasks: ['build'],
+          options: {
+            spawn: false,
+          },
+        },
       }
 
   });
 
+     grunt.loadNpmTasks('grunt-sync');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
-grunt.loadNpmTasks('grunt-contrib-uglify');
-grunt.loadNpmTasks('grunt-contrib-copy');
-grunt.loadNpmTasks('grunt-contrib-clean');
-
-    grunt.registerTask('default', ['clean','uglify','copy']);
+    grunt.registerTask('wtch',['build','watch']);
+    grunt.registerTask('build', ['uglify','copy']);
+    grunt.registerTask('default',['build']);
+    grunt.registerTask('cln',['clean']);
 };

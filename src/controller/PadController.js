@@ -6,6 +6,7 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
         EXEC: 0,
         STCK: 1,
         ERR: 3
+        
     }
     $scope.nodes = [
         [{

@@ -7,8 +7,6 @@
 body{
   background: black;
 }
-
-
 .node-container{
 	margin: 15px;
 
@@ -16,9 +14,7 @@ body{
 
 .node .node-block{
 	padding: 0px;
-
 }
-
 .node-row{
 	margin-bottom: 20px;
 }

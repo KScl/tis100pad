@@ -6,6 +6,5 @@ app.config(function ($routeProvider, $locationProvider) {
     .when('/',{
         controller : PadController
     });
-
     
 });
