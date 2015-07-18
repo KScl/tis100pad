@@ -1,19 +1,4 @@
-{% extends "layout.html" %}
-
-{% block app %} ng-app="{% block ngapp %}main{% endblock %}"  resize {% endblock %} 
-
-{% block title %}Index{% endblock %}
-
-{% block head %}
-  {{ super() }}
-  <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
-{% endblock %}
-
-{% block content %}
-  {{super()}}
-  <div class="container pad" ng-controller="PadController">
-  <ng-view></ng-view>
-
+ <div class="container pad" ng-controller="PadController" resize>
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
@@ -50,4 +35,3 @@
       </div>
     </div>
   </div>
-{% endblock %}

@@ -3,19 +3,18 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from app import db
 from app.model.solution import Solution
 
-mod = Blueprint('pad', __name__, url_prefix='/')
+mod = Blueprint('pad', __name__, url_prefix='/pad')
 
-@mod.route('/', defaults={'path': ''})
-@mod.route('<path:path>')
-def root(path):
+@mod.route('.html')
+def root():
  return render_template("PadView.html")
 
-@mod.route('solution/<int:solution>', methods=['POST','GET'])
+@mod.route('/solution/<int:solution>', methods=['POST','GET'])
 def getSolution(solution):
  output = [[]]
  return jsonify(solution = Solution.query.filter_by(id = solution).first().getRegistersGrid())
 
-@mod.route('save', methods=['POST','GET'])
+@mod.route('/save', methods=['POST','GET'])
 def save():
  nodes = request.get_json().get("nodes")
  solution = Solution( 

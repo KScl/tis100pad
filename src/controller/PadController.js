@@ -57,7 +57,7 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
 
         if($routeParams.id)
         {
-            $http.post('/solution/' +  $routeParams.id, {}).
+            $http.post('pad/solution/' +  $routeParams.id, {}).
             success(function(data, status, headers, config) {
                 for (var x = $scope.nodes.length - 1; x >= 0; x--) {
                    for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
@@ -104,7 +104,7 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
     }
 
     $scope.save = function() {
-        $http.post('/save', {
+        $http.post('pad/save', {
             nodes: $scope.nodes
         }).
         success(function(data, status, headers, config) {
