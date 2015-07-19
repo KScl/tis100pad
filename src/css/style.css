@@ -7,22 +7,40 @@
 body{
   background: black;
 }
-.node-container{
-	margin: 15px;
 
+.node-container{
+  margin: 15px;
 }
 
 .node .node-block{
-	padding: 0px;
+  padding: 0px;
 }
 .node-row{
-	margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .node {
   background-color: #000000;
   border: 3px double #B3B3B3;
   margin: 0px;
+  
+  textarea {
+    width: 100%;
+    height: 100%;
+
+    background-color: #000000;
+    border: none;
+    border-right: 3px double #B3B3B3;
+    color: #B5B5B5;
+    font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
+    font-size: 13px;
+    line-height: 0.98em;
+    outline: none;
+    overflow: hidden;
+    resize: none;
+    text-transform: uppercase;
+  }
+
 }
 
 .sidecell {
@@ -30,82 +48,60 @@ body{
   cursor: default;
   font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
   text-align: center;
-}
 
-.sidecell:not(.bottom) {
-  border-bottom: 3px double #B3B3B3;
-}
+  &:not(.bottom) {
+    border-bottom: 3px double #B3B3B3;
+  }
 
-.sidecell p {
-  margin: 0;
-  padding-top: 8px;
-}
-.pad{
-	
-}
-
-.node textarea {
-	width: 100%;
-	height: 100%;
-
-  background-color: #000000;
-  border: none;
-  border-right: 3px double #B3B3B3;
-  color: #B5B5B5;
-  font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-  font-size: 13px;
-  line-height: 0.98em;
-  outline: none;
-  overflow: hidden;
-  resize: none;
-  text-transform: uppercase;
-
+  p {
+   margin: 0;
+   padding-top: 8px;
+  }
 
 }
-
-
 
 .execnode .sidecolumn .exec {
   background-color: #B3B3B3;
   color: #000000;
 }
 
-.stcknode .sidecolumn .stck {
+.stcknode
+{
+ .sidecolumn .stck {
   background-color: #B3B3B3;
   color: #000000;
+  }
+
+  textarea {
+   text-align: center;
+  }
 }
 
-.errnode .sidecolumn .err {
-  background-color: #A40D0D;
-  color: #000000;
-}
-
-
-.stcknode textarea {
-  text-align: center;
-}
 
 .errnode {
-  border: 3px solid #A40D0D;
-}
+   border: 3px solid #A40D0D;
 
-.errnode textarea {
+  .sidecolumn .err {
+    background-color: #A40D0D;
+   color: #000000;
+  }
+
+  textarea {
   border-right: 3px solid #A40D0D;
   color: #A40D0D;
   text-align: center;
-}
+  }
 
-.errnode .sidecolumn .sidecell {
-  color: #A40D0D;
-}
+  .sidecolumn .sidecell {
+    color: #A40D0D;
+  }
+  .sidecolumn .err {
+    color: black;
+  }
 
-
-.errnode .sidecolumn .err {
-  color: black;
-}
-
-.errnode .sidecolumn .sidecell:not(.bottom) {
-  border-bottom: 3px solid #A40D0D;
+  .sidecolumn .sidecell:not(.bottom) {
+    border-bottom: 3px solid #A40D0D;
+  }
 }
 
 .tis-button{
@@ -121,31 +117,37 @@ body{
   margin-bottom: 20px;
   vertical-align: center;
   background: black;
+
+  &:hover{
+    background: gray;
+  }
+
 }
 
-.tis-button:hover{
-  background: gray;
-  }
 
-  .node-window-drag .drag-overlay{
-    position: absolute;
-    z-index: 100;
-    font-size: 70px;
-    color: white;
-     display:block;
-    text-align:center;
-    top: calc(50% - 10px); 
-    width: 100%;
+.node-window-drag .drag-overlay{
+  position: absolute;
+  z-index: 100;
+  font-size: 70px;
+  color: white;
+   display:block;
+  text-align:center;
+  top: calc(50% - 10px); 
+  width: 100%;
 
-    display: block;
-  }
+  display: block;
+
+  
+}
 
 .drag-overlay{
   display: none;
 }
+
+
 @media(max-width:767px){
 .sidecolumn{
-    font-size: 7px;
+    font-size: 10px;
   }
   .node textarea{
     font-size: 10px;

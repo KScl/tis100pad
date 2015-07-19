@@ -8,8 +8,6 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
         ERR: 3
         
     }
-    
-
     $scope.nodes = [
         [{
             state: $scope.STATE.EXEC,
@@ -36,7 +34,7 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
         }, {
             state: $scope.STATE.EXEC,
             text: ""
-        }],
+    }],
         [{
             state: $scope.STATE.EXEC,
             text: ""

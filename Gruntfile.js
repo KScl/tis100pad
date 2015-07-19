@@ -24,14 +24,12 @@ module.exports = function(grunt) {
       // Uglify options
       options: {
         banner: '<%= banner %>',
-         mangle: false
+         mangle:false
       },
 
       build: {
         files: [
         {
-
-          mangle:false,
           expand: true,
           cwd: '<%= config.src_dir %>',
           src: ['**/*js'],
@@ -72,15 +70,15 @@ module.exports = function(grunt) {
                     dest: '<%= config.build_dir %>/app/static/assets'
                 }]
             },
-            css : {
-               files: [{
-                    expand: true,
-                    flatten: true,
-                    cwd: '<%= config.src_dir %>/css',
-                    src: ['**/*css'],
-                    dest: '<%= config.build_dir %>/app/static/css'
-                }]
-            },
+            //css : {
+            //   files: [{
+            //        expand: true,
+            //        flatten: true,
+            //        cwd: '<%= config.src_dir %>/css',
+            //        src: ['**/*css'],
+            //        dest: '<%= config.build_dir %>/app/static/css'
+             //   }]
+            //},
             server : {
                files: [{
                     expand: true,
@@ -90,6 +88,29 @@ module.exports = function(grunt) {
                 }]
             }
       },
+
+      less: {
+          css:{
+            options: {
+            plugins: [
+                new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
+                new (require('less-plugin-clean-css'))({advanced: true})
+            ],
+            modifyVars: {
+              imgPath: '"http://localhost:5000/static/assets"',
+              bgColor: 'red'
+            }
+          },
+          files: [{
+                    expand: true,
+                    flatten: true,
+                    cwd: '<%= config.src_dir %>/css',
+                    src: ['**/*'],
+                    dest: '<%= config.build_dir %>/app/static/css'
+            }]
+        }
+      }
+      ,
       watch: {
         scripts: {
           files: ['<%= config.src_dir %>/**/*'],
@@ -129,9 +150,11 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-contrib-less');
+    grunt.loadNpmTasks('grunt-newer');
 
     grunt.registerTask('wtch',['build',"concurrent:watch"]);
-    grunt.registerTask('build', ['uglify','copy']);
+    grunt.registerTask('build', ['newer:uglify','newer:copy',"newer:less"]);
     grunt.registerTask('default',['build']);
     grunt.registerTask('cln',['clean']);
 };
