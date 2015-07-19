@@ -2,41 +2,40 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
-      <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
-      {% for x in range(0,3) %}
-        <div class="row node-row" >
-         {% for y in range(0,4) %}
-            <div class="col-xs-3" >
-                <div class="row node" ng-class="getClass(nodes[{{x}}][{{y}}])" >
-                  <div class="col-xs-9 node-block">
-                    <textarea ng-model="nodes[{{x}}][{{y}}].text"></textarea>
+        <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
+
+        {% for x in range(0,3) %}
+          <div class="row node-row" >
+           {% for y in range(0,4) %}
+              <div class="col-xs-3" >
+                  <div class="row node" ng-class="getClass(nodes[{{x}}][{{y}}])" >
+                    <div class="col-xs-9 node-block">
+                      <textarea ng-model="nodes[{{x}}][{{y}}].text" ng-change="updateCount()"></textarea>
+                    </div>
+                    <div class="col-xs-3 sidecolumn node-block">
+                      <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.EXEC)" class="sidecell exec"><p>EXEC<br>NODE</p></div>
+                      <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.STCK)"class="sidecell stck"><p>STCK<br>NODE</p></div>
+                      <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.ERR)" class="sidecell err"><p>ERR<br>NODE</p></div>
+                      <div class="sidecell bottom"></div>
+                    </div>
                   </div>
-                  <div class="col-xs-3 sidecolumn node-block">
-                    <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.EXEC)" class="sidecell exec"><p>EXEC<br>NODE</p></div>
-                    <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.STCK)"class="sidecell stck"><p>STCK<br>NODE</p></div>
-                    <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.ERR)" class="sidecell err"><p>ERR<br>NODE</p></div>
-                    <div class="sidecell bottom"></div>
-                  </div>
-                </div>
-            </div>
-           {% endfor %}
-        </div>
-        {% endfor %}
+              </div>
+             {% endfor %}
+          </div>
+          {% endfor %}
         </div>
 <!--input type="file" id="files" name="files[]" multiple /-->
         <div  class="col-md-2">       
           <button class="tis-button" ng-click="download()">Download Solution</button>
-
           <button  class="tis-button" ngf-select  ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
-
           <button class="tis-button" ng-click="new_solution()">New Solution</button>
           <button class="tis-button" ng-click="save()">Save</button>
         </div>
       </div>
     <div class="row">
-      <div class="col-md-4"></div>
-      <div class="col-md-4"></div>
-      <div class="col-md-4"></div>
+      <div class="col-md-4"><div class="double-border-center"><span>Cycle Count: {{ '{{cycleCount}}'}}</span></div></div>
+      <div class="col-md-4"><div class="double-border-center"><span>Node Count:  {{ '{{nodeCount}}'}}</span></div></div>
+      <div class="col-md-4"> <div class="double-border-center"><span>Instruction Count: {{ '{{instructionCount}}'}}</span></div></div>
     </div>
    </div>
   </div>

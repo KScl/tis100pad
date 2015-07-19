@@ -1,6 +1,40 @@
-app.controller("PadController", PadController);
+app.controller("PadController", PadController)
+
+.directive('resize', function($window) {
+    return function(scope, element) {
+        var w = angular.element($window);
+        scope.$watch(function() {
+            return {
+                'h': w.height(),
+                'w': w.width()
+            };
+        }, function(newValue, oldValue) {
+            resize();
+        }, true);
+
+        w.bind('resize', function() {
+            scope.$apply();
+        });
+    }
+});
+
+
+function resize() {
+    $(".node").each(function(index) {
+        var w = $(this).width();
+        $(this).find(".node-block").each(function() {
+            $(this).height(w);
+        });
+    });
+}
+
+
 
 function PadController($scope,Upload, $http,$window,$location,$routeParams) {
+
+window.onload = function() {
+    resize();
+}
 
     $scope.STATE = {
         EXEC: 0,
@@ -48,11 +82,45 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
             state: $scope.STATE.EXEC,
             text: ""
         }]
-    ]
+    ];
+
+    $scope.cycleCount = 0;
+    $scope.nodeCount = 0;
+    $scope.instructionCount = 0;
+
+    $scope.updateCount = function()
+    {
+        $scope.cycleCount = 0;
+        $scope.nodeCount = 0;
+        $scope.instructionCount = 0;
+
+        for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+           for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                if($scope.nodes[x][y].text.trim() !== "")
+                {
+                    $scope.nodeCount++;
+                }
+
+               //     console.log($scope.nodes[x][y].text);
+
+                var lines = $scope.nodes[x][y].text.trim().split(/\r\n|\r|\n/g);
+                for (var i = lines.length - 1; i >= 0; i--) {
+
+                    if(lines[i].trim() == "" || lines[i].trim().substring(0, 1) == "#" )
+                    {
+                        
+                    }
+                    else
+                    {
+                         $scope.instructionCount++;
+                    }
+                };
+           };
+           
+        };
+    }
 
     $scope.$on('$routeChangeSuccess', function () {
-        console.log($routeParams.id);
-
         if($routeParams.id)
         {
             $http.post('pad/solution/' +  $routeParams.id, {}).
@@ -60,10 +128,11 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
                 for (var x = $scope.nodes.length - 1; x >= 0; x--) {
                    for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
 
-                       $scope.nodes[x][y].text = data.solution[x][y];
+                       $scope.nodes[x][y].text = data.solution[x][y] + "\n";
                    };
                    
                 };
+                $scope.updateCount();   
             }).
             error(function(data, status, headers, config) {
 
@@ -72,11 +141,12 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
         else
         {
              for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-          for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-              $scope.nodes[x][y].text = "";
-          };
-       };
-        }   
+                  for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                      $scope.nodes[x][y].text = "";
+                  };
+            };
+        }
+         
 
     });
 
@@ -106,11 +176,7 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
             nodes: $scope.nodes
         }).
         success(function(data, status, headers, config) {
-            
-
             $location.path(data.id);
-
-
         }).
         error(function(data, status, headers, config) {
 
@@ -159,29 +225,31 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
 
             if( evt.type == 'load' )
             {
-                var lines = evt.result.split('\n');
+                var lines = evt.result.split(/\r\n|\r|\n/g);
                 for (var i = 0; i < lines.length; i++) 
                 {
-                    if(lines[i].trim().substring(0,1) == "@")
+                    if(lines[i].trim().substring(0,1) === "@")
                     {
                          var index =  parseInt(lines[i].trim().substring(1));
                          i++;
                         
-                        for (; i < lines.length; i++) 
+                        for (var p = 0; i < lines.length; i++) 
                         {
                            
-                             if(lines[i].trim().substring(0,1) == "@")
+                             if(lines[i].trim().substring(0,1) === "@")
                             {
                                 i--;
                                 break;
                             }
                             else
                             {
-                                  $scope.nodes[Math.ceil((index+1)/4)-1][(index%3)].text += lines[i];
+
+                                console.log(index+"-"+(Math.ceil((index+1)/4.0)-1) + ":"+(index%4));
+                                  $scope.nodes[Math.ceil((index+1)/4.0)-1][(index%4)].text += lines[i] + "\n";
                             }
+
                         }
                         $scope.nodes[Math.ceil((index+1)/4)-1][(index%3)].text = $scope.nodes[Math.ceil((index+1)/4)-1][(index%3)].text.trim();
-
                     }
                 };
                 $scope.save();
@@ -195,34 +263,3 @@ function PadController($scope,Upload, $http,$window,$location,$routeParams) {
 
 }
 
-function resize() {
-    $(".node").each(function(index) {
-        var w = $(this).width();
-        $(this).find(".node-block").each(function() {
-            $(this).height(w);
-        });
-    });
-}
-
-
-app.directive('resize', function($window) {
-    return function(scope, element) {
-        var w = angular.element($window);
-        scope.$watch(function() {
-            return {
-                'h': w.height(),
-                'w': w.width()
-            };
-        }, function(newValue, oldValue) {
-            resize();
-        }, true);
-
-        w.bind('resize', function() {
-            scope.$apply();
-        });
-    }
-});
-
-window.onload = function() {
-    resize();
-}

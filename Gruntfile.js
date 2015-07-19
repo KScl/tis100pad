@@ -113,7 +113,7 @@ module.exports = function(grunt) {
       ,
       watch: {
         scripts: {
-          files: ['<%= config.src_dir %>/**/*'],
+          files: ['<%= config.src_dir %>/**/**'],
           tasks: ['build'],
           options: {
             spawn: false,
@@ -139,6 +139,7 @@ module.exports = function(grunt) {
                 logConcurrentOutput: true
             }
           }
+
       }
       
   });
