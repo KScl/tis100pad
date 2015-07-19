@@ -157,10 +157,10 @@ body{
 
 @media(max-width:767px){
 .sidecolumn{
-    font-size: 10px;
+    font-size: 5px;
   }
   .node textarea{
-    font-size: 10px;
+    font-size: 8px;
   }
 }
 

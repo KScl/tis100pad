@@ -25,3 +25,7 @@ def save():
  db.session.flush()
  db.session.commit()
  return jsonify(id= solution.id)
+
+@mod.route('/problem/<string:problem>', methods=['POST','GET'])
+def problem(problem):
+ return "";
