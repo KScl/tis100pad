@@ -1,11 +1,11 @@
 {
   "name": "lib",
   "version": "0.0.0",
-  "homepage": "https://github.com/pollend/tis100pad",
+  "homepage": "http://www.tis100pad.com/",
   "authors": [
     "michael pollind <m_pollen@yahoo.com>"
   ],
-  "description": "libraries",
+  "description": "A web site for uploading and sharing solutions for the game TIS-100",
   "main": "components",
   "license": "MIT",
   "ignore": [

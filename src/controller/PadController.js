@@ -15,6 +15,7 @@ app.controller("PadController", PadController)
         w.bind('resize', function() {
             scope.$apply();
         });
+        
     }
 });
 

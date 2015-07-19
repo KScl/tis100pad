@@ -4,7 +4,6 @@
   src: url("/static/assets/Fixedsys500c.woff");
 }
 
-
 body{
   background: black;
 }
@@ -25,11 +24,27 @@ body{
   background-color: #000000;
   border: 3px double #B3B3B3;
   margin: 0px;
-  
-  textarea {
-    width: 100%;
+
+
+}
+
+.header{
+    color: #B5B5B5;
+  font-family: "Fixedsys", "Trebuchet MS", sans-serif;
+  font-size: 60px;
+  margin-left: 10px;
+}
+
+.node-main
+{
+
+
+
+&>*{
+      width: 100%;
     height: 100%;
 
+    display:  none;
     background-color: #000000;
     border: none;
     border-right: 3px double #B3B3B3;
@@ -41,8 +56,28 @@ body{
     overflow: hidden;
     resize: none;
     text-transform: uppercase;
-  }
+}
 
+&>div{
+  font-size: 9px;padding: 5px 0px;
+  @media(max-width:767px){  font-size: 9px;padding: 20px 0px;}
+  @media(min-width:768px){  font-size: 9px;padding: 30px 0px;}
+  @media(min-width:992px){  font-size: 10px;padding: 40px 0px;}
+  @media(min-width:1200px){  font-size: 12px;padding: 40px 0px;}
+
+          
+    div {
+  @media(max-width:767px){   padding-bottom:7px;}
+  @media(min-width:768px){   padding-bottom:8px;}
+  @media(min-width:992px){   padding-bottom:9px;}
+  @media(min-width:1200px){   padding-bottom:9px;}
+
+
+      padding-bottom:9px;
+      text-align: center;
+
+    }
+  }
 }
 
 .sidecell {
@@ -60,6 +95,22 @@ body{
    padding-top: 8px;
   }
 
+}
+
+
+
+.execnode textarea{
+  display: block;
+}
+
+.stcknode .stck{
+  display: block;
+}
+
+.errnode .err{
+  display: block;
+  color: red;
+  border-color: red;
 }
 
 .execnode .sidecolumn .exec {
@@ -95,7 +146,7 @@ body{
   }
 
   .sidecolumn .sidecell {
-    color: #A40D0D;
+    color: #B5B5B5;
   }
   .sidecolumn .err {
     color: black;
@@ -154,6 +205,9 @@ body{
   display: none;
 }
 
+footer{
+  padding-bottom: 20px;
+}
 
 @media(max-width:767px){
 .sidecolumn{

@@ -3,10 +3,10 @@
   "title": "TIS 100 Pad",
   "description": "tis",
   "version": "0.1.0",
-  "homepage": "http://markgoodyear.com",
+  "homepage": "http://www.tis100pad.com/",
   "author": {
-    "name": "Mark Goodyear",
-    "url": "http://markgoodyear.com"
+    "name": "Pollend",
+    "url": "https://github.com/pollend"
   },
   "license": "MIT",
   "engines": {

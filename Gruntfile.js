@@ -70,15 +70,6 @@ module.exports = function(grunt) {
                     dest: '<%= config.build_dir %>/app/static/assets'
                 }]
             },
-            //css : {
-            //   files: [{
-            //        expand: true,
-            //        flatten: true,
-            //        cwd: '<%= config.src_dir %>/css',
-            //        src: ['**/*css'],
-            //        dest: '<%= config.build_dir %>/app/static/css'
-             //   }]
-            //},
             server : {
                files: [{
                     expand: true,
@@ -91,7 +82,9 @@ module.exports = function(grunt) {
 
       less: {
           css:{
+
             options: {
+               banner: '<%= banner %>',
             plugins: [
                 new (require('less-plugin-autoprefix'))({browsers: ["last 2 versions"]}),
                 new (require('less-plugin-clean-css'))({advanced: true})

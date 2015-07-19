@@ -28,4 +28,4 @@ def save():
 
 @mod.route('/problem/<string:problem>', methods=['POST','GET'])
 def problem(problem):
- return "";
+ return ""
