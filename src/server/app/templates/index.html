@@ -3,7 +3,6 @@
   <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
     <script src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/angular.min.js') }}"></script>
@@ -11,25 +10,19 @@
     <script src="{{ url_for('static', filename='lib/js/FileAPI.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
-
     <script src="{{ url_for('static', filename='app.js') }}"></script>
     <script src="{{ url_for('static', filename='route.js') }}"></script>
-
-     <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
-
+    <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
     <title>TIS-100-PAD </title>
   </head>
   <body>
-
-        <div class="container">
-            <div class="header">TIS-100 PAD</div>
-           <div ng-view >
-               
-           </div>
-            <footer>TIS-100 is ©2015 <a href="http://www.zachtronics.com/tis-100/">Zachtronics LLC</a>. This site is not affiliated with or endorsed by Zachtronics LLC.
-            tis100pad.com is released under the MIT License. <a href="https://github.com/Triplanetary/tis100pad">View the source on GitHub.</a>
-        </div>
-        
-    </footer>
-  </body>
+    <div class="container">
+      <div class="header">TIS-100 PAD</div>
+      <div ng-view >
+      </div>
+      <footer>TIS-100 is ©2015 <a href="http://www.zachtronics.com/tis-100/">Zachtronics LLC</a>. This site is not affiliated with or endorsed by Zachtronics LLC.
+      tis100pad.com is released under the MIT License. <a href="https://github.com/Triplanetary/tis100pad">View the source on GitHub.</a>
+    </div>
+  </footer>
+</body>
 </html>

@@ -8,3 +8,6 @@ from app import *
 db.create_all()
 
 os.environ['PYTHONINSPECT'] = 'True'
+
+
+from app import problems

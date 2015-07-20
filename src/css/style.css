@@ -8,6 +8,8 @@ body{
   background: black;
 }
 
+@node-bottom-padding : 20px;
+
 .node-container{
   margin: 15px;
 }
@@ -17,7 +19,7 @@ body{
 }
 
 .node-row{
-  margin-bottom: 20px;
+    margin-bottom: @node-bottom-padding;
 }
 
 .node {
@@ -199,6 +201,16 @@ body{
   display: block;
 
 
+}
+
+
+.output{
+margin-top: -@node-bottom-padding;
+margin-bottom: @node-bottom-padding;
+}
+.input, .output{
+  text-align: center;
+  color: white;
 }
 
 .drag-overlay{

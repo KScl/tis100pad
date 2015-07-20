@@ -15,10 +15,9 @@ app.controller("PadController", PadController)
         w.bind('resize', function() {
             scope.$apply();
         });
-        
+
     }
 });
-
 
 function resize() {
     $(".node").each(function(index) {
@@ -29,125 +28,108 @@ function resize() {
     });
 }
 
+function PadController($scope, Upload, $http, $window, $location, $routeParams) {
 
-
-function PadController($scope,Upload, $http,$window,$location,$routeParams) {
-
-window.onload = function() {
-    resize();
-}
+    window.onload = function() {
+        resize();
+    }
 
     $scope.STATE = {
         EXEC: 0,
         STCK: 1,
         ERR: 3
-        
     }
-    $scope.nodes = [
-        [{
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }],
-        [{
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-    }],
-        [{
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }, {
-            state: $scope.STATE.EXEC,
-            text: ""
-        }]
+
+    $scope.problem = "";
+    INPUT = function() {
+        this.name = "A";
+        this.out = function() {
+            return "." + this.name;
+        }
+    }
+
+    OUTPUT = function() {
+        this.name = "A";
+        this.out = function() {
+            return "." + this.name;
+        }
+    }
+
+    $scope.in = [
+        new INPUT(), new INPUT(), new INPUT(), new INPUT()
     ];
+
+    $scope.out = [
+        new OUTPUT(), new OUTPUT(), new OUTPUT(), new OUTPUT()
+    ];
+
+    NODE = function() {
+        this.state = $scope.STATE.EXEC;
+        this.text = "";
+    }
+
+    $scope.nodes = [
+        [new NODE(), new NODE(), new NODE(), new NODE()],
+        [new NODE(), new NODE(), new NODE(), new NODE()],
+        [new NODE(), new NODE(), new NODE(), new NODE()]
+    ];
+
 
     $scope.cycleCount = 0;
     $scope.nodeCount = 0;
     $scope.instructionCount = 0;
 
-    $scope.updateCount = function()
-    {
+    $scope.updateCount = function() {
         $scope.cycleCount = 0;
         $scope.nodeCount = 0;
         $scope.instructionCount = 0;
 
         for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-           for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-                if($scope.nodes[x][y].text.trim() !== "")
-                {
+            for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                if ($scope.nodes[x][y].text.trim() !== "") {
                     $scope.nodeCount++;
                 }
 
-               //     console.log($scope.nodes[x][y].text);
+                //     console.log($scope.nodes[x][y].text);
 
                 var lines = $scope.nodes[x][y].text.trim().split(/\r\n|\r|\n/g);
                 for (var i = lines.length - 1; i >= 0; i--) {
 
-                    if(lines[i].trim() == "" || lines[i].trim().substring(0, 1) == "#" )
-                    {
-                        
-                    }
-                    else
-                    {
-                         $scope.instructionCount++;
+                    if (lines[i].trim() == "" || lines[i].trim().substring(0, 1) == "#") {
+
+                    } else {
+                        $scope.instructionCount++;
                     }
                 };
-           };
-           
+            };
+
         };
     }
 
-    $scope.$on('$routeChangeSuccess', function () {
-        if($routeParams.id)
-        {
-            $http.post('pad/solution/' +  $routeParams.id, {}).
+    $scope.$on('$routeChangeSuccess', function() {
+        if ($routeParams.id) {
+            $http.post('pad/solution/' + $routeParams.id, {}).
             success(function(data, status, headers, config) {
                 for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-                   for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                    for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
 
-                       $scope.nodes[x][y].text = data.solution[x][y] + "\n";
-                   };
-                   
+                        $scope.nodes[x][y].text = data.solution[x][y] + "\n";
+                    };
+
                 };
-                $scope.updateCount();   
+                $scope.updateCount();
             }).
             error(function(data, status, headers, config) {
 
             });
-        } 
-        else
-        {
-             for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-                  for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-                      $scope.nodes[x][y].text = "";
-                  };
+        } else {
+            for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+                for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                    $scope.nodes[x][y].text = "";
+                };
             };
         }
-         
+
 
     });
 
@@ -190,72 +172,65 @@ window.onload = function() {
         for (var x = $scope.nodes.length - 1; x >= 0; x--) {
             for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
                 index++;
-                output += "@"+index;
+                output += "@" + index;
                 output += $scope.nodes[x][y].text;
 
                 output += "\n"
             };
         };
 
-         var anchor = angular.element('<a/>');
-         anchor.attr({
-             href: 'data:attachment/csv;charset=utf-8,' + encodeURI(output),
-             target: '_blank',
-             download: 'soltuon.txt'
-         })[0].click();
+        var anchor = angular.element('<a/>');
+        anchor.attr({
+            href: 'data:attachment/csv;charset=utf-8,' + encodeURI(output),
+            target: '_blank',
+            download: 'soltuon.txt'
+        })[0].click();
 
     }
 
     $scope.new_solution = function() {
         $location.path("");
-     for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-          for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-              $scope.nodes[x][y].text = "";
-          };
-       };
+        for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+            for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                $scope.nodes[x][y].text = "";
+            };
+        };
     }
-    
-  $scope.$watch('upload_file', function () {
-    if($scope.upload_file)
-        $scope.upload_save($scope.upload_file);
+
+    $scope.$watch('upload_file', function() {
+        if ($scope.upload_file)
+            $scope.upload_save($scope.upload_file);
     });
 
-    $scope.upload_save = function (files) {
-        FileAPI.readAsText(files[0], function (evt){
+    $scope.upload_save = function(files) {
+        FileAPI.readAsText(files[0], function(evt) {
             $scope.new_solution();
 
-            if( evt.type == 'load' )
-            {
+            if (evt.type == 'load') {
                 var lines = evt.result.split(/\r\n|\r|\n/g);
-                for (var i = 0; i < lines.length; i++) 
-                {
-                    if(lines[i].trim().substring(0,1) === "@")
-                    {
-                         var index =  parseInt(lines[i].trim().substring(1));
-                         i++;
-                        
-                        for (var p = 0; i < lines.length; i++) 
-                        {
-                           
-                             if(lines[i].trim().substring(0,1) === "@")
-                            {
+                for (var i = 0; i < lines.length; i++) {
+                    if (lines[i].trim().substring(0, 1) === "@") {
+                        var index = parseInt(lines[i].trim().substring(1));
+                        i++;
+
+                        for (var p = 0; i < lines.length; i++) {
+
+                            if (lines[i].trim().substring(0, 1) === "@") {
                                 i--;
                                 break;
-                            }
-                            else
-                            {
+                            } else {
 
-                                console.log(index+"-"+(Math.ceil((index+1)/4.0)-1) + ":"+(index%4));
-                                  $scope.nodes[Math.ceil((index+1)/4.0)-1][(index%4)].text += lines[i] + "\n";
+                                console.log(index + "-" + (Math.ceil((index + 1) / 4.0) - 1) + ":" + (index % 4));
+                                $scope.nodes[Math.ceil((index + 1) / 4.0) - 1][(index % 4)].text += lines[i] + "\n";
                             }
 
                         }
-                        $scope.nodes[Math.ceil((index+1)/4)-1][(index%3)].text = $scope.nodes[Math.ceil((index+1)/4)-1][(index%3)].text.trim();
+                        $scope.nodes[Math.ceil((index + 1) / 4) - 1][(index % 3)].text = $scope.nodes[Math.ceil((index + 1) / 4) - 1][(index % 3)].text.trim();
                     }
                 };
                 $scope.save();
-            } else if( evt.type =='progress' ){
-                var pr = evt.loaded/evt.total * 100;
+            } else if (evt.type == 'progress') {
+                var pr = evt.loaded / evt.total * 100;
             } else {
                 // Error
             }
@@ -263,4 +238,3 @@ window.onload = function() {
     }
 
 }
-
