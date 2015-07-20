@@ -11,3 +11,5 @@ DATABASE_CONNECT_OPTIONS = {}
 THREADS_PER_PAGE = 8
 
 CSRF_ENABLED = True
+CSRF_SESSION_KEY = "anwefunawpioenfa9wma9m"
+SECRETE_KEY = "asdfawefawah88n8nn"

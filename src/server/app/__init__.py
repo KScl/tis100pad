@@ -17,6 +17,5 @@ def not_found(error):
 def index():
  return render_template("index.html")
 
-
 from app.views.tis100Pad import mod as tis100PadModule
 app.register_blueprint(tis100PadModule)
