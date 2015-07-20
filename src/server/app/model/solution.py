@@ -18,7 +18,7 @@ class Solution(db.Model):
  a10 = db.Column(db.Text)
  a11 = db.Column(db.Text)
 
- def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11):
+ def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,problemId):
   self.a0 = a0
   self.a1 = a1
   self.a2 = a2
@@ -31,6 +31,7 @@ class Solution(db.Model):
   self.a9 = a9
   self.a10 = a10
   self.a11 = a11
+  self.problemId = problemId
 
  def getRegisters(self):
   return [self.a0,self.a1,self.a2,self.a3,self.a4,self.a5,self.a6,self.a7,self.a8,self.a9,self.a10,self.a11]

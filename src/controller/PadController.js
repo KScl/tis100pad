@@ -37,7 +37,7 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
     $scope.STATE = {
         EXEC: 0,
         STCK: 1,
-        ERR: 3
+        ERR: 2
     }
 
     $scope.problem = "";
@@ -90,14 +90,10 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
                     $scope.nodeCount++;
                 }
 
-                //     console.log($scope.nodes[x][y].text);
-
                 var lines = $scope.nodes[x][y].text.trim().split(/\r\n|\r|\n/g);
                 for (var i = lines.length - 1; i >= 0; i--) {
 
-                    if (lines[i].trim() == "" || lines[i].trim().substring(0, 1) == "#") {
-
-                    } else {
+                    if (!(lines[i].trim() == "" || lines[i].trim().substring(0, 1) == "#")) {
                         $scope.instructionCount++;
                     }
                 };
@@ -110,12 +106,13 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
         if ($routeParams.id) {
             $http.post('pad/solution/' + $routeParams.id, {}).
             success(function(data, status, headers, config) {
+
                 for (var x = $scope.nodes.length - 1; x >= 0; x--) {
                     for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                        $scope.nodes[x][y].text = data.grid[x][y];
+                        $scope.nodes[x][y].state = data.states[x][y];
 
-                        $scope.nodes[x][y].text = data.solution[x][y] + "\n";
                     };
-
                 };
                 $scope.updateCount();
             }).
@@ -135,6 +132,7 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
 
 
     $scope.getClass = function(node) {
+        console.log(node)
         if (node) {
             if (node.state === $scope.STATE.EXEC) {
                 return "execnode";
@@ -155,7 +153,7 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
     }
 
     $scope.save = function() {
-        $http.post('pad/save', {
+        $http.post('pad/save.json', {
             nodes: $scope.nodes
         }).
         success(function(data, status, headers, config) {
@@ -202,33 +200,26 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
             $scope.upload_save($scope.upload_file);
     });
 
+
+
     $scope.upload_save = function(files) {
         FileAPI.readAsText(files[0], function(evt) {
             $scope.new_solution();
-
             if (evt.type == 'load') {
-                var lines = evt.result.split(/\r\n|\r|\n/g);
-                for (var i = 0; i < lines.length; i++) {
-                    if (lines[i].trim().substring(0, 1) === "@") {
-                        var index = parseInt(lines[i].trim().substring(1));
-                        i++;
 
-                        for (var p = 0; i < lines.length; i++) {
+                var identifier = files[0].name.substring(0, files[0].name.indexOf("."));
 
-                            if (lines[i].trim().substring(0, 1) === "@") {
-                                i--;
-                                break;
-                            } else {
+                $http.post("/pad/problem.json", {
+                    identifier: identifier,
+                    file: evt.result
+                }).
+                success(function(data, status, headers, config) {
+                    $location.path(data.id);
+                }).
+                error(function(data, status, headers, config) {
 
-                                console.log(index + "-" + (Math.ceil((index + 1) / 4.0) - 1) + ":" + (index % 4));
-                                $scope.nodes[Math.ceil((index + 1) / 4.0) - 1][(index % 4)].text += lines[i] + "\n";
-                            }
+                });
 
-                        }
-                        $scope.nodes[Math.ceil((index + 1) / 4) - 1][(index % 3)].text = $scope.nodes[Math.ceil((index + 1) / 4) - 1][(index % 3)].text.trim();
-                    }
-                };
-                $scope.save();
             } else if (evt.type == 'progress') {
                 var pr = evt.loaded / evt.total * 100;
             } else {
