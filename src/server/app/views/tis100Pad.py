@@ -16,7 +16,7 @@ def root():
 def getSolution(solution):
  solution = Solution.query.filter_by(id = solution).first();
  problem = Problem.query.filter_by(id = solution.problemId).first();
- return jsonify({'grid': solution.getRegistersGrid(), 'states' : problem.getRegistersGrid()})
+ return jsonify({'grid': solution.getRegistersGrid(), 'states' : problem.getRegistersGrid(), "problemId" : problem.id , "name" : problem.name, "identifier" : problem.identifier})
 
 @mod.route('/save.json', methods=['POST'])
 def save():

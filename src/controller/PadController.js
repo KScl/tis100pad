@@ -74,6 +74,11 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
         [new NODE(), new NODE(), new NODE(), new NODE()]
     ];
 
+    $scope.id = "";
+    $scope.identifier = "";
+    $scope.name = "";
+
+
 
     $scope.cycleCount = 0;
     $scope.nodeCount = 0;
@@ -114,6 +119,10 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
 
                     };
                 };
+                $scope.id = data.problemId;
+                $scope.identifier = data.identifier;
+                $scope.name = data.name;
+
                 $scope.updateCount();
             }).
             error(function(data, status, headers, config) {
@@ -154,7 +163,8 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
 
     $scope.save = function() {
         $http.post('pad/save.json', {
-            nodes: $scope.nodes
+            nodes: $scope.nodes,
+            problemId: $scope.id
         }).
         success(function(data, status, headers, config) {
             $location.path(data.id);
