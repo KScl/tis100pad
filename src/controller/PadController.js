@@ -42,16 +42,28 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
 
     $scope.problem = "";
     INPUT = function() {
-        this.name = "A";
+        this.active = false;
+        this.name = "";
         this.out = function() {
             return "." + this.name;
+        }
+        this.getClass = function() {
+            if (this.active)
+                return "active";
+            return "";
         }
     }
 
     OUTPUT = function() {
-        this.name = "A";
+        this.active = false;
+        this.name = "";
         this.out = function() {
             return "." + this.name;
+        }
+        this.getClass = function() {
+            if (this.active)
+                return "active";
+            return "";
         }
     }
 
@@ -122,6 +134,21 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
                 $scope.id = data.problemId;
                 $scope.identifier = data.identifier;
                 $scope.name = data.name;
+                for (var i = data.inputs.length - 1; i >= 0; i--) {
+                    if (data.inputs[i] == "1")
+                        $scope.in[i].active = true;
+                    else
+                        $scope.in[i].active = false;
+
+                };
+
+                for (var i = data.outputs.length - 1; i >= 0; i--) {
+                    if (data.outputs[i] == "1")
+                        $scope.out[i].active = true;
+                    else
+                        $scope.out[i].active = false;
+
+                };
 
                 $scope.updateCount();
             }).
@@ -141,7 +168,6 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
 
 
     $scope.getClass = function(node) {
-        console.log(node)
         if (node) {
             if (node.state === $scope.STATE.EXEC) {
                 return "execnode";

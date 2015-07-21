@@ -167,7 +167,7 @@ body{
     }
 
     font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-    height: 50px;
+    min-height: 50px;
     text-align: center;
     margin-bottom: 20px;
     border: 3px double #B3B3B3;
@@ -221,6 +221,13 @@ margin-bottom: @node-bottom-padding;
 .input, .output{
   text-align: center;
   color: white;
+  &>*{
+    visibility: hidden;
+  }
+
+  &>.active{
+    visibility: visible;
+  }
 }
 
 .drag-overlay{

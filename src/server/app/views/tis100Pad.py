@@ -16,7 +16,14 @@ def root():
 def getSolution(solution):
  solution = Solution.query.filter_by(id = solution).first();
  problem = Problem.query.filter_by(id = solution.problemId).first();
- return jsonify({'grid': solution.getRegistersGrid(), 'states' : problem.getRegistersGrid(), "problemId" : problem.id , "name" : problem.name, "identifier" : problem.identifier})
+ return jsonify({
+  'grid': solution.getRegistersGrid(), 
+  'states' : problem.getRegistersGrid(), 
+  "problemId" : problem.id , 
+  "inputs" : problem.getEntries(),
+  "outputs" : problem.getOutput(),
+  "name" : problem.name, 
+  "identifier" : problem.identifier})
 
 @mod.route('/save.json', methods=['POST'])
 def save():
@@ -25,10 +32,19 @@ def save():
   nodes[0][0].get("state"),nodes[0][1].get("state"),nodes[0][2].get("state"),nodes[0][3].get("state"),
   nodes[1][0].get("state"),nodes[1][1].get("state"),nodes[1][2].get("state"),nodes[1][3].get("state"),
   nodes[2][0].get("state"),nodes[2][1].get("state"),nodes[2][2].get("state"),nodes[2][3].get("state"),0,0,0,0,0,0,0,0)
+ matching = True
+
  for item in problem.getRegisters():
   if not (item == Problem.EXEC or item == Problem.ERR or item == Problem.STCK):
    return render_template('404.html'), 403
 
+ if request.get_json().get("problemId") != -1 :
+  problemById = Problem.query.filter_by(id = request.get_json().get("problemId")).first()
+  for i in range(len(problemById.getRegisters())):
+   if problem.getRegisters()[i] != problemById.getRegisters()[i]:
+    problem = problemById
+    break
+ 
  db.session.add(problem)
  db.session.flush()
  solution = Solution( 
