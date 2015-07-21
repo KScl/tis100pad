@@ -38,15 +38,19 @@ def save():
   if not (item == Problem.EXEC or item == Problem.ERR or item == Problem.STCK):
    return render_template('404.html'), 403
 
+ match = True
  if request.get_json().get("problemId") != -1 :
   problemById = Problem.query.filter_by(id = request.get_json().get("problemId")).first()
   for i in range(len(problemById.getRegisters())):
    if problem.getRegisters()[i] != problemById.getRegisters()[i]:
-    problem = problemById
+    match = False
     break
+ if match == True:
+  problem = problemById
  
  db.session.add(problem)
  db.session.flush()
+ print problem.id
  solution = Solution( 
   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),

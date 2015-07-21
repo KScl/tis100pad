@@ -54,10 +54,10 @@ for key in LEVELS:
     int(LEVELS[key]["inOut"][1]),
     int(LEVELS[key]["inOut"][2]),
     int(LEVELS[key]["inOut"][3]),
-    int(LEVELS[key]["inOut"][0]),
-    int(LEVELS[key]["inOut"][1]),
-    int(LEVELS[key]["inOut"][2]),
-    int(LEVELS[key]["inOut"][3]),
+    int(LEVELS[key]["inOut"][4]),
+    int(LEVELS[key]["inOut"][5]),
+    int(LEVELS[key]["inOut"][6]),
+    int(LEVELS[key]["inOut"][7]),
     key,
     LEVELS[key]["name"])
   db.session.add(problem)
