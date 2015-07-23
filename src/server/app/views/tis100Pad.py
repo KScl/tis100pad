@@ -8,9 +8,10 @@ import string
 
 mod = Blueprint('pad', __name__, url_prefix='/pad')
 
-@mod.route('.html')
-def root():
- return render_template("PadView.html")
+@mod.route('/<int:solution>')
+@mod.route('/')
+def root(solution = "null"):
+ return render_template("PadView.html",solutionId = solution)
 
 @mod.route('/solution/<int:solution>', methods=['POST','GET'])
 def getSolution(solution):

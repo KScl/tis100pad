@@ -28,7 +28,7 @@ function resize() {
     });
 }
 
-function PadController($scope, Upload, $http, $window, $location, $routeParams) {
+function PadController($scope, Upload, $http, $window, $location) {
 
     window.onload = function() {
         resize();
@@ -119,52 +119,50 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
         };
     }
 
-    $scope.$on('$routeChangeSuccess', function() {
-        if ($routeParams.id) {
-            $http.post('pad/solution/' + $routeParams.id, {}).
-            success(function(data, status, headers, config) {
 
-                for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-                    for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-                        $scope.nodes[x][y].text = data.grid[x][y];
-                        $scope.nodes[x][y].state = data.states[x][y];
+    if (solutionID) {
+        $http.post('/pad/solution/' + solutionID, {}).
+        success(function(data, status, headers, config) {
 
-                    };
-                };
-                $scope.id = data.problemId;
-                $scope.identifier = data.identifier;
-                $scope.name = data.name;
-                for (var i = data.inputs.length - 1; i >= 0; i--) {
-                    if (data.inputs[i] == "1")
-                        $scope.in[i].active = true;
-                    else
-                        $scope.in[i].active = false;
-
-                };
-
-                for (var i = data.outputs.length - 1; i >= 0; i--) {
-                    if (data.outputs[i] == "1")
-                        $scope.out[i].active = true;
-                    else
-                        $scope.out[i].active = false;
-
-                };
-
-                $scope.updateCount();
-            }).
-            error(function(data, status, headers, config) {
-
-            });
-        } else {
             for (var x = $scope.nodes.length - 1; x >= 0; x--) {
                 for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-                    $scope.nodes[x][y].text = "";
+                    $scope.nodes[x][y].text = data.grid[x][y];
+                    $scope.nodes[x][y].state = data.states[x][y];
+
                 };
             };
-        }
+            $scope.id = data.problemId;
+            $scope.identifier = data.identifier;
+            $scope.name = data.name;
+            for (var i = data.inputs.length - 1; i >= 0; i--) {
+                if (data.inputs[i] == "1")
+                    $scope.in[i].active = true;
+                else
+                    $scope.in[i].active = false;
 
+            };
 
-    });
+            for (var i = data.outputs.length - 1; i >= 0; i--) {
+                if (data.outputs[i] == "1")
+                    $scope.out[i].active = true;
+                else
+                    $scope.out[i].active = false;
+
+            };
+
+            $scope.updateCount();
+        }).
+        error(function(data, status, headers, config) {
+
+        });
+    } else {
+        for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+            for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                $scope.nodes[x][y].text = "";
+            };
+        };
+    }
+
 
 
     $scope.getClass = function(node) {
@@ -188,12 +186,12 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
     }
 
     $scope.save = function() {
-        $http.post('pad/save.json', {
+        $http.post('/pad/save.json', {
             nodes: $scope.nodes,
             problemId: $scope.id
         }).
         success(function(data, status, headers, config) {
-            $location.path(data.id);
+            window.location.pathname = "/pad/" + data.id;
         }).
         error(function(data, status, headers, config) {
 
@@ -223,7 +221,7 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
     }
 
     $scope.new_solution = function() {
-        $location.path("");
+        window.location.pathname = "/pad/" + "";
         for (var x = $scope.nodes.length - 1; x >= 0; x--) {
             for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
                 $scope.nodes[x][y].text = "";
@@ -250,7 +248,7 @@ function PadController($scope, Upload, $http, $window, $location, $routeParams) 
                     file: evt.result
                 }).
                 success(function(data, status, headers, config) {
-                    $location.path(data.id);
+                    window.location.pathname = "/pad/" + data.id;
                 }).
                 error(function(data, status, headers, config) {
 
