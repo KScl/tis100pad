@@ -2,12 +2,8 @@
 import os
 import readline
 from pprint import pprint
-
 from flask import *
 from app import *
-db.create_all()
+
 
 os.environ['PYTHONINSPECT'] = 'True'
-
-
-from app import problems

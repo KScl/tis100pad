@@ -54,5 +54,15 @@ class Solution(db.Model):
    text += '\n\n'
   return text
 
+ def isEmpty(self):
+  if self.a0 == "" and self.a1 == "" and self.a2 == "" and self.a3 == "" and self.a4 == "" and self.a5 == "" and self.a6 == "" and self.a7 == "" and self.a8 == "" and self.a9 == "" and self.a10 == "" and self.a11 == "" :
+   return True
+  return False
+ 
+ def equal(self,solution):
+  if solution.a0 == self.a0 and solution.a1 == self.a1 and solution.a2 == self.a2 and solution.a3 == self.a3 and solution.a4 == self.a4 and solution.a5 == self.a5 and solution.a6 == self.a6 and solution.a7 == self.a7 and solution.a8 == self.a8 and solution.a9 == self.a9 and solution.a10 == self.a10 and solution.a11 == self.a11 :
+   return True
+  return False
+
  def __repr__(self):
   return '<solution %r>' % self.id
