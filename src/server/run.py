@@ -1,4 +1,4 @@
-from app import app
-app.config.from_object('config')
+from app import app as application
+application.config.from_object('config')
 
-app.run(app.config["IP"],debug=app.config["DEBUG"])
+application.run(app.config["IP"],debug=app.config["DEBUG"])
