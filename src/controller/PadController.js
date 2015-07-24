@@ -1,6 +1,4 @@
-app.controller("PadController", PadController)
-
-.directive('resize', function($window) {
+app.controller("PadController", PadController).directive('resize', function($window) {
     return function(scope, element) {
         var w = angular.element($window);
         scope.$watch(function() {
@@ -221,7 +219,7 @@ function PadController($scope, Upload, $http, $window, $location) {
     }
 
     $scope.new_solution = function() {
-        window.location.pathname = "/pad/" + "";
+        window.location.pathname = "/pad/";
         for (var x = $scope.nodes.length - 1; x >= 0; x--) {
             for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
                 $scope.nodes[x][y].text = "";
@@ -229,16 +227,16 @@ function PadController($scope, Upload, $http, $window, $location) {
         };
     }
 
-    $scope.$watch('upload_file', function() {
+    /*$scope.$watch('upload_file', function() {
         if ($scope.upload_file)
             $scope.upload_save($scope.upload_file);
-    });
+    });*/
 
 
 
     $scope.upload_save = function(files) {
         FileAPI.readAsText(files[0], function(evt) {
-            $scope.new_solution();
+            //$scope.new_solution();
             if (evt.type == 'load') {
 
                 var identifier = files[0].name.substring(0, files[0].name.indexOf("."));
@@ -247,19 +245,20 @@ function PadController($scope, Upload, $http, $window, $location) {
                     identifier: identifier,
                     file: evt.result
                 }).
-                success(function(data, status, headers, config) {
-                    window.location.pathname = "/pad/" + data.id;
-                }).
                 error(function(data, status, headers, config) {
 
+                }).
+                success(function(data, status, headers, config) {
+                    window.location.pathname = "/pad/" + data.id;
                 });
-
+                return false;
             } else if (evt.type == 'progress') {
                 var pr = evt.loaded / evt.total * 100;
             } else {
                 // Error
             }
         });
+
     }
 
 }
