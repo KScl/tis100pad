@@ -70,7 +70,7 @@ def problem():
  if request.get_json().get('identifier'):
   problem = Problem.query.filter_by(identifier =request.get_json().get('identifier')).first()
  if problem == None:
-  err = ['illegal data']
+  err = ['unknown problem']
   return jsonify(errors = err)
 
 
