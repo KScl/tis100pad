@@ -4,6 +4,7 @@
     {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="{{ url_for('static',filename='assets/favicon.ico') }}" />
 
     <script src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
@@ -11,6 +12,7 @@
     <script src="{{ url_for('static', filename='lib/js/FileAPI.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/angular-messages.min.js') }}"></script>
 
     <script src="{{ url_for('static', filename='app.js') }}"></script>
     <title>{% block title %}{% endblock %} - TIS </title>
@@ -22,7 +24,7 @@
         <!--div class="header">TIS-100 PAD</div-->
       {% endblock %}
         <footer>TIS-100 is ©2015 <a href="http://www.zachtronics.com/tis-100/">Zachtronics LLC</a>. This site is not affiliated with or endorsed by Zachtronics LLC.
-    tis100pad.com is released under the MIT License. <a href="https://github.com/Triplanetary/tis100pad">View the source on GitHub.</a>
+    tis100pad.com is released under the MIT License. <a href="https://github.com/pollend/tis100pad">View the source on GitHub.</a>
     </div>
     
     </footer>

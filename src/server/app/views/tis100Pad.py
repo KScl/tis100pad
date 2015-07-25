@@ -10,7 +10,7 @@ mod = Blueprint('pad', __name__, url_prefix='/pad')
 
 @mod.route('/<int:solution>')
 @mod.route('/')
-def root(solution = "null"):
+def root(solution = -1):
  return render_template("PadView.html",solutionId = solution)
 
 @mod.route('/solution/<int:solution>', methods=['POST','GET'])
@@ -37,7 +37,8 @@ def save():
 
  for item in problem.getRegisters():
   if not (item == Problem.EXEC or item == Problem.ERR or item == Problem.STCK):
-   return render_template('404.html'), 403
+   err = ['illegal data']
+   return jsonify(errors = err)
 
  match = True
  if request.get_json().get("problemId") != -1 :
@@ -46,8 +47,8 @@ def save():
    if problem.getRegisters()[i] != problemById.getRegisters()[i]:
     match = False
     break
- if match == True:
-  problem = problemById
+  if match == True:
+   problem = problemById
  
  db.session.add(problem)
  db.session.flush()
@@ -56,7 +57,8 @@ def save():
   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
   nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),problem.id)
  if solution.isEmpty():
-  return render_template('404.html'), 403
+  err = ['no solution submitted']
+  return jsonify(errors = err)
  db.session.add(solution)
  db.session.flush()
  db.session.commit()
@@ -67,6 +69,10 @@ def problem():
  problem = None
  if request.get_json().get('identifier'):
   problem = Problem.query.filter_by(identifier =request.get_json().get('identifier')).first()
+ if problem == None:
+  err = ['illegal data']
+  return jsonify(errors = err)
+
 
  outputs = ["","","","","","","","","","","",""]
  register = problem.getRegisters()
