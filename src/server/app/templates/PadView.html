@@ -7,14 +7,11 @@
 {% block head %}
   {{ super() }}
   <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
-  <script type="text/javascript">
-    solutionID = {{ solutionId }}; 
-  </script>
 {% endblock %}
 
 {% block content %}
   {{super()}}
-  <div class="container pad" ng-controller="PadController" resize>
+  <div class="container pad" ng-controller="PadController" ng-init="id = {{ solutionId }};init()" resize>
     <div>
       <div class="game-title"><h3>{{'{{name}}'}}</h3>{{'{{identifier}}'}}</div>
     </div>
@@ -75,6 +72,9 @@
           <button class="tis-button" ng-click="save()">Save</button>
         </div>
       </div>
+               <div class="errors">
+          <div ng-repeat="err in errors">{{'{{err}}'}}</div>         
+         </div>
       <div class="row">
         <div class="col-xs-4"><div class="double-border-center"><span>Cycle Count: N/A <!--{{ '{{cycleCount}}'}}--></span></div></div>
         <div class="col-xs-4"><div class="double-border-center"><span>Node Count:  {{ '{{nodeCount}}'}}</span></div></div>
