@@ -11,4 +11,4 @@ mod = Blueprint('problems', __name__, url_prefix='/problems')
 @mod.route('/<int:solution>')
 @mod.route('/')
 def root(solution = -1):
- return render_template("problemList.html",solutionId = solution)
+ return render_template("problems.html",solutionId = solution)

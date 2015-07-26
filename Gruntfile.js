@@ -60,6 +60,15 @@ module.exports = function(grunt) {
                     dest: '<%= config.build_dir %>/app/static/lib/css'
                 }]
             },
+            libfonts: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    cwd: 'bower_components/',
+                    src: ['**/*.woff*', '**/*.ttf', '**/*.svg', '**/*.eot'],
+                    dest: '<%= config.build_dir %>/app/static/lib/fonts'
+                }]
+            },
             assets: {
                 files: [{
                     expand: true,

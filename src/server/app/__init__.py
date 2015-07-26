@@ -19,3 +19,6 @@ def index():
 
 from app.views.tis100Pad import mod as tis100PadModule
 app.register_blueprint(tis100PadModule)
+
+from app.views.problems import mod as problemsModule
+app.register_blueprint(problemsModule)
