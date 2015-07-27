@@ -76,4 +76,4 @@ def upgrade():
 
 
 def downgrade():
- print "skip"
+ print "this process is not reversible"

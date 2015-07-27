@@ -138,6 +138,12 @@ module.exports = function(grunt) {
                     stdout: true
                 },
                 command: ['cd bin', 'python setup.py'].join(';')
+            },
+            migrate: {
+                options: {
+                    stdout: true
+                },
+                command: ['cd bin', 'alembic upgrade head'].join(';')
             }
         },
 
@@ -149,7 +155,6 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
-
         }
 
     });
@@ -170,6 +175,6 @@ module.exports = function(grunt) {
     grunt.registerTask('cln', ['clean']);
 
     grunt.registerTask('run', ['shell:run']);
-    grunt.registerTask('migrate', []);
+    grunt.registerTask('migrate', ['shell:migrate']);
     grunt.registerTask('setup', ["shell:setup"])
 };
