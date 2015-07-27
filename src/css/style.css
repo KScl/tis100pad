@@ -40,8 +40,6 @@ body{
 .node-main
 {
 
-
-
 &>*{
       width: 100%;
     height: 100%;
@@ -218,11 +216,16 @@ body{
   }
 }
 
+.item-list{
+  padding-top: 15px;
+}
 
-.output{
+.output
+{
 margin-top: -@node-bottom-padding;
 margin-bottom: @node-bottom-padding;
 }
+
 .input, .output{
   text-align: center;
   color: white;
@@ -235,9 +238,39 @@ margin-bottom: @node-bottom-padding;
   }
 }
 
+.votes{
+  text-align: center;
+
+}
+
+.problem-container{
+   border: 3px solid #353535;
+  margin-top: 10px;
+  padding: 3px;
+  h3{
+    margin: 0px;
+  }
+}
+
+
 .drag-overlay{
   display: none;
 }
+
+.row .scores{
+  font-size: 20px;
+  color: white;
+
+}
+
+.problems-list{
+  padding-bottom: 20px;
+  color:  white;
+
+
+}
+
+
 
 footer{
   padding-bottom: 20px;
