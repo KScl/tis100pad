@@ -60,6 +60,15 @@ module.exports = function(grunt) {
                     dest: '<%= config.build_dir %>/app/static/lib/css'
                 }]
             },
+            libfonts: {
+                files: [{
+                    expand: true,
+                    flatten: true,
+                    cwd: 'bower_components/',
+                    src: ['**/*.woff*', '**/*.ttf', '**/*.svg', '**/*.eot'],
+                    dest: '<%= config.build_dir %>/app/static/lib/fonts'
+                }]
+            },
             assets: {
                 files: [{
                     expand: true,
@@ -129,6 +138,12 @@ module.exports = function(grunt) {
                     stdout: true
                 },
                 command: ['cd bin', 'python setup.py'].join(';')
+            },
+            migrate: {
+                options: {
+                    stdout: true
+                },
+                command: ['cd bin', 'alembic upgrade head'].join(';')
             }
         },
 
@@ -140,7 +155,6 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
-
         }
 
     });
@@ -161,6 +175,6 @@ module.exports = function(grunt) {
     grunt.registerTask('cln', ['clean']);
 
     grunt.registerTask('run', ['shell:run']);
-    grunt.registerTask('migrate', []);
+    grunt.registerTask('migrate', ['shell:migrate']);
     grunt.registerTask('setup', ["shell:setup"])
 };
