@@ -16,6 +16,7 @@ class Solution(db.Model):
  a8 = db.Column(db.Text)
  a9 = db.Column(db.Text)
  a10 = db.Column(db.Text)
+ date = db.Column(db.Date)
  a11 = db.Column(db.Text)
 
  def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,problemId):

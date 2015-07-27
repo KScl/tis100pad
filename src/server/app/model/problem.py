@@ -8,11 +8,12 @@ class Problem(db.Model):
  id = db.Column(db.Integer, primary_key=True)
  identifier = db.Column(db.Text)
  name = db.Column(db.Text)
+ userId = db.Column(db.Integer)
  script = db.Column(db.Text)
- entrt1 = db.Column(db.Text)
- entrt2 = db.Column(db.Text)
- entrt3 = db.Column(db.Text)
- entrt4 = db.Column(db.Text)
+ entry1 = db.Column(db.Text)
+ entry2 = db.Column(db.Text)
+ entry3 = db.Column(db.Text)
+ entry4 = db.Column(db.Text)
  output1 = db.Column(db.Text)
  output2 = db.Column(db.Text)
  output3 = db.Column(db.Text)
@@ -30,7 +31,7 @@ class Problem(db.Model):
  a10 = db.Column(db.Integer)
  a11 = db.Column(db.Integer)
 
- def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entrt1,entrt2,entrt3,entrt4,output1,output2,output3,output4,identifier = None,name = None,script = None):
+ def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entry1,entry2,entry3,entry4,output1,output2,output3,output4,identifier = None,name = None,script = None):
   self.a0 = a0
   self.a1 = a1
   self.a2 = a2
@@ -43,10 +44,10 @@ class Problem(db.Model):
   self.a9 = a9
   self.a10 = a10
   self.a11 = a11
-  self.entrt1 = entrt1
-  self.entrt2 = entrt2
-  self.entrt3 = entrt3
-  self.entrt4 = entrt4
+  self.entry1 = entry1
+  self.entry2 = entry2
+  self.entry3 = entry3
+  self.entry4 = entry4
   self.output1 = output1
   self.output2 = output2
   self.output3 = output3
@@ -56,7 +57,7 @@ class Problem(db.Model):
   self.script = script
 
  def getEntries(self):
-  return [self.entrt1, self.entrt2, self.entrt3, self.entrt4]
+  return [self.entry1, self.entry2, self.entry3, self.entry4]
 
  def getOutput(self):
   return [self.output1, self.output2, self.output3, self.output4]
