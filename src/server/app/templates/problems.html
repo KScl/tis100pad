@@ -4,31 +4,32 @@
 {% block head %}
   {{ super() }}
   <script src="{{ url_for('static', filename='controller/ProblemsController.js') }}"></script>
+
 {% endblock %}
 {% block content %}
   {{super()}}
-  <div class="" ng-controller="ProblemsController">
+  <div class="" ng-controller="ProblemsController"  ng-init="page = {{ page }};init()">
     <div class="container problems-list">
       
 
-      <div class="row problem-container" ng-repeat="n in [42, 42, 43, 43] track by $index">
-        <div class="col-xs-1 votes">
-          <div class="glyphicon glyphicon-arrow-up"></div>
-          <div>126</div>
-          <div class="glyphicon glyphicon-arrow-down"></div>
-        </div>
-        <div class="col-xs-2 scores">
-          <div class="col-md-4">200</div>
-          <div class="col-md-4"> 200</div>
-          <div class="col-md-4"> 200</div>
-        </div>
-        <div class="col-xs-7">
-          <div class="game-title">
-           <h3>Title</h3>
-          </div>
-           is simply dummy text of the printing and typesetting in, but also the 
-        </div>
-      </div>
+    <table class="table problems">
+      <tr>
+        <td >Votes</td>
+        <td></td>
+      </tr>
+      {% for item in items %}
+            <tr class="hover" >
+              <td >123</td>
+              <td>
+                  <div class="game-title" >
+                    <h3>{{item.name}}</h3>
+                  </div>
+                  is simply dummy text of the printing and typesetting in, but also the
+              </td>
+            </tr>
+      {% endfor %}
+    </table>
+
     </div>
   </div>
 {% endblock %}

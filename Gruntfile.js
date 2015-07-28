@@ -133,12 +133,6 @@ module.exports = function(grunt) {
                 },
                 command: ['cd bin', 'python run.py'].join(';')
             },
-            setup: {
-                options: {
-                    stdout: true
-                },
-                command: ['cd bin', 'python setup.py'].join(';')
-            },
             migrate: {
                 options: {
                     stdout: true
@@ -172,9 +166,8 @@ module.exports = function(grunt) {
     grunt.registerTask('wtch', ['build', "concurrent:watch"]);
     grunt.registerTask('build', ['newer:uglify', 'newer:copy', "newer:less"]);
     grunt.registerTask('default', ['build']);
-    grunt.registerTask('cln', ['clean']);
+    grunt.registerTask('clean-up-bin', ['clean']);
 
     grunt.registerTask('run', ['shell:run']);
     grunt.registerTask('migrate', ['shell:migrate']);
-    grunt.registerTask('setup', ["shell:setup"])
 };
