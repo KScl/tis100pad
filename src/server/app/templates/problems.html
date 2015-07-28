@@ -12,43 +12,45 @@
     <div class="container problems-list">
       
 
-    <table class="table problems">
+    <div class="problem-container table">
       {% for item in items %}
-            <tr class="hover" >
-            
-              <td>
-                  <div class="game-title" >
-                    <h3>{{item.name}}</h3>
-                  </div>
-                  is simply dummy text of the printing and typesetting in, but also the
-              </td>
-            </tr>
+          <div class="hover" >
+            <td>
+                <div class="game-title" >
+                  <h3>{{item.name}}</h3>
+                </div>
+                is simply dummy text of the printing and typesetting in, but also the
+            </td>
+          </div>
       {% endfor %}
-    </table>
+    </div>
     <div>
 
        {% macro current(index, max) -%}
         {% if index > 0%}
          {% if max  >= index %}
           {% if page == index %}
-            {{ index }}
+             <li class="active"><a href ng-click="page({{index}});">{{ index }}<span class="sr-only">(current)</span></a></li>
             {% else %}
-            <a href ng-click="page({{index}});">{{ index }}</a>
+            <li ><a href  ng-click="page({{index}});">{{ index }}</a></li>
             {% endif %}
          {% endif %}
       {% endif %}
        {%- endmacro  %}
 
-      {% if page > 1 %}
-        <a href ng-click="page({{page-1}});"><<</a>
-      {% endif %}  
+<nav>
+  <ul id="problems-pagination" class=" pagination ">
+
+{% if page > 1 %}
+        <li ><a href ng-click="page({{page-1}});">&laquo;</a></li>
+{%endif%}
 
         {{ current(page-4,maxPage) }}
         {{ current(page-3,maxPage) }}
         {{ current(page-2,maxPage) }}
         {{ current(page-1,maxPage) }}
 
-        {{ current(page,maxPage) }}
+        {{ current(page,maxPage) }} 
         {{ current(page+1,maxPage) }}
         {{ current(page+2,maxPage) }}
         {{ current(page+3,maxPage) }}
@@ -61,9 +63,11 @@
         {% if maxPage >= page + 4%}
           {{ current(maxPage,maxPage) }}
         {% endif %}
-        {% if page < maxPage %}
-            <a href ng-click="page({{page+1}})">>></a>
-       {% endif %} 
+  {% if page < maxPage %}
+           <li >  <a href ng-click="page({{page+1}})">&raquo;</a></li>
+{%endif%}
+       </ul>
+    </nav>
     </div>
 
     </div>
