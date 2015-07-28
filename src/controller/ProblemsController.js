@@ -24,5 +24,8 @@ function resize() {
 
 
 function ProblemsController($scope, Upload, $http, $window, $location) {
+    $scope.page = function(index) {
+        window.location.pathname = "/problems/" + index;
+    }
 
 };

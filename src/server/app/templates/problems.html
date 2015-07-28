@@ -8,18 +8,14 @@
 {% endblock %}
 {% block content %}
   {{super()}}
-  <div class="" ng-controller="ProblemsController"  ng-init="page = {{ page }};init()">
+  <div class="" ng-controller="ProblemsController"  ng-init="">
     <div class="container problems-list">
       
 
     <table class="table problems">
-      <tr>
-        <td >Votes</td>
-        <td></td>
-      </tr>
       {% for item in items %}
             <tr class="hover" >
-              <td >123</td>
+            
               <td>
                   <div class="game-title" >
                     <h3>{{item.name}}</h3>
@@ -29,6 +25,46 @@
             </tr>
       {% endfor %}
     </table>
+    <div>
+
+       {% macro current(index, max) -%}
+        {% if index > 0%}
+         {% if max  >= index %}
+          {% if page == index %}
+            {{ index }}
+            {% else %}
+            <a href ng-click="page({{index}});">{{ index }}</a>
+            {% endif %}
+         {% endif %}
+      {% endif %}
+       {%- endmacro  %}
+
+      {% if page > 1 %}
+        <a href ng-click="page({{page-1}});"><<</a>
+      {% endif %}  
+
+        {{ current(page-4,maxPage) }}
+        {{ current(page-3,maxPage) }}
+        {{ current(page-2,maxPage) }}
+        {{ current(page-1,maxPage) }}
+
+        {{ current(page,maxPage) }}
+        {{ current(page+1,maxPage) }}
+        {{ current(page+2,maxPage) }}
+        {{ current(page+3,maxPage) }}
+        {{ current(page+4,maxPage) }}
+
+        {% if maxPage-1 >= page + 4%}
+          ...
+         {{ current(maxPage-1,maxPage) }}
+        {% endif %}
+        {% if maxPage >= page + 4%}
+          {{ current(maxPage,maxPage) }}
+        {% endif %}
+        {% if page < maxPage %}
+            <a href ng-click="page({{page+1}})">>></a>
+       {% endif %} 
+    </div>
 
     </div>
   </div>
