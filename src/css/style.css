@@ -277,6 +277,7 @@ margin-bottom: @node-bottom-padding;
 
 .problems{
   .hover:hover{
+    cursor:pointer;
  background-color: #151414;
   }
 

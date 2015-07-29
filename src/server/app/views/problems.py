@@ -6,10 +6,14 @@ from app.model.problem import Problem
 import string
 import math
 
-mod = Blueprint('problems', __name__, url_prefix='/problems')
+mod = Blueprint('problems', __name__, url_prefix='/problem')
 
 @mod.route('/<int:page>')
 @mod.route('/')
-def root(page = 1):
+def problems(page = 1):
  page = page -1
  return render_template("problems.html", items = Problem.query.offset(page*12).limit(12), page = page+1, maxPage = int(math.ceil(Problem.query.count()/12)) + 1)
+
+@mod.route('/p/<string:problem>')
+def problem(problem):
+ return render_template("problem.html", problem = Problem.query.filter_by(identifier = problem).first())

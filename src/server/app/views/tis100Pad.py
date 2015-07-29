@@ -1,5 +1,4 @@
-from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for, jsonify
-
+from flask import Blueprint, request, render_template, flash, g, session, redirect, url_for, jsonify, redirect
 from app import db
 from app.model.solution import Solution
 from app.model.problem import Problem
@@ -8,10 +7,13 @@ import string
 
 mod = Blueprint('pad', __name__, url_prefix='/pad')
 
-@mod.route('/<int:solution>')
 @mod.route('/')
-def root(solution = -1):
- return render_template("PadView.html",solutionId = solution)
+def root():
+ return render_template("PadView.html")
+
+@mod.route('/<int:solution>')
+def routeToRoot(solution):
+ return redirect("/pad/#?id=" + str(solution))
 
 @mod.route('/solution/<int:solution>', methods=['POST','GET'])
 def getSolution(solution):

@@ -11,7 +11,7 @@
 
 {% block content %}
   {{super()}}
-  <div class="container pad" ng-controller="PadController" ng-init="id = {{ solutionId }};init()" resize>
+  <div class="container pad" ng-controller="PadController" ng-init="init()" resize>
     <div>
       <div class="game-title"><h3>{{'{{name}}'}}</h3>{{'{{identifier}}'}}</div>
     </div>

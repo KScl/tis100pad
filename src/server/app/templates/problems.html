@@ -14,8 +14,8 @@
 
     <table class="table problems">
       {% for item in items %}
-            <tr class="hover" >
-            
+            <tr class="hover" ng-click="select_problem('{{item.identifier}}')" >
+
               <td>
                   <div class="game-title" >
                     <h3>{{item.name}}</h3>
