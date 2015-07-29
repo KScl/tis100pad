@@ -245,12 +245,16 @@ margin-bottom: @node-bottom-padding;
 }
 
 .problem-container{
-   border: 3px solid #353535;
-  margin-top: 10px;
-  padding: 3px;
-  h3{
-    margin: 0px;
-  }
+  &>div{
+  margin: 10px 0px;
+  padding: 6px 0px;
+    border-bottom: 3px solid #989898;
+    }
+    .hover:hover{
+  cursor:pointer;
+  background-color: #151414;
+}
+
 }
 
 
@@ -275,11 +279,18 @@ margin-bottom: @node-bottom-padding;
 
 }
 
-.problems{
-  .hover:hover{
-    cursor:pointer;
- background-color: #151414;
-  }
+
+
+
+#problems-pagination li a{
+  background-color: black; 
+  border-radius: 0px;
+  color: white;
+  border-color: white;
+}
+
+#problems-pagination .active a{
+  background: #1D1D1D;
 
 }
 
