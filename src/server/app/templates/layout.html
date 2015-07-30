@@ -20,11 +20,22 @@
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-xs-4"><div class="double-border-center"><span>Problems</span></div></div>
-        <div class="col-xs-4"><div class="double-border-center"><span>Pad</span></div></div>
-        <div class="col-xs-4"> <div class="double-border-center"><span>Instruction Count: {{ '{{instructionCount}}'}}</span></div></div>
+    <div class="main-header" ng-controller="headerController">
+      <div class="overlay">
+        <div class="background"></div>
+        <div class="login-window">
+          this is some text
+        </div>
       </div>
+
+       <div class="account">
+          <a href>Login</a> | <a href>Sign Up</a>
+       </div>
+      <div class="row menu-items">
+        <div class="col-xs-6"><button class="tis-button">Problems</button></div>
+        <div class="col-xs-6"><button class="tis-button" ng-click="download()">Pad</button></div>
+      </div>
+    </div>
       {% block content %}
         <!--div class="header">TIS-100 PAD</div-->
       {% endblock %}

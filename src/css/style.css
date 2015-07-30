@@ -181,6 +181,8 @@ body{
 
   &:hover{
     background: gray;
+    cursor: pointer;
+
   }
 
 }
@@ -275,8 +277,24 @@ margin-bottom: @node-bottom-padding;
 .problems-list{
   padding-bottom: 20px;
   color:  white;
+}
 
-
+.overlay {
+  .background{
+    position:absolute;
+    width:100%;
+    height:100%;
+    left:0px;
+    top:0px;
+    background: rgba(0, 0, 0, 0.49);;
+    z-index: 500;
+  }
+  .login-window{
+    position:  absolute;
+    z-index: 900;
+    margin: 0px auto;
+    width: 500px;
+  }
 }
 
 
@@ -292,6 +310,24 @@ margin-bottom: @node-bottom-padding;
 #problems-pagination .active a{
   background: #1D1D1D;
 
+}
+
+.main-header{
+  .menu-items{
+    overflow: hidden;
+  }
+  .account{
+    text-align: right;
+    padding: 10px 0px;
+  }
+  .menu-items div{
+    padding: 0px 5px;
+    
+    button{
+      min-height: 40px;
+      margin-bottom: 15px;
+    }
+  }
 }
 
 
