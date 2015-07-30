@@ -17,8 +17,11 @@ def not_found(error):
 def index():
  return redirect("/pad", code=302)
 
-from app.views.tis100Pad import mod as tis100PadModule
-app.register_blueprint(tis100PadModule)
+from app.views.padService import mod as padModule
+app.register_blueprint(padModule)
 
-from app.views.problems import mod as problemsModule
-app.register_blueprint(problemsModule)
+from app.views.problemService import mod as problemModule
+app.register_blueprint(problemModule)
+
+from app.views.accountService import mod as accountModule
+app.register_blueprint(accountModule)

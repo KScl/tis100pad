@@ -1,8 +1,17 @@
 var app = angular.module('main', ['ngFileUpload', 'ngMessages']);
 
-app.controller("headerController", headerController)
+app.controller("loginController", loginController)
 
-function headerController($scope, Upload, $http, $window, $location) {
+function loginController($scope, Upload, $http, $window, $location) {
+    $scope.isLoginVisible = false;
+    $scope.selected = "login";
 
+    $scope.close = function() {
+        $scope.isLoginVisible = false;
+    }
+
+    $scope.open = function() {
+        $scope.isLoginVisible = true;
+    }
 
 }
