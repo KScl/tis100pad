@@ -30,6 +30,7 @@ class Problem(db.Model):
  a9 = db.Column(db.Integer)
  a10 = db.Column(db.Integer)
  a11 = db.Column(db.Integer)
+ description = db.Column(db.Text)
 
  def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entry1,entry2,entry3,entry4,output1,output2,output3,output4,identifier = None,name = None,script = None):
   self.a0 = a0

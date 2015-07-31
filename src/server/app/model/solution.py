@@ -1,6 +1,8 @@
 from app import db
 from app.model.problem import Problem
 
+import re
+
 class Solution(db.Model):
  __tablename__ = "solution"
  id = db.Column(db.Integer, primary_key=True)
@@ -18,6 +20,20 @@ class Solution(db.Model):
  a10 = db.Column(db.Text)
  date = db.Column(db.Date)
  a11 = db.Column(db.Text)
+ cycles = db.Column(db.Integer)
+ nodeCount = db.Column(db.Integer)
+ instructionCount = db.Column(db.Integer)
+
+ def countInstructions(self,input):
+  intstructions = 0
+  lines = re.split("/\r\n|\r|\n/g",input)
+  for line in lines:
+   if(not (line.strip() == "" or line.strip()[:1] == "#")):
+    intstructions+=1
+  return intstructions
+
+ def countNodes(self,input):
+  return int(input.strip() != "")
 
  def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,problemId):
   self.a0 = a0
@@ -33,6 +49,14 @@ class Solution(db.Model):
   self.a10 = a10
   self.a11 = a11
   self.problemId = problemId
+
+  self.cycles = -1
+  self.nodeCount = 0
+  self.instructionCount = 0
+  
+  for register in self.getRegisters():
+   self.nodeCount += self.countNodes(register)
+   self.instructionCount += self.countInstructions(register)
 
  def getRegisters(self):
   return [self.a0,self.a1,self.a2,self.a3,self.a4,self.a5,self.a6,self.a7,self.a8,self.a9,self.a10,self.a11]

@@ -17,3 +17,7 @@ def problems(page = 1):
 @mod.route('/p/<string:problem>')
 def problem(problem):
  return render_template("problem.html", problem = Problem.query.filter_by(identifier = problem).first())
+
+@mod.route('/solutions.json')
+def solutions():
+ pass
