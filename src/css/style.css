@@ -173,6 +173,12 @@ body{
     color: #B5B5B5;
 }
 
+a.tis-button{
+  padding-top: 12px;
+  color: #B5B5B5;
+  text-decoration: none;
+}
+
 .tis-button:extend(.double-border-center){
   width:100%;
   cursor: default;
@@ -248,14 +254,19 @@ margin-bottom: @node-bottom-padding;
 }
 
 .problem-container{
-  &>div{
+  &>*{
+    display: block;
   margin: 10px 0px;
   padding: 6px 0px;
     border-bottom: 3px solid #989898;
+    color: #B5B5B5;
     }
-    .hover:hover{
-  cursor:pointer;
-  background-color: #151414;
+
+&>*:hover{
+cursor:pointer;
+      background-color: #151414;
+      text-decoration: none;
+      color:#B5B5B5;
 }
 
 }
@@ -278,10 +289,6 @@ margin-bottom: @node-bottom-padding;
 .problems-list{
   padding-bottom: 20px;
   color:  white;
-}
-
-.row .tis-button{
-
 }
 
   .login{
@@ -319,11 +326,27 @@ margin-bottom: @node-bottom-padding;
   }
 
   .login-window{
-    position:  absolute;
-    z-index: 900;
-    width: 500px;
+
+  @media(max-width:767px){
+    left: 1%;
+    width:98%;
+  }
+  @media(min-width:768px){ 
+      left: 10%;
+    width:80%;
+  }
+  @media(min-width:992px){
+    left: 20%;
+    width:60%;
+  }
+  @media(min-width:1200px){ 
     left: 35%;
     width:30%;
+  }
+
+
+    position:  absolute;
+    z-index: 900;
     top: 10%;
     background:  black;
    border: 1px solid #B3B3B3;

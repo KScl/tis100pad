@@ -24,7 +24,7 @@
     <div class="container">
     <div class="main-header" ng-controller="loginController">
       <div class="overlay"  ng-class="selected" ng-show="isLoginVisible">
-          <div class="background"></div>
+          <div class="background" ng-click="close()"></div>
 
           <div class="login-window">
           <div class="top-border">
@@ -35,12 +35,12 @@
               <h3>Login</h3>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
-                <input type="text" class="form-control tis-text" placeholder="Name">
+                <input ng-model="loginName" type="text" class="form-control tis-text" placeholder="Name">
               </div>
 
               <div class="form-group">
                 <label for="exampleInputEmail1" >Password</label>
-                <input type="password" class="form-control tis-text" placeholder="Password">
+                <input ng-model="loginPassowrd" type="password" class="form-control tis-text" placeholder="Password">
               </div>
               <div class="checkbox">
                <label>
@@ -52,16 +52,16 @@
               <h3>Register</h3>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
-                <input type="text" class="form-control tis-text" placeholder="Name">
+                <input type="text" ng-model="createName" class="form-control tis-text" placeholder="Name">
               </div>
 
               <div class="form-group">
                 <label for="exampleInputEmail1" >Password</label>
-                <input type="password" class="form-control tis-text" placeholder="Password">
+                <input type="password" ng-model="createPassword" class="form-control tis-text" placeholder="Password">
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1" >Re-Enter Password</label>
-                <input type="password" class="form-control tis-text" placeholder="Password">
+                <input type="password" ng-model="createRePassword" class="form-control tis-text" placeholder="Password">
               </div>
 
               <div class="g-recaptcha" data-sitekey="6LcziQoTAAAAADQsrcVPz4DocjldFsn8XGb76q8k"></div>
@@ -71,7 +71,7 @@
          
           <div class="container-fluid">
             <div class="row">
-               <div class="col-xs-12"> <button class="tis-button submit-button">Submit</button></div>
+               <div class="col-xs-12"> <button class="tis-button submit-button" ng-click="submit()">Submit</button></div>
               <div class="col-xs-6"> <button class="tis-button login-button" ng-click="selected = 'login';">Login</button></div>
               <div class="col-xs-6"><button class="tis-button new-account-button" ng-click="selected ='register';">New Account</button></div>
             </div>

@@ -7,3 +7,11 @@ import string
 import math
 
 mod = Blueprint('account', __name__, url_prefix='/account')
+
+@mod.route("login.json")
+def login():
+ return "";
+
+@mod.route("create.json")
+def createAccount():
+ return "";
