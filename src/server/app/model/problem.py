@@ -65,6 +65,30 @@ class Problem(db.Model):
 
  def getRegisters(self):
   return [self.a0,self.a1,self.a2,self.a3,self.a4,self.a5,self.a6,self.a7,self.a8,self.a9,self.a10,self.a11]
+ 
+ def __eq__(self, other):
+  if isinstance(other, self.__class__):
+   for x,y in zip(other.getRegisters(),self.getRegisters()):
+    if x != y:
+     return False
+
+   for x,y in zip(other.getOutput(),self.getOutput()):
+    if str(x) != str(y):
+     print "fail"
+     return False
+
+   for x,y in zip(other.getOutput(),self.getOutput()):
+    if str(x) != str(y):
+     return False
+  else:
+   return False
+  return True
+ 
+ def isValid(self):
+  for register in self.getRegisters():
+   if register != self.EXEC and register != self.STCK and register != self.ERR :
+    return False
+  return True
 
  def getRegistersGrid(self):
    return [

@@ -9,14 +9,27 @@
 {% block content %}
   {{super()}}
 
-  <div ng-controller="ProblemController">
+  <div ng-controller="ProblemController" ng-init="id = {{problem.id}};init(); ">
       <div class="game-title"><h3>{{problem.name}}</h3>{{problem.identifier}}</div>
 
-    <div class="container-fluid">
+    <div class="container-fluid solution-list tis-list-container">
+
       <div class="row">
-        <div class="col-xs-4">100/100/100</div>
-        <div class="col-xs-8">.col-md-8</div>
+        <div class="col-xs-8 stats">
+          <span><a href ng-click="updateOrder('CYL')">CYL</a><div ng-if="ordering == 'CYL'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> / 
+          <span><a href ng-click="updateOrder('INS')">INS</a><div ng-if="ordering == 'INS'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> / 
+          <span><a href ng-click="updateOrder('NOD')">NOD</a><div ng-if="ordering == 'NOD'" class="selection glyphicon glyphicon-triangle-bottom"></div></span></div>
+        <div class="col-xs-4"></div>
       </div>
+
+      <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
+        <div class="col-xs-8 stats">
+         <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span> 
+         <span ng-if="item.cycles == -1">NILL</span> 
+         / <span>{{ '{{item.instructionCount}}'}}</span> 
+         / <span>{{'{{item.nodeCount}}'}}</span></div>
+        <div class="col-xs-4">No User</div>
+      </a>
     </div>
   </div>
 {% endblock %}

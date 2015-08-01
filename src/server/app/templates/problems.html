@@ -10,7 +10,7 @@
   {{super()}}
   <div class="" ng-controller="ProblemsController"  ng-init="">
 
-    <div class="problem-container problems-list">
+    <div class="tis-list-container problems-list">
       {% for item in items %}
           <a class="hover" ng-href="/problem/p/{{item.identifier}}">
             <td>
@@ -29,9 +29,9 @@
         {% if index > 0%}
          {% if max  >= index %}
           {% if page == index %}
-             <li class="active"><a href ng-click="page({{index}});">{{ index }}<span class="sr-only">(current)</span></a></li>
+             <li class="active"><a href ng-href="/problem/{{index}}">{{ index }}<span class="sr-only">(current)</span></a></li>
             {% else %}
-            <li ><a href  ng-click="page({{index}});">{{ index }}</a></li>
+            <li ><a href  ng-href="/problem/{{index}}">{{ index }}</a></li>
             {% endif %}
          {% endif %}
       {% endif %}
@@ -41,7 +41,7 @@
   <ul id="problems-pagination" class=" pagination ">
 
 {% if page > 1 %}
-        <li ><a href ng-click="page({{page-1}});">&laquo;</a></li>
+        <li ><a href ng-href="/problem/{{page-1}}">&laquo;</a></li>
 {%endif%}
 
         {{ current(page-4,maxPage) }}
@@ -56,14 +56,14 @@
         {{ current(page+4,maxPage) }}
 
         {% if maxPage-1 >= page + 4%}
-          ...
+
          {{ current(maxPage-1,maxPage) }}
         {% endif %}
         {% if maxPage >= page + 4%}
           {{ current(maxPage,maxPage) }}
         {% endif %}
   {% if page < maxPage %}
-           <li >  <a href ng-click="page({{page+1}})">&raquo;</a></li>
+           <li >  <a href ng-href="/problem/{{page+1}}">&raquo;</a></li>
 {%endif%}
        </ul>
     </nav>

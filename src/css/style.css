@@ -240,11 +240,11 @@ margin-bottom: @node-bottom-padding;
   text-align: center;
   color: white;
   &>*{
-    visibility: hidden;
+    color: #1F1F1F;
   }
 
   &>.active{
-    visibility: visible;
+    color: #FFFFFF;
   }
 }
 
@@ -253,16 +253,16 @@ margin-bottom: @node-bottom-padding;
 
 }
 
-.problem-container{
+.tis-list-container{
   &>*{
     display: block;
-  margin: 10px 0px;
+      margin: 10px 0px;
   padding: 6px 0px;
     border-bottom: 3px solid #989898;
     color: #B5B5B5;
     }
 
-&>*:hover{
+&>.hover:hover{
 cursor:pointer;
       background-color: #151414;
       text-decoration: none;
@@ -398,6 +398,27 @@ cursor:pointer;
 #problems-pagination .active a{
   background: #1D1D1D;
 
+}
+
+.stats{
+  font-size: 20px;
+  .selection{
+    position:  absolute;
+    left: 50%-5px;
+    top: 100%-20px;
+    font-size: 10px;
+  }
+  a{
+        color: #8A8A8A;
+        text-decoration: none;
+  }
+
+  >*{
+      position:  relative;
+    min-width: 34px;
+    text-align: center;
+    display: inline-block;
+  }
 }
 
 .main-header{

@@ -190,7 +190,9 @@ function PadController($scope, Upload, $http, $window, $location) {
     $scope.save = function() {
         $http.post('/pad/save.json', {
             nodes: $scope.nodes,
-            problemId: $scope.id
+            problemId: $scope.id,
+            input: $scope.in,
+            out: $scope.out
         }).
         success(function(data, status, headers, config) {
             if (data.errors) {
@@ -198,7 +200,7 @@ function PadController($scope, Upload, $http, $window, $location) {
             } else {
                 $location.search("id", data.id);
                 $scope.id = data.id;
-                //window.location.pathname = "/pad/" + data.id;
+                $scope.init();
             }
         }).
         error(function(data, status, headers, config) {

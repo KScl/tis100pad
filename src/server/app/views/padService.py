@@ -31,40 +31,44 @@ def getSolution(solution):
 @mod.route('/save.json', methods=['POST'])
 def save():
  nodes = request.get_json().get("nodes")
- problem = Problem(
+ problemId = request.get_json().get("problemId")
+ input = request.get_json().get("input")
+ output = request.get_json().get("out")
+
+ problemById = Problem.query.filter_by(id = problemId).first()
+ problemByState = Problem(
   nodes[0][0].get("state"),nodes[0][1].get("state"),nodes[0][2].get("state"),nodes[0][3].get("state"),
   nodes[1][0].get("state"),nodes[1][1].get("state"),nodes[1][2].get("state"),nodes[1][3].get("state"),
-  nodes[2][0].get("state"),nodes[2][1].get("state"),nodes[2][2].get("state"),nodes[2][3].get("state"),0,0,0,0,0,0,0,0)
- matching = True
+  nodes[2][0].get("state"),nodes[2][1].get("state"),nodes[2][2].get("state"),nodes[2][3].get("state"),
+  int(input[0]["active"]),int(input[1]["active"]),int(input[2]["active"]),int(input[3]["active"]),
+  int(output[0]["active"]),int(output[1]["active"]),int(output[2]["active"]),int(output[3]["active"]))
 
- for item in problem.getRegisters():
-  if not (item == Problem.EXEC or item == Problem.ERR or item == Problem.STCK):
-   err = ['illegal data']
-   return jsonify(errors = err)
+ if not problemByState.isValid():
+  err = ['illegal data']
+  return jsonify(errors = err)
 
- match = True
- if request.get_json().get("problemId") != -1 :
-  problemById = Problem.query.filter_by(id = request.get_json().get("problemId")).first()
-  for i in range(len(problemById.getRegisters())):
-   if problem.getRegisters()[i] != problemById.getRegisters()[i]:
-    match = False
-    break
-  if match == True:
-   problem = problemById
- 
- db.session.add(problem)
- db.session.flush()
+ finalProblem = None
+ if problemByState == problemById:
+  finalProblem = problemById
+ else:
+  finalProblem = problemByState
+  db.session.add(finalProblem)
+  db.session.flush()
+
  solution = Solution( 
   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
-  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),problem.id)
+  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),finalProblem.id)
+
  if solution.isEmpty():
   err = ['no solution submitted']
   return jsonify(errors = err)
+
  db.session.add(solution)
  db.session.flush()
  db.session.commit()
- return jsonify(id= solution.id)
+ return jsonify(id = solution.id)
+
 
 @mod.route('/problem.json', methods=['POST'])
 def problem():
