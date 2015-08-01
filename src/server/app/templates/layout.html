@@ -14,12 +14,80 @@
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/angular-messages.min.js') }}"></script>
 
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+
     <script src="{{ url_for('static', filename='app.js') }}"></script>
     <title>{% block title %}{% endblock %} - TIS </title>
     {% endblock %}
   </head>
   <body>
     <div class="container">
+    <div class="main-header" ng-controller="loginController">
+      <div class="overlay"  ng-class="selected" ng-show="isLoginVisible">
+          <div class="background" ng-click="close()"></div>
+
+          <div class="login-window">
+          <div class="top-border">
+            <div class="exit" ng-click="close()">X</div>
+          </div>
+          <div class="main-window">
+            <div class="login-win">
+              <h3>Login</h3>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input ng-model="loginName" type="text" class="form-control tis-text" placeholder="Name">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputEmail1" >Password</label>
+                <input ng-model="loginPassowrd" type="password" class="form-control tis-text" placeholder="Password">
+              </div>
+              <div class="checkbox">
+               <label>
+                  <input type="checkbox"> Remember Me
+               </label>
+             </div>
+            </div>
+            <div class="register-win">
+              <h3>Register</h3>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" ng-model="createName" class="form-control tis-text" placeholder="Name">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleInputEmail1" >Password</label>
+                <input type="password" ng-model="createPassword" class="form-control tis-text" placeholder="Password">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1" >Re-Enter Password</label>
+                <input type="password" ng-model="createRePassword" class="form-control tis-text" placeholder="Password">
+              </div>
+
+              <div class="g-recaptcha" data-sitekey="6LcziQoTAAAAADQsrcVPz4DocjldFsn8XGb76q8k"></div>
+
+            </div>
+          </div>
+         
+          <div class="container-fluid">
+            <div class="row">
+               <div class="col-xs-12"> <button class="tis-button submit-button" ng-click="submit()">Submit</button></div>
+              <div class="col-xs-6"> <button class="tis-button login-button" ng-click="selected = 'login';">Login</button></div>
+              <div class="col-xs-6"><button class="tis-button new-account-button" ng-click="selected ='register';">New Account</button></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+       <div class="account">
+          <!--a href ng-click="open()">Login / Sign Up</a-->
+       </div>
+      <div class="row menu-items">
+        <div class="col-xs-6"><a class="tis-button" ng-href="/problem">Problems</a></div>
+        <div class="col-xs-6"><a class="tis-button" ng-href="/pad">Pad</a></div>
+      </div>
+    </div>
       {% block content %}
         <!--div class="header">TIS-100 PAD</div-->
       {% endblock %}

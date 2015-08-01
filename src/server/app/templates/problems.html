@@ -4,31 +4,71 @@
 {% block head %}
   {{ super() }}
   <script src="{{ url_for('static', filename='controller/ProblemsController.js') }}"></script>
+
 {% endblock %}
 {% block content %}
   {{super()}}
-  <div class="" ng-controller="ProblemsController">
-    <div class="container problems-list">
-      
+  <div class="" ng-controller="ProblemsController"  ng-init="">
 
-      <div class="row problem-container" ng-repeat="n in [42, 42, 43, 43] track by $index">
-        <div class="col-xs-1 votes">
-          <div class="glyphicon glyphicon-arrow-up"></div>
-          <div>126</div>
-          <div class="glyphicon glyphicon-arrow-down"></div>
-        </div>
-        <div class="col-xs-2 scores">
-          <div class="col-md-4">200</div>
-          <div class="col-md-4"> 200</div>
-          <div class="col-md-4"> 200</div>
-        </div>
-        <div class="col-xs-7">
-          <div class="game-title">
-           <h3>Title</h3>
-          </div>
-           is simply dummy text of the printing and typesetting in, but also the 
-        </div>
-      </div>
+    <div class="tis-list-container problems-list">
+      {% for item in items %}
+          <a class="hover" ng-href="/problem/p/{{item.identifier}}">
+            <td>
+                <div class="game-title" >
+                  <h3>{{item.name}}</h3>
+                </div>
+                {{item.description}}
+            </td>
+          </a>
+
+      {% endfor %}
+    </div>
+    <div>
+
+       {% macro current(index, max) -%}
+        {% if index > 0%}
+         {% if max  >= index %}
+          {% if page == index %}
+             <li class="active"><a href ng-href="/problem/{{index}}">{{ index }}<span class="sr-only">(current)</span></a></li>
+            {% else %}
+            <li ><a href  ng-href="/problem/{{index}}">{{ index }}</a></li>
+            {% endif %}
+         {% endif %}
+      {% endif %}
+       {%- endmacro  %}
+
+<nav>
+  <ul id="problems-pagination" class=" pagination ">
+
+{% if page > 1 %}
+        <li ><a href ng-href="/problem/{{page-1}}">&laquo;</a></li>
+{%endif%}
+
+        {{ current(page-4,maxPage) }}
+        {{ current(page-3,maxPage) }}
+        {{ current(page-2,maxPage) }}
+        {{ current(page-1,maxPage) }}
+
+        {{ current(page,maxPage) }} 
+        {{ current(page+1,maxPage) }}
+        {{ current(page+2,maxPage) }}
+        {{ current(page+3,maxPage) }}
+        {{ current(page+4,maxPage) }}
+
+        {% if maxPage-1 >= page + 4%}
+
+         {{ current(maxPage-1,maxPage) }}
+        {% endif %}
+        {% if maxPage >= page + 4%}
+          {{ current(maxPage,maxPage) }}
+        {% endif %}
+  {% if page < maxPage %}
+           <li >  <a href ng-href="/problem/{{page+1}}">&raquo;</a></li>
+{%endif%}
+       </ul>
+    </nav>
+    </div>
+
     </div>
   </div>
 {% endblock %}
