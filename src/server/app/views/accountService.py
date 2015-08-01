@@ -8,10 +8,13 @@ import math
 
 mod = Blueprint('account', __name__, url_prefix='/account')
 
-@mod.route("login.json")
+@mod.route("/login.json")
 def login():
  return "";
 
-@mod.route("create.json")
+@mod.route("/create.json")
 def createAccount():
- return "";
+ name = request.get_json().get("name")
+ password = request.get_json().get("password")
+ reEnterPassword = request.get_json().get("repassword")
+ captcha = request.get_json().get("captcha")

@@ -13,6 +13,10 @@ db = SQLAlchemy(app)
 def not_found(error):
 	return render_template('404.html'), 404
 
+@app.context_processor
+def inject_recaptcha():
+ return dict(public_token = app.config["RECAPTCHA_PUBLIC_TOKEN"])
+
 @app.route('/')
 def index():
  return redirect("/pad", code=302)

@@ -17,6 +17,8 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
     <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='controller/AccountController.js') }}"></script>
     <title>{% block title %}{% endblock %} - TIS </title>
     {% endblock %}
   </head>
@@ -35,12 +37,12 @@
               <h3>Login</h3>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
-                <input ng-model="loginName" type="text" class="form-control tis-text" placeholder="Name">
+                <input ng-model="login.name" type="text" class="form-control tis-text" placeholder="Name">
               </div>
 
               <div class="form-group">
                 <label for="exampleInputEmail1" >Password</label>
-                <input ng-model="loginPassowrd" type="password" class="form-control tis-text" placeholder="Password">
+                <input ng-model="login.password" type="password" class="form-control tis-text" placeholder="Password">
               </div>
               <div class="checkbox">
                <label>
@@ -52,19 +54,19 @@
               <h3>Register</h3>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
-                <input type="text" ng-model="createName" class="form-control tis-text" placeholder="Name">
+                <input type="text" ng-model="account.name" class="form-control tis-text" placeholder="Name">
               </div>
 
               <div class="form-group">
                 <label for="exampleInputEmail1" >Password</label>
-                <input type="password" ng-model="createPassword" class="form-control tis-text" placeholder="Password">
+                <input type="password" ng-model="account.password" class="form-control tis-text" placeholder="Password">
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail1" >Re-Enter Password</label>
-                <input type="password" ng-model="createRePassword" class="form-control tis-text" placeholder="Password">
+                <input type="password" ng-model="account.repassword" class="form-control tis-text" placeholder="Password">
               </div>
 
-              <div class="g-recaptcha" data-sitekey="6LcziQoTAAAAADQsrcVPz4DocjldFsn8XGb76q8k"></div>
+              <div class="g-recaptcha" data-sitekey="{{public_token}}"></div>
 
             </div>
           </div>
@@ -81,7 +83,7 @@
       </div>
 
        <div class="account">
-          <!--a href ng-click="open()">Login / Sign Up</a-->
+          <a href ng-click="open()">Login / Sign Up</a>
        </div>
       <div class="row menu-items">
         <div class="col-xs-6"><a class="tis-button" ng-href="/problem">Problems</a></div>
