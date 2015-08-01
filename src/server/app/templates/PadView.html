@@ -11,7 +11,7 @@
 
 {% block content %}
   {{super()}}
-  <div class="container pad" ng-controller="PadController" ng-init="id = {{ solutionId }};init()" resize>
+  <div class="container pad" ng-controller="PadController" ng-init="init()" resize>
     <div>
       <div class="game-title"><h3>{{'{{name}}'}}</h3>{{'{{identifier}}'}}</div>
     </div>
@@ -20,10 +20,10 @@
         <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
           <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
            <div class="row input">
-            <div class="col-xs-3" ng-class="in[0].getClass()">IN{{'{{in[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-class="in[1].getClass()">IN{{'{{in[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-class="in[2].getClass()">IN{{'{{in[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3"ng-class="in[3].getClass()">IN{{'{{in[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="in[0].active = !in[0].active;" ng-class="in[0].getClass()">IN{{'{{in[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="in[1].active = !in[1].active;" ng-class="in[1].getClass()">IN{{'{{in[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="in[2].active = !in[2].active;" ng-class="in[2].getClass()">IN{{'{{in[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="in[3].active = !in[3].active;" ng-class="in[3].getClass()">IN{{'{{in[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
            </div>
           {% for x in range(0,3) %}
             <div class="row node-row" >
@@ -57,10 +57,10 @@
             </div>
           {% endfor %}
           <div class="row output">
-            <div class="col-xs-3" ng-class="out[0].getClass()">OUT{{'{{out[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-class="out[1].getClass()">OUT{{'{{out[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-class="out[2].getClass()">OUT{{'{{out[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-class="out[3].getClass()">OUT{{'{{out[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="out[0].active = !out[0].active;" ng-class="out[0].getClass()">OUT{{'{{out[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="out[1].active = !out[1].active;" ng-class="out[1].getClass()">OUT{{'{{out[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="out[2].active = !out[2].active;" ng-class="out[2].getClass()">OUT{{'{{out[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="out[3].active = !out[3].active;" ng-class="out[3].getClass()">OUT{{'{{out[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
            </div>
 
         </div>

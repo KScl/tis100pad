@@ -30,6 +30,7 @@ class Problem(db.Model):
  a9 = db.Column(db.Integer)
  a10 = db.Column(db.Integer)
  a11 = db.Column(db.Integer)
+ description = db.Column(db.Text)
 
  def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entry1,entry2,entry3,entry4,output1,output2,output3,output4,identifier = None,name = None,script = None):
   self.a0 = a0
@@ -64,6 +65,30 @@ class Problem(db.Model):
 
  def getRegisters(self):
   return [self.a0,self.a1,self.a2,self.a3,self.a4,self.a5,self.a6,self.a7,self.a8,self.a9,self.a10,self.a11]
+ 
+ def __eq__(self, other):
+  if isinstance(other, self.__class__):
+   for x,y in zip(other.getRegisters(),self.getRegisters()):
+    if x != y:
+     return False
+
+   for x,y in zip(other.getOutput(),self.getOutput()):
+    if str(x) != str(y):
+     print "fail"
+     return False
+
+   for x,y in zip(other.getOutput(),self.getOutput()):
+    if str(x) != str(y):
+     return False
+  else:
+   return False
+  return True
+ 
+ def isValid(self):
+  for register in self.getRegisters():
+   if register != self.EXEC and register != self.STCK and register != self.ERR :
+    return False
+  return True
 
  def getRegistersGrid(self):
    return [

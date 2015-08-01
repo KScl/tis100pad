@@ -119,8 +119,9 @@ function PadController($scope, Upload, $http, $window, $location) {
     }
 
     $scope.init = function() {
+        if ($location.search().id >= 0) {
+            $scope.id = $location.search().id;
 
-        if ($scope.id != -1) {
             $http.post('/pad/solution/' + $scope.id, {}).
             success(function(data, status, headers, config) {
 
@@ -189,13 +190,17 @@ function PadController($scope, Upload, $http, $window, $location) {
     $scope.save = function() {
         $http.post('/pad/save.json', {
             nodes: $scope.nodes,
-            problemId: $scope.id
+            problemId: $scope.id,
+            input: $scope.in,
+            out: $scope.out
         }).
         success(function(data, status, headers, config) {
             if (data.errors) {
                 $scope.errors = data.errors;
             } else {
-                window.location.pathname = "/pad/" + data.id;
+                $location.search("id", data.id);
+                $scope.id = data.id;
+                $scope.init();
             }
         }).
         error(function(data, status, headers, config) {
@@ -226,7 +231,7 @@ function PadController($scope, Upload, $http, $window, $location) {
     }
 
     $scope.new_solution = function() {
-        window.location.pathname = "/pad/";
+        //window.location.pathname = "/pad/";
         for (var x = $scope.nodes.length - 1; x >= 0; x--) {
             for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
                 $scope.nodes[x][y].text = "";
@@ -259,7 +264,10 @@ function PadController($scope, Upload, $http, $window, $location) {
                     if (data.errors) {
                         $scope.errors = data.errors
                     } else {
-                        window.location.pathname = "/pad/" + data.id;
+                        $location.search("id", data.id);
+                        $scope.id = data.id;
+                        $scope.init();
+                        //window.location.pathname = "/pad/" + data.id;
                     }
                 });
                 return false;
