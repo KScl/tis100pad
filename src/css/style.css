@@ -357,7 +357,10 @@ cursor:pointer;
         border-left: 1px solid white;
     }
     .main-window{
-      padding: 0px 9px;
+      form>h3,.form-group, .checkbox{
+        padding: 0px 9px;
+      }
+
     }
     .top-border{
       width: 100%;
@@ -445,6 +448,18 @@ cursor:pointer;
   &:focus{
     box-shadow:none;
   }
+}
+
+.error-group{
+  margin-bottom: 5px;
+}
+
+.simple-alert{
+  padding: 0px 0px 0px 0px;
+  border:none;
+  background:none;
+  color: #FF7572;
+  margin-bottom:0px;
 }
 
 footer{

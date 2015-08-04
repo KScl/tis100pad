@@ -1,6 +1,7 @@
 from app import db
 
 import hashlib
+from app import app
 
 class Account(db.Model):
  id = db.Column(db.Integer, primary_key=True)
@@ -12,13 +13,13 @@ class Account(db.Model):
   hash = hashlib.sha256()
   hash.update(password)
   hash.update(app.config["PASSWORD_HASH"])
-  self.password = hash.digest().hexdigest()
+  self.password = hash.hexdigest()
 
  def checkPassword(password):
   hash = hashlib.sha256()
   hash.update(password)
   hash.update(app.config["PASSWORD_HASH"])
-  password = hash.digest().hexdigest()
+  password = hash.hexdigest()
   if(password == self.password):
    return True
   return False

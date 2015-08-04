@@ -10,9 +10,12 @@
     <script src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/FileAPI.min.js') }}"></script>
+     <script src="{{ url_for('static', filename='lib/js/ui-bootstrap.min.js') }}"></script>
+     <script src="{{ url_for('static', filename='lib/js/ui-bootstrap-tpls.min.js') }}" ></script>
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/angular-messages.min.js') }}"></script>
+
 
     <script src='https://www.google.com/recaptcha/api.js'></script>
 
@@ -33,47 +36,67 @@
             <div class="exit" ng-click="close()">X</div>
           </div>
           <div class="main-window">
-            <div class="login-win">
+            
+            <form name="Login" class="login-win" novalidate>
               <h3>Login</h3>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
-                <input ng-model="login.name" type="text" class="form-control tis-text" placeholder="Name">
+                <input  type="text" class="form-control tis-text" ng-model="login.name" placeholder="Name" name="Name" required="">
+              <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Name.$touched) &&Login.Name.$error.required">Required</alert>
               </div>
+
 
               <div class="form-group">
                 <label for="exampleInputEmail1" >Password</label>
-                <input ng-model="login.password" type="password" class="form-control tis-text" placeholder="Password">
+                <input type="password" class="form-control tis-text" placeholder="Password" ng-model="login.password" name="Password" required="">
+                <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Password.$touched) && Login.Password.$error.required">Required</alert>
               </div>
+
               <div class="checkbox">
                <label>
                   <input type="checkbox"> Remember Me
                </label>
              </div>
-            </div>
-            <div class="register-win">
+              <input type="submit" class="tis-button submit-button" ng-click="submit()"></input>
+            </form>
+
+            <form name="NewAccount" class="register-win" novalidate>
               <h3>Register</h3>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
-                <input type="text" ng-model="account.name" class="form-control tis-text" placeholder="Name">
+                <input type="text" ng-model="NewAccount.name" name="Name" class="form-control tis-text" placeholder="Name" verify="" ng-model-options="{ debounce: 150 }" required=""/>
+                 <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.Name.$touched) &&NewAccount.Name.$error.required">Required</alert>
+
+                  <alert type="danger" class="simple-alert" ng-show="NewAccount.Name.$pending.verify">Checking Username</alert>
+                  <alert type="danger" class="simple-alert" ng-show="NewAccount.Name.$error.verify">Username Already Used</alert>
               </div>
+        
 
               <div class="form-group">
                 <label for="exampleInputEmail1" >Password</label>
-                <input type="password" ng-model="account.password" class="form-control tis-text" placeholder="Password">
+                <input type="password" name="Password" ng-model="NewAccount.password" class="form-control tis-text" placeholder="Password" required="" match="">
+                <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.Password.$touched) &&NewAccount.Password.$error.required">Required</alert>
+                  <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.Password.$touched) && (NewAccount.Password.$error.match)">Passwords Don't Match</alert>
               </div>
+
               <div class="form-group">
                 <label for="exampleInputEmail1" >Re-Enter Password</label>
-                <input type="password" ng-model="account.repassword" class="form-control tis-text" placeholder="Password">
+                <input type="password"  name="RepeatPassword" ng-model="NewAccount.repeatPassword" class="form-control tis-text"  placeholder="Password" required="">
+                <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.RepeatPassword.$touched) &&NewAccount.RepeatPassword.$error.required">Required</alert>
               </div>
 
-              <div class="g-recaptcha" data-sitekey="{{public_token}}"></div>
+               <div class="form-group">
+                 <div class="g-recaptcha" data-sitekey="{{public_token}}"></div>
+              </div>
 
-            </div>
+              <input type="submit" class="tis-button submit-button" ng-click="createNewAccount()"></input>
+            </form>
+
           </div>
          
           <div class="container-fluid">
             <div class="row">
-               <div class="col-xs-12"> <button class="tis-button submit-button" ng-click="submit()">Submit</button></div>
+               
               <div class="col-xs-6"> <button class="tis-button login-button" ng-click="selected = 'login';">Login</button></div>
               <div class="col-xs-6"><button class="tis-button new-account-button" ng-click="selected ='register';">New Account</button></div>
             </div>
