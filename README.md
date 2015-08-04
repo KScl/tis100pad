@@ -18,6 +18,7 @@ pip libraries
 ```
 pip install flask
 pip install flask-sqlalchemy
+pip install Flask-KVSession
 ```
 
 ###Configuration
