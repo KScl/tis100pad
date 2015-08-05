@@ -19,6 +19,7 @@ pip libraries
 pip install flask
 pip install flask-sqlalchemy
 pip install Flask-KVSession
+pip install Redis
 ```
 
 ###Configuration
