@@ -391,16 +391,23 @@ cursor:pointer;
 
 
 
-#problems-pagination li a{
+.pagination li a{
   background-color: black; 
   border-radius: 0px;
   color: white;
   border-color: white;
+  border-radius: 0px !important;
+  
+
 }
 
-#problems-pagination .active a{
-  background: #1D1D1D;
 
+.pagination .active a{
+  background: #1D1D1D;
+      border-color: #FFFFFF;
+}
+.pagination .active a:hover{
+      border-color: #FFFFFF;
 }
 
 .stats{
@@ -461,6 +468,7 @@ cursor:pointer;
   color: #FF7572;
   margin-bottom:0px;
 }
+
 
 footer{
   padding-bottom: 20px;

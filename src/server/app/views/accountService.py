@@ -12,9 +12,19 @@ import math
 
 mod = Blueprint('account', __name__, url_prefix='/account')
 
-@mod.route("/login.json")
+@mod.route("/login.json", methods=['POST'])
 def login():
- return ""
+ name = request.get_json().get("name")
+ password = request.get_json().get("password")
+ account =Account.query.filter_by(name = name).first()
+ if(account == None):
+  return jsonify(result = False)
+ if account.checkPassword(password) == True:
+  session["account.name"] = account.name
+  session["account.id"] = account.id
+  return jsonify(result = True)
+ else:
+  return jsonify(result = False)
 
 @mod.route("/create.json", methods=['POST'])
 def createAccount():
@@ -28,7 +38,6 @@ def createAccount():
  	"secret":secrete,
     "response":captcha})
  results = json.loads(req.text)
- print results
  if results["success"] == True:
   account = Account(name,password)
   db.session.add(account)
@@ -36,7 +45,7 @@ def createAccount():
   db.session.commit();
   return jsonify(result = True)
  else:
-  return jsonify(result = False)
+  return jsonify(result = False, err = results['error-codes'])
 
 @mod.route("/nameCheck.json",methods=['POST'])
 def nameCheck():
@@ -45,3 +54,16 @@ def nameCheck():
  else:
   return jsonify(result = False)
 
+
+@mod.route("/verify.json",methods=['POST'])
+def verify():
+ if session.has_key("account.name"):
+  return jsonify(result = True,name = session.get("account.name"))
+ return jsonify(result = False,name = "")
+
+
+@mod.route("/logout.json",methods=['POST'])
+def logout():
+ session.pop("account.name")
+ session.pop("account.id")
+ return jsonify(result = True)

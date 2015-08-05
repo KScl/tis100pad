@@ -1,13 +1,22 @@
 import os
 import sys
+import redis
 
 from flask import Flask, render_template,redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from flask_kvsession import KVSessionExtension
+from simplekv.memory.redisstore import RedisStore
+
+store = RedisStore(redis.StrictRedis())
+
 app = Flask(__name__)
+KVSessionExtension(store, app)
+
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
+
 
 @app.errorhandler(404)
 def not_found(error):

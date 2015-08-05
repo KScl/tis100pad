@@ -15,7 +15,7 @@ class Account(db.Model):
   hash.update(app.config["PASSWORD_HASH"])
   self.password = hash.hexdigest()
 
- def checkPassword(password):
+ def checkPassword(self,password):
   hash = hashlib.sha256()
   hash.update(password)
   hash.update(app.config["PASSWORD_HASH"])

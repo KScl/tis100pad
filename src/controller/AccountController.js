@@ -32,9 +32,7 @@ app.controller("loginController", loginController)
                             def.reject();
                         }
                     });
-
                     return def.promise;
-
                 };
             }
         }
@@ -43,6 +41,9 @@ app.controller("loginController", loginController)
 function loginController($scope, Upload, $http, $window, $location) {
     $scope.isLoginVisible = false;
     $scope.selected = "login";
+    $scope.username = "";
+    $scope.newAccountAlerts = [];
+    $scope.loginAlerts = [];
 
     $scope.$watch("NewAccount.repeatPassword", function() {
         $scope.NewAccount.Password.$validate();
@@ -56,9 +57,20 @@ function loginController($scope, Upload, $http, $window, $location) {
         $scope.isLoginVisible = true;
     }
 
+    $scope.verifySession = function() {
+        $http.post("/account/verify.json", {})
+            .success(function(data, status, headers, config) {
+                if (data.result == true) {
+                    $scope.username = data.name;
+                    $scope.close();
+                } else {
+                    $scope.username = "";
+                }
+            });
+    }
 
     $scope.createNewAccount = function() {
-        console.log($scope.getRecaptchaResponse())
+        //console.log($scope.getRecaptchaResponse())
         if ($scope.NewAccount.$valid) {
             $http.post('/account/create.json', {
                 name: $scope.NewAccount.name,
@@ -66,9 +78,39 @@ function loginController($scope, Upload, $http, $window, $location) {
                 captcha: $scope.getRecaptchaResponse()
             }).
             success(function(data, status, headers, config) {
-
+                if (data.result == true) {
+                    $scope.verifySession();
+                } else {
+                    if (data.err) {
+                        $scope.newAccountAlerts = data.err;
+                    }
+                }
             });
         }
+    }
+
+    $scope.accountLogin = function() {
+        if ($scope.Login.$valid) {
+            $http.post('/account/login.json', {
+                name: $scope.login.name,
+                password: $scope.login.password,
+            }).
+            success(function(data, status, headers, config) {
+                if (data.result == true) {
+                    $scope.verifySession();
+                    if (data.err != null)
+                        $scope.loginAlerts = data.err;
+                }
+            });
+        }
+
+    }
+
+    $scope.logout = function() {
+        $http.post('/account/logout.json', {}).
+        success(function(data, status, headers, config) {
+            $scope.verifySession();
+        });
     }
 
     $scope.getRecaptchaResponse = function() {

@@ -27,7 +27,7 @@
   </head>
   <body>
     <div class="container">
-    <div class="main-header" ng-controller="loginController">
+    <div class="main-header" ng-controller="loginController" ng-init="verifySession()">
       <div class="overlay"  ng-class="selected" ng-show="isLoginVisible">
           <div class="background" ng-click="close()"></div>
 
@@ -38,11 +38,16 @@
           <div class="main-window">
             
             <form name="Login" class="login-win" novalidate>
+
               <h3>Login</h3>
+               <div class="form-group">
+                <alert ng-repeat="alert in loginAlerts" type="danger" close="loginAlerts.splice(index, 1);">{{'{{alert}}'}}</alert>
+             </div>
+              
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
                 <input  type="text" class="form-control tis-text" ng-model="login.name" placeholder="Name" name="Name" required="">
-              <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Name.$touched) &&Login.Name.$error.required">Required</alert>
+                <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Name.$touched) &&Login.Name.$error.required">Required</alert>
               </div>
 
 
@@ -57,11 +62,15 @@
                   <input type="checkbox"> Remember Me
                </label>
              </div>
-              <input type="submit" class="tis-button submit-button" ng-click="submit()"></input>
+              <input type="submit" class="tis-button submit-button" ng-click="accountLogin()"></input>
             </form>
 
             <form name="NewAccount" class="register-win" novalidate>
               <h3>Register</h3>
+             <div class="form-group">
+                <alert ng-repeat="alert in newAccountAlerts" type="danger" close=" newAccountAlerts.splice(index, 1);">{{'{{alert}}'}}</alert>
+             </div>
+
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" ng-model="NewAccount.name" name="Name" class="form-control tis-text" placeholder="Name" verify="" ng-model-options="{ debounce: 150 }" required=""/>
@@ -88,7 +97,6 @@
                <div class="form-group">
                  <div class="g-recaptcha" data-sitekey="{{public_token}}"></div>
               </div>
-
               <input type="submit" class="tis-button submit-button" ng-click="createNewAccount()"></input>
             </form>
 
@@ -106,7 +114,8 @@
       </div>
 
        <div class="account">
-          <a href ng-click="open()">Login / Sign Up</a>
+          <a href ng-click="open()" ng-if="username == ''">Login / Sign Up</a>
+          <span ng-if="username != ''"><a href>{{'{{username}}'}}</a> /   <a href  ng-click="logout()" ng-if="username != ''">Logout</a></span>
        </div>
       <div class="row menu-items">
         <div class="col-xs-6"><a class="tis-button" ng-href="/problem">Problems</a></div>
