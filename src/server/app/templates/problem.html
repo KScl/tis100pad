@@ -9,27 +9,29 @@
 {% block content %}
   {{super()}}
 
-  <div ng-controller="ProblemController" ng-init="id = {{problem.id}};init(); ">
-      <div class="game-title"><h3>{{problem.name}}</h3>{{problem.identifier}}</div>
+  <div ng-controller="ProblemController" ng-init="id ={{id}}; init();  ">
+      <div class="game-title"><h3>{{'{{problem.name}}'}}</h3>{{'{{problem.identifier}}'}}</div>
 
     <div class="container-fluid solution-list tis-list-container">
 
       <div class="row">
         <div class="col-xs-8 stats">
-          <span><a href ng-click="updateOrder('CYL')">CYL</a><div ng-if="ordering == 'CYL'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> / 
-          <span><a href ng-click="updateOrder('INS')">INS</a><div ng-if="ordering == 'INS'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> / 
-          <span><a href ng-click="updateOrder('NOD')">NOD</a><div ng-if="ordering == 'NOD'" class="selection glyphicon glyphicon-triangle-bottom"></div></span></div>
+          <span><a href ng-click="ordering = 'CYL';getPage();">CYL</a><div ng-if="ordering == 'CYL'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> / 
+          <span><a href ng-click="ordering = 'INS';getPage();">INS</a><div ng-if="ordering == 'INS'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> / 
+          <span><a href ng-click="ordering = 'NOD';getPage();">NOD</a><div ng-if="ordering == 'NOD'" class="selection glyphicon glyphicon-triangle-bottom"></div></span></div>
         <div class="col-xs-4"></div>
       </div>
-
       <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
         <div class="col-xs-8 stats">
          <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span> 
          <span ng-if="item.cycles == -1">NILL</span> 
          / <span>{{ '{{item.instructionCount}}'}}</span> 
-         / <span>{{'{{item.nodeCount}}'}}</span></div>
+         / <span>{{'{{item.nodeCount}}'}}</span>
+        </div>
         <div class="col-xs-4">No User</div>
       </a>
     </div>
+    <pagination  ng-model="currentPage" ng-change="page = currentPage;getPage();" items-per-page="12" max-size="5" total-items="{{total}}" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+
   </div>
 {% endblock %}

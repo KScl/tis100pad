@@ -357,7 +357,10 @@ cursor:pointer;
         border-left: 1px solid white;
     }
     .main-window{
-      padding: 0px 9px;
+      form>h3,.form-group, .checkbox{
+        padding: 0px 9px;
+      }
+
     }
     .top-border{
       width: 100%;
@@ -388,16 +391,27 @@ cursor:pointer;
 
 
 
-#problems-pagination li a{
+.pagination li a{
   background-color: black; 
   border-radius: 0px;
   color: white;
   border-color: white;
+  border-radius: 0px !important;
+  
+
 }
 
-#problems-pagination .active a{
-  background: #1D1D1D;
+.pagination>.disabled>a, 
+{
+  color: #000;
+}
 
+.pagination .active a{
+  background: #1D1D1D;
+      border-color: #FFFFFF;
+}
+.pagination .active a:hover{
+      border-color: #FFFFFF;
 }
 
 .stats{
@@ -446,6 +460,19 @@ cursor:pointer;
     box-shadow:none;
   }
 }
+
+.error-group{
+  margin-bottom: 5px;
+}
+
+.simple-alert{
+  padding: 0px 0px 0px 0px;
+  border:none;
+  background:none;
+  color: #FF7572;
+  margin-bottom:0px;
+}
+
 
 footer{
   padding-bottom: 20px;

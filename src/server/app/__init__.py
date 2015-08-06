@@ -1,17 +1,30 @@
 import os
 import sys
+import redis
 
 from flask import Flask, render_template,redirect
 from flask.ext.sqlalchemy import SQLAlchemy
 
+from flask_kvsession import KVSessionExtension
+from simplekv.memory.redisstore import RedisStore
+
+store = RedisStore(redis.StrictRedis())
+
 app = Flask(__name__)
+KVSessionExtension(store, app)
+
 app.config.from_object('config')
 
 db = SQLAlchemy(app)
 
+
 @app.errorhandler(404)
 def not_found(error):
 	return render_template('404.html'), 404
+
+@app.context_processor
+def inject_recaptcha():
+ return dict(public_token = app.config["RECAPTCHA_PUBLIC_TOKEN"])
 
 @app.route('/')
 def index():
