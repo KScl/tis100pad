@@ -9,7 +9,7 @@ mod = Blueprint('pad', __name__, url_prefix='/pad')
 
 @mod.route('/')
 def root():
- return render_template("PadView.html")
+ return render_template("Pad.html")
 
 @mod.route('/<int:solution>')
 def routeToRoot(solution):

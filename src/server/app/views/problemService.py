@@ -9,18 +9,15 @@ import math
 
 mod = Blueprint('problems', __name__, url_prefix='/problem')
 
-@mod.route('/<int:page>')
 @mod.route('/')
-def problems(page = 1):
- page = page -1
+def problems():
  return render_template("problems.html", 
   total = Problem.query.filter(Problem.userId != None).count())
 
- '''return render_template("problems.html", items = Problem.query.filter(Problem.userId != None).offset(page*12).limit(12), page = page+1, maxPage = int(math.ceil(Problem.query.filter(Problem.userId != None).count()/12)) + 1)'''
-
 @mod.route('/p/<string:problem>')
 def problem(problem):
- return render_template("problem.html", problem = Problem.query.filter_by(identifier = problem).first())
+ problem = Problem.query.filter_by(identifier = problem).first()
+ return render_template("problem.html", total = Solution.query.filter_by(problemId = problem.id).count(), id = problem.id)
 
 def solutionsJsonify(data):
  output = []
@@ -29,10 +26,18 @@ def solutionsJsonify(data):
  return jsonify({"results" : output})
 
 
-@mod.route('/solutions.json', methods=['POST'])
-def solutions():
+@mod.route('/problemPage.json',methods=['POST'])
+def problemPage():
+ page = int(request.get_json().get("page"))-1
+ results = []
+ for problem in Problem.query.filter(Problem.userId != None).offset(page*12).limit(12):
+  results.append({"name" : problem.name, "description" : problem.description, "identifier" : problem.identifier})
+ return jsonify(result = results)
+
+@mod.route('/solutionPage.json',methods=['POST'])
+def solutionPage():
  ordering = request.get_json().get("ordering")
- page = request.get_json().get("page")
+ page =  int(request.get_json().get("page")) -1
  problem = Problem.query.filter_by(id = request.get_json().get("problemId")).first()
  if ordering == "CYL":
   return solutionsJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.cycles)).offset(page*12).limit(12))
@@ -40,11 +45,3 @@ def solutions():
   return solutionsJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12))
  elif ordering == "INS":
   return solutionsJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12))
-
-@mod.route('/page.json',methods=['POST'])
-def page():
- page = request.get_json().get("page")-1
- results = []
- for problem in Problem.query.filter(Problem.userId != None).offset(page*12).limit(12):
-  results.append({"name" : problem.name, "description" : problem.description, "identifier" : problem.identifier})
- return jsonify(result = results)

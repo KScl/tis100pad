@@ -401,6 +401,10 @@ cursor:pointer;
 
 }
 
+.pagination>.disabled>a, 
+{
+  color: #000;
+}
 
 .pagination .active a{
   background: #1D1D1D;

@@ -8,7 +8,7 @@
 {% endblock %}
 {% block content %}
   {{super()}}
-  <div class="" ng-controller="ProblemsController"  ng-init="getPage(1)">
+  <div class="" ng-controller="ProblemsController"  ng-init="init()">
 
     <div class="tis-list-container problems-list">
           <a ng-repeat="problem in problems" class="hover" ng-href="/problem/p/{{'{{problem.identifier}}'}}">
@@ -23,7 +23,7 @@
     </div>
     <div>
 
-    <pagination ng-model="currentPage" ng-change="getPage(currentPage)"  total-items="{{total}}"   ></pagination>
+    <pagination ng-model="currentPage" ng-change="page = currentPage; getPage();" items-per-page="12"  total-items="{{total}}" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
 
     </div>
 
