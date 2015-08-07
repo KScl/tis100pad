@@ -10,7 +10,10 @@
   {{super()}}
 
   <div ng-controller="ProblemController" ng-init="id ={{id}}; init();  ">
-      <div class="game-title"><h3>{{'{{problem.name}}'}}</h3>{{'{{problem.identifier}}'}}</div>
+      <div class="game-title">
+      <h3>{{name}}</h3>
+      {{identifier}}
+      </div>
 
     <div class="container-fluid solution-list tis-list-container">
 

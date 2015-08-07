@@ -17,7 +17,11 @@ def problems():
 @mod.route('/p/<string:problem>')
 def problem(problem):
  problem = Problem.query.filter_by(identifier = problem).first()
- return render_template("problem.html", total = Solution.query.filter_by(problemId = problem.id).count(), id = problem.id)
+ return render_template("problem.html", 
+  total = Solution.query.filter_by(problemId = problem.id).count(), 
+  id = problem.id,
+  name = problem.name, 
+  identifier = problem.identifier)
 
 def solutionsJsonify(data):
  output = []
