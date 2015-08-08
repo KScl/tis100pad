@@ -38,3 +38,6 @@ app.register_blueprint(problemModule)
 
 from app.views.accountService import mod as accountModule
 app.register_blueprint(accountModule)
+
+from app.views.userService import mod as userModule
+app.register_blueprint(userModule)

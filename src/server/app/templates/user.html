@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block app %} ng-app="main"  resize {% endblock %}
+{% block title %}Pad{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='controller/UserController.js') }}"></script>
+
+{% endblock %}
+{% block content %}
+  {{super()}}
+  <div class="container-fluid">
+    <div class="col-md-3">
+      <div><button>First</button></div>
+      <div><button>Two</button></div>
+      <div><button>Three</button></div>
+    </div>
+    <div class="col-md-9">
+      <div>
+        
+      </div>
+    </div>
+  </div>
+{% endblock %}
