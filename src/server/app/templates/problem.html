@@ -10,7 +10,10 @@
   {{super()}}
 
   <div ng-controller="ProblemController" ng-init="id ={{id}}; init();  ">
-      <div class="game-title"><h3>{{'{{problem.name}}'}}</h3>{{'{{problem.identifier}}'}}</div>
+      <div class="game-title">
+      <h3>{{name}}</h3>
+      {{identifier}}
+      </div>
 
     <div class="container-fluid solution-list tis-list-container">
 
@@ -28,7 +31,7 @@
          / <span>{{ '{{item.instructionCount}}'}}</span> 
          / <span>{{'{{item.nodeCount}}'}}</span>
         </div>
-        <div class="col-xs-4">No User</div>
+        <div class="col-xs-4">{{'{{item.name}}'}}</div>
       </a>
     </div>
     <pagination  ng-model="currentPage" ng-change="page = currentPage;getPage();" items-per-page="12" max-size="5" total-items="{{total}}" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>

@@ -23,6 +23,7 @@ class Solution(db.Model):
  cycles = db.Column(db.Integer)
  nodeCount = db.Column(db.Integer)
  instructionCount = db.Column(db.Integer)
+ userId = db.Column(db.Integer)
 
  def countInstructions(self,input):
   intstructions = 0
@@ -35,7 +36,7 @@ class Solution(db.Model):
  def countNodes(self,input):
   return int(input.strip() != "")
 
- def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,problemId):
+ def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,problemId,userId = None):
   self.a0 = a0
   self.a1 = a1
   self.a2 = a2
@@ -49,6 +50,7 @@ class Solution(db.Model):
   self.a10 = a10
   self.a11 = a11
   self.problemId = problemId
+  self.userId = userId
 
   self.cycles = -1
   self.nodeCount = 0

@@ -36,12 +36,15 @@ def save():
  output = request.get_json().get("out")
 
  problemById = Problem.query.filter_by(id = problemId).first()
+ userId = None
+ if session.has_key("account.id"):
+  userId = session["account.id"]
  problemByState = Problem(
   nodes[0][0].get("state"),nodes[0][1].get("state"),nodes[0][2].get("state"),nodes[0][3].get("state"),
   nodes[1][0].get("state"),nodes[1][1].get("state"),nodes[1][2].get("state"),nodes[1][3].get("state"),
   nodes[2][0].get("state"),nodes[2][1].get("state"),nodes[2][2].get("state"),nodes[2][3].get("state"),
   int(input[0]["active"]),int(input[1]["active"]),int(input[2]["active"]),int(input[3]["active"]),
-  int(output[0]["active"]),int(output[1]["active"]),int(output[2]["active"]),int(output[3]["active"]))
+  int(output[0]["active"]),int(output[1]["active"]),int(output[2]["active"]),int(output[3]["active"]),userId)
 
  if not problemByState.isValid():
   err = ['illegal data']
@@ -58,7 +61,7 @@ def save():
  solution = Solution( 
   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
-  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),finalProblem.id)
+  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),finalProblem.id,userId)
 
  if solution.isEmpty():
   err = ['no solution submitted']
@@ -90,6 +93,9 @@ def problem():
    out =  lines[lnindex]
    outputs[index] = out[out.index("\n"):].strip()
    lnindex += 1
+ userId = None
+ if session.has_key("account.id"):
+  userId = session["account.id"]
 
  db.session.flush()
  solution = Solution(
@@ -105,7 +111,8 @@ def problem():
   outputs[9],
   outputs[10],
   outputs[11],
-  problem.id)
+  problem.id,userId)
+
  db.session.add(solution)
  db.session.commit()
  return jsonify(id= solution.id)

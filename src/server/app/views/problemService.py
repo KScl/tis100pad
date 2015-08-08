@@ -3,6 +3,7 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from app import db
 from app.model.problem import Problem
 from app.model.solution import Solution
+from app.model.account import Account
 
 import string
 import math
@@ -17,12 +18,20 @@ def problems():
 @mod.route('/p/<string:problem>')
 def problem(problem):
  problem = Problem.query.filter_by(identifier = problem).first()
- return render_template("problem.html", total = Solution.query.filter_by(problemId = problem.id).count(), id = problem.id)
+ return render_template("problem.html", 
+  total = Solution.query.filter_by(problemId = problem.id).count(), 
+  id = problem.id,
+  name = problem.name, 
+  identifier = problem.identifier)
 
 def solutionsJsonify(data):
  output = []
  for item in data:
-  output.append({'cycles' :item.cycles , 'nodeCount' : item.nodeCount ,'instructionCount': item.instructionCount, 'id' : item.id});
+  account = Account.query.filter_by(id = item.userId).first()
+  name = None
+  if(account != None):
+   name = account.name
+  output.append({'cycles' :item.cycles , 'nodeCount' : item.nodeCount ,'instructionCount': item.instructionCount, 'id' : item.id, 'name' : name});
  return jsonify({"results" : output})
 
 
