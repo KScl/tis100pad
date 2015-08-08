@@ -93,6 +93,9 @@ def problem():
    out =  lines[lnindex]
    outputs[index] = out[out.index("\n"):].strip()
    lnindex += 1
+ userId = None
+ if session.has_key("account.id"):
+  userId = session["account.id"]
 
  db.session.flush()
  solution = Solution(
@@ -108,7 +111,8 @@ def problem():
   outputs[9],
   outputs[10],
   outputs[11],
-  problem.id)
+  problem.id,userId)
+
  db.session.add(solution)
  db.session.commit()
  return jsonify(id= solution.id)

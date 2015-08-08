@@ -45,14 +45,14 @@
              </div>
               
               <div class="form-group">
-                <label for="exampleInputEmail1">Name</label>
+                <label>Name</label>
                 <input  type="text" class="form-control tis-text" ng-model="login.name" placeholder="Name" name="Name" required="">
                 <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Name.$touched) &&Login.Name.$error.required">Required</alert>
               </div>
 
 
               <div class="form-group">
-                <label for="exampleInputEmail1" >Password</label>
+                <label >Password</label>
                 <input type="password" class="form-control tis-text" placeholder="Password" ng-model="login.password" name="Password" required="">
                 <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Password.$touched) && Login.Password.$error.required">Required</alert>
               </div>
@@ -67,7 +67,7 @@
              </div>
 
               <div class="form-group">
-                <label for="exampleInputEmail1">Name</label>
+                <label>Name</label>
                 <input type="text" ng-model="NewAccount.name" name="Name" class="form-control tis-text" placeholder="Name" verify="" ng-model-options="{ debounce: 150 }" required=""/>
                  <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.Name.$touched) &&NewAccount.Name.$error.required">Required</alert>
 
@@ -77,14 +77,14 @@
         
 
               <div class="form-group">
-                <label for="exampleInputEmail1" >Password</label>
+                <label >Password</label>
                 <input type="password" name="Password" ng-model="NewAccount.password" class="form-control tis-text" placeholder="Password" required="" match="">
                 <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.Password.$touched) &&NewAccount.Password.$error.required">Required</alert>
                   <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.Password.$touched) && (NewAccount.Password.$error.match)">Passwords Don't Match</alert>
               </div>
 
               <div class="form-group">
-                <label for="exampleInputEmail1" >Re-Enter Password</label>
+                <label >Re-Enter Password</label>
                 <input type="password"  name="RepeatPassword" ng-model="NewAccount.repeatPassword" class="form-control tis-text"  placeholder="Password" required="">
                 <alert type="danger" class="simple-alert" ng-show="(NewAccount.$submitted || NewAccount.RepeatPassword.$touched) &&NewAccount.RepeatPassword.$error.required">Required</alert>
               </div>
