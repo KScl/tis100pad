@@ -1,34 +1,30 @@
 {% extends "layout.html" %}
-
-{% block app %} ng-app="main"  resize {% endblock %} 
-
+{% block app %} ng-app="main"  resize {% endblock %}
 {% block title %}Pad{% endblock %}
-
 {% block head %}
   {{ super() }}
   <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
 {% endblock %}
-
 {% block content %}
   {{super()}}
   <div class="container pad" ng-controller="PadController" ng-init="init()" resize>
     <div>
       <div class="game-title"><h3>{{'{{name}}'}}</h3>{{'{{identifier}}'}}</div>
     </div>
+    <span ng-show="user != ''">Submitted By: <a  ng-href="/user/{{'{{user}}'}}">{{'{{user}}'}}</a></span>
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
           <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
-           <div class="row input">
+          <div class="row input">
             <div class="col-xs-3" ng-click="in[0].active = !in[0].active;" ng-class="in[0].getClass()">IN{{'{{in[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
             <div class="col-xs-3" ng-click="in[1].active = !in[1].active;" ng-class="in[1].getClass()">IN{{'{{in[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
             <div class="col-xs-3" ng-click="in[2].active = !in[2].active;" ng-class="in[2].getClass()">IN{{'{{in[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
             <div class="col-xs-3" ng-click="in[3].active = !in[3].active;" ng-class="in[3].getClass()">IN{{'{{in[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-           </div>
+          </div>
           {% for x in range(0,3) %}
             <div class="row node-row" >
               {% for y in range(0,4) %}
-
                 <div class="col-xs-3" >
                   <div class="row node" ng-class="getClass(nodes[{{x}}][{{y}}])" >
                     <div class="col-xs-9 node-block node-main">
@@ -61,20 +57,19 @@
             <div class="col-xs-3" ng-click="out[1].active = !out[1].active;" ng-class="out[1].getClass()">OUT{{'{{out[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
             <div class="col-xs-3" ng-click="out[2].active = !out[2].active;" ng-class="out[2].getClass()">OUT{{'{{out[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
             <div class="col-xs-3" ng-click="out[3].active = !out[3].active;" ng-class="out[3].getClass()">OUT{{'{{out[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-           </div>
-
+          </div>
         </div>
         <!--input type="file" id="files" name="files[]" multiple /-->
         <div  class="col-md-2">
-          <button class="tis-button" ng-click="download()">Download Solution</button>
-          <button  class="tis-button" ngf-select  ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
-          <button class="tis-button" ng-click="new_solution()">New Solution</button>
-          <button class="tis-button" ng-click="save()">Save</button>
+          <button class="tis-button full-width" ng-click="download()">Download Solution</button>
+          <button  class="tis-button full-width" ngf-select  ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
+          <button class="tis-button full-width" ng-click="new_solution()">New Solution</button>
+          <button class="tis-button full-width" ng-click="save()">Save</button>
         </div>
       </div>
-               <div class="errors">
-          <div ng-repeat="err in errors">{{'{{err}}'}}</div>         
-         </div>
+      <div class="errors">
+        <div ng-repeat="err in errors">{{'{{err}}'}}</div>
+      </div>
       <div class="row">
         <div class="col-xs-4"><div class="double-border-center"><span>Cycle Count: N/A <!--{{ '{{cycleCount}}'}}--></span></div></div>
         <div class="col-xs-4"><div class="double-border-center"><span>Node Count:  {{ '{{nodeCount}}'}}</span></div></div>

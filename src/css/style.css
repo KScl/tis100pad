@@ -160,17 +160,14 @@ body{
 
 .double-border-center
 {
-    span{
-      vertical-align: middle;
-      line-height: 50px;
-    }
+ 
 
     font-family: "Fixedsys", "Lucida Console", "Lucida Sans Typewriter", "Consolas", monospace;
-    min-height: 50px;
-    text-align: center;
-    margin-bottom: 20px;
+ margin-bottom: 20px;
     border: 3px double #B3B3B3;
     color: #B5B5B5;
+    text-align: center;
+   
 }
 
 a.tis-button{
@@ -180,7 +177,6 @@ a.tis-button{
 }
 
 .tis-button:extend(.double-border-center){
-  width:100%;
   cursor: default;
   clear: left;
   float: left;
@@ -192,6 +188,19 @@ a.tis-button{
 
   }
 
+}
+
+.tis-button.large{
+      min-height: 50px;
+}
+
+.tis-button.full-width{
+    width:100%;
+    
+    span{
+      vertical-align: middle;
+      line-height: 50px;
+    }
 }
 
 
@@ -473,6 +482,19 @@ cursor:pointer;
   margin-bottom:0px;
 }
 
+
+.panel-default{
+  border-radius: 0px;
+  .panel-heading
+  {
+    color: #D4D4D4;
+    background: #0A0A0A;
+  }
+  .panel-body
+  {
+    background: black;
+  }
+}
 
 footer{
   padding-bottom: 20px;

@@ -23,3 +23,17 @@ class Account(db.Model):
   if(password == self.password):
    return True
   return False
+
+ def changePassword(self,password):
+  hash = hashlib.sha256()
+  hash.update(password)
+  hash.update(app.config["PASSWORD_HASH"])
+  self.password = hash.hexdigest() 
+  return self.password 
+
+ @staticmethod
+ def HashPassword(password):
+  hash = hashlib.sha256()
+  hash.update(password)
+  hash.update(app.config["PASSWORD_HASH"])
+  return hash.hexdigest()

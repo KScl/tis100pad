@@ -2,6 +2,7 @@ from flask import Blueprint, request, render_template, flash, g, session, redire
 from app import db
 from app.model.solution import Solution
 from app.model.problem import Problem
+from app.model.account import Account
 
 import string
 
@@ -9,7 +10,7 @@ mod = Blueprint('pad', __name__, url_prefix='/pad')
 
 @mod.route('/')
 def root():
- return render_template("Pad.html")
+ return render_template("pad.html")
 
 @mod.route('/<int:solution>')
 def routeToRoot(solution):
@@ -17,15 +18,20 @@ def routeToRoot(solution):
 
 @mod.route('/solution/<int:solution>', methods=['POST','GET'])
 def getSolution(solution):
- solution = Solution.query.filter_by(id = solution).first();
- problem = Problem.query.filter_by(id = solution.problemId).first();
+ solution = Solution.query.filter_by(id = solution).first()
+ problem = Problem.query.filter_by(id = solution.problemId).first()
+ username = ''
+ account = Account.query.filter_by(id = solution.userId).first()
+ if account != None:
+  username = account.name
  return jsonify({
   'grid': solution.getRegistersGrid(), 
   'states' : problem.getRegistersGrid(), 
   "problemId" : problem.id , 
   "inputs" : problem.getEntries(),
   "outputs" : problem.getOutput(),
-  "name" : problem.name, 
+  "name" : problem.name,
+  "user" : username ,
   "identifier" : problem.identifier})
 
 @mod.route('/save.json', methods=['POST'])

@@ -30,6 +30,10 @@ def inject_recaptcha():
 def index():
  return redirect("/pad", code=302)
 
+@app.context_processor
+def inject_user():
+    return dict(googleTrackingCode=app.config["GOOGLE_ANALYTICS_CODE"])
+
 from app.views.padService import mod as padModule
 app.register_blueprint(padModule)
 
@@ -38,3 +42,6 @@ app.register_blueprint(problemModule)
 
 from app.views.accountService import mod as accountModule
 app.register_blueprint(accountModule)
+
+from app.views.userService import mod as userModule
+app.register_blueprint(userModule)

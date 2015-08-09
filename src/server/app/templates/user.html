@@ -1,0 +1,79 @@
+{% extends "layout.html" %}
+{% block app %} ng-app="main"  resize {% endblock %}
+{% block title %}Pad{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='controller/UserController.js') }}"></script>
+{% endblock %}
+{% block content %}
+  {{super()}}
+  <div class="container-fluid" ng-controller="UserController" ng-init="init();user = '{{user}}';owner = {{owner}};">
+    <div class="col-md-3">
+      <button class="tis-button full-width" ng-hide=" user == '' || !{{'{{owner}}'}}"  ng-click="state = 'profile'" >Profile</button>
+      <button class="tis-button full-width" ng-click="state = 'submitted_problem'">Submitted Problems</button>
+      <button class="tis-button full-width" ng-click="state = 'submitted_solution'" >Submitted Solutions</button>
+    </div>
+    <div class="col-md-9">
+
+      <div ng-show="state == 'profile'" >
+        <div class="panel panel-default">
+          <div class="panel-heading">Change Password</div>
+          <div class="panel-body">
+            <form name="ChangePassword" class="login-win"  autocomplete="off"  novalidate>
+              <div class="form-group">
+                <alert ng-repeat="alert in ChangePassword.output" type="{{'{{alert.type}}'}}" close="ChangePassword.output.splice(index, 1);">{{'{{alert.out}}'}}</alert>
+              </div>
+
+              <div class="form-group">
+                <label>Old Password</label>
+                <input type="password"  ng-model="ChangePassword.oldPassword" name="OldPassword" class="form-control tis-text" placeholder="Old Password"  required=""/>
+                <alert type="danger" class="simple-alert" ng-show="(ChangePassword.$submitted || ChangePassword.OldPassword.$touched) &&ChangePassword.OldPassword.$error.required">Required</alert>
+              </div>
+              <div class="form-group">
+                <label>New Password</label>
+                <input type="password" ng-model="ChangePassword.newPassword" name="NewPassword" class="form-control tis-text" placeholder="New Password" required=""/>
+                 <alert type="danger" class="simple-alert" ng-show="(ChangePassword.$submitted || ChangePassword.NewPassword.$touched) &&ChangePassword.NewPassword.$error.required">Required</alert>
+                 <alert type="danger" class="simple-alert" ng-show="!IsPassword">Passwords Don't Match</alert>
+                  
+              </div>
+              <div class="form-group">
+                <label>Repeat Password</label>
+                <input type="password" ng-model="ChangePassword.repeatPassword" name="RepeatPassword" class="form-control tis-text" placeholder="Repeat Password" required=""/>
+                <alert type="danger" class="simple-alert" ng-show="(ChangePassword.$submitted || ChangePassword.RepeatPassword.$touched) &&ChangePassword.RepeatPassword.$error.required">Required</alert>
+              </div>
+              <input type="submit" class="tis-button submit-button" ng-click="changePassword()"></input>
+            </form>
+          </div>
+        </div>
+
+      </div>
+      <div ng-show="state == 'submitted_problem'">
+        <h1>I.O.U</h1>
+      </div>
+      <div ng-show="state == 'submitted_solution'" >
+        <div class="container-fluid solution-list tis-list-container">
+          <div class="row">
+            <div class="col-xs-8 stats">
+              <span><a href ng-click="ordering = 'CYL';getPage();">CYL</a><div ng-if="ordering == 'CYL'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> /
+              <span><a href ng-click="ordering = 'INS';getPage();">INS</a><div ng-if="ordering == 'INS'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> /
+              <span><a href ng-click="ordering = 'NOD';getPage();">NOD</a><div ng-if="ordering == 'NOD'" class="selection glyphicon glyphicon-triangle-bottom"></div></span></div>
+              <div class="col-xs-4"></div>
+            </div>
+            
+            <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
+              <div class="col-xs-8 stats">
+                <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span>
+                <span ng-if="item.cycles == -1">NILL</span>
+                / <span>{{ '{{item.instructionCount}}'}}</span>
+                / <span>{{'{{item.nodeCount}}'}}</span>
+              </div>
+              <div class="col-xs-4">{{'{{item.name}}'}}</div>
+            </a>
+          </div>
+        <pagination  ng-model="currentPage" ng-change="update_solutions();" items-per-page="12" max-size="5" total-items="{{solutions_total}}" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+      </div>
+      
+    </div>
+    
+  </div>
+{% endblock %}

@@ -18,5 +18,6 @@ RECAPTCHA_PUBLIC_TOKEN = "qnbauwbefliuabwel"
 PASSWORD_HASH="auwnpanwe8fawefh05sfgs"
 
 SECRET_KEY = "aps8fp9a8wnef8ansdfa"
-
 PERMANENT_SESSION_LIFETIME = datetime.timedelta(hours = 1)
+
+GOOGLE_ANALYTICS_CODE = ""
