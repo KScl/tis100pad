@@ -1,5 +1,7 @@
 # tis100pad
 
+[![Stories in Ready](https://badge.waffle.io/pollend/tis100pad.svg?label=ready&title=Ready)](http://waffle.io/pollend/tis100pad)
+
 A web site for uploading and sharing solutions for the game TIS-100. http://www.tis100pad.com
 
 ##Installing
@@ -18,6 +20,8 @@ pip libraries
 ```
 pip install flask
 pip install flask-sqlalchemy
+pip install Flask-KVSession
+pip install Redis
 ```
 
 ###Configuration
@@ -42,3 +46,4 @@ grunt clean-up-bin
 ```
 
 This command will clear the build directory file.
+
