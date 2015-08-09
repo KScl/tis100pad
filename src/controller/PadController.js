@@ -83,7 +83,7 @@ function PadController($scope, Upload, $http, $window, $location) {
         [new NODE(), new NODE(), new NODE(), new NODE()],
         [new NODE(), new NODE(), new NODE(), new NODE()]
     ];
-
+    $scope.user = '';
     $scope.id = -1;
     $scope.identifier = "";
     $scope.name = "";
@@ -124,7 +124,7 @@ function PadController($scope, Upload, $http, $window, $location) {
 
             $http.post('/pad/solution/' + $scope.id, {}).
             success(function(data, status, headers, config) {
-
+                $scope.user = data.user
                 for (var x = $scope.nodes.length - 1; x >= 0; x--) {
                     for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
                         $scope.nodes[x][y].text = data.grid[x][y];

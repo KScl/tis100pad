@@ -24,17 +24,6 @@ def problem(problem):
   name = problem.name, 
   identifier = problem.identifier)
 
-def solutionsJsonify(data):
- output = []
- for item in data:
-  account = Account.query.filter_by(id = item.userId).first()
-  name = None
-  if(account != None):
-   name = account.name
-  output.append({'cycles' :item.cycles , 'nodeCount' : item.nodeCount ,'instructionCount': item.instructionCount, 'id' : item.id, 'name' : name});
- return jsonify({"results" : output})
-
-
 @mod.route('/problemPage.json',methods=['POST'])
 def problemPage():
  page = int(request.get_json().get("page"))-1
@@ -49,8 +38,8 @@ def solutionPage():
  page =  int(request.get_json().get("page")) -1
  problem = Problem.query.filter_by(id = request.get_json().get("problemId")).first()
  if ordering == "CYL":
-  return solutionsJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.cycles)).offset(page*12).limit(12))
+  return Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.cycles)).offset(page*12).limit(12))
  elif ordering == "NOD":
-  return solutionsJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12))
+  return Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12))
  elif ordering == "INS":
-  return solutionsJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12))
+  return Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12))

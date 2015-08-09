@@ -1,5 +1,8 @@
 from app import db
 from app.model.problem import Problem
+from app.model.account import Account
+
+from flask import jsonify
 
 import re
 
@@ -90,6 +93,19 @@ class Solution(db.Model):
   if solution.a0 == self.a0 and solution.a1 == self.a1 and solution.a2 == self.a2 and solution.a3 == self.a3 and solution.a4 == self.a4 and solution.a5 == self.a5 and solution.a6 == self.a6 and solution.a7 == self.a7 and solution.a8 == self.a8 and solution.a9 == self.a9 and solution.a10 == self.a10 and solution.a11 == self.a11 :
    return True
   return False
+ 
+ @staticmethod
+ def simpleJsonify(solutions):
+  output = []
+  for item in solutions:
+   account = Account.query.filter_by(id = item.userId).first()
+   name = None
+   if(account != None):
+    name = account.name
+   output.append({'cycles' :item.cycles , 'nodeCount' : item.nodeCount ,'instructionCount': item.instructionCount, 'id' : item.id, 'name' : name});
+  return jsonify({"results" : output})
+
+
 
  def __repr__(self):
   return '<solution %r>' % self.id

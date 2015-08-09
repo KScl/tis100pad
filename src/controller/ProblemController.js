@@ -5,29 +5,37 @@ function ProblemController($scope, Upload, $http, $window, $location) {
     $scope.id = -1;
     $scope.solutions = 0;
 
-    $scope.ordering = "INS";
-    $scope.page = 1;
+    $scope.$watch('ordering', function(newValue, oldValue) {
+        $location.search('order', newValue);
+
+    });
+    $scope.$watch('currentPage', function(newValue, oldValue) {
+        $location.search('page', newValue);
+
+    });
 
 
     $scope.init = function() {
-        var page = 1;
-        var order = "INS";
 
-        if ($location.search.page)
-            page = $location.search.page
-        if ($location.search.order)
-            order = $location.search.order
+
+        if ($location.$$search.page)
+            $scope.currentPage = $location.$$search.page;
+        else
+            $scope.currentPage = 1;
+
+        if ($location.$$search.order)
+            $scope.ordering = $location.$$search.order
+        else
+            $scope.ordering = "INS"
+
         $scope.getPage()
     }
 
     $scope.getPage = function() {
 
-        $location.search("page", $scope.page);
-        $location.search("order", $scope.ordering);
-
         $http.post("/problem/solutionPage.json", {
             ordering: $scope.ordering,
-            page: $scope.page,
+            page: $scope.currentPage,
             problemId: $scope.id
         }).
         error(function(data, status, headers, config) {
