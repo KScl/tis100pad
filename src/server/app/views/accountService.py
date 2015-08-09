@@ -69,10 +69,10 @@ def createAccount():
 
  if results["success"] == True:
   account = Account(name,password)
-  session["account.name"] = account.name
-  session["account.id"] = account.id
   db.session.add(account)
   db.session.flush()
+  session["account.name"] = account.name
+  session["account.id"] = account.id
   db.session.commit()
   return jsonify(result = True)
  else:
