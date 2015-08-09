@@ -31,8 +31,9 @@ class Problem(db.Model):
  a10 = db.Column(db.Integer)
  a11 = db.Column(db.Integer)
  description = db.Column(db.Text)
+ userId = db.Column(db.Integer)
 
- def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entry1,entry2,entry3,entry4,output1,output2,output3,output4,identifier = None,name = None,script = None):
+ def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entry1,entry2,entry3,entry4,output1,output2,output3,output4,userId = None,identifier = None,name = None,script = None):
   self.a0 = a0
   self.a1 = a1
   self.a2 = a2
@@ -56,6 +57,7 @@ class Problem(db.Model):
   self.name = name
   self.identifier = identifier
   self.script = script
+  self.userId = userId
 
  def getEntries(self):
   return [self.entry1, self.entry2, self.entry3, self.entry4]
