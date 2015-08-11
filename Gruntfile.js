@@ -49,6 +49,11 @@ module.exports = function(grunt) {
                     cwd: 'bower_components/',
                     src: ['**/*min.js'],
                     dest: '<%= config.build_dir %>/app/static/lib/js'
+                }, {
+                    expand: true,
+                    cwd: 'bower_components/ace-builds/',
+                    src: ['**/src-min-noconflict/*.js'],
+                    dest: '<%= config.build_dir %>/app/static/lib/js'
                 }]
             },
             libcss: {
