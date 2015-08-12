@@ -1,1 +1,1 @@
-var app = angular.module('main', ['ngFileUpload', 'ngMessages', 'ui.bootstrap']);
+var app = angular.module('main', ['ui.ace', 'ngFileUpload', 'ngMessages', 'ui.bootstrap']);

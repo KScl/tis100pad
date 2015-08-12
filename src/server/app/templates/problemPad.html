@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block app %} ng-app="main"  resize {% endblock %}
+
+{% block modules%}{{super()}},'ui.ace'{% endblock %}
+
+{% block title %}Pad{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='lib/js/ui-ace.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/js/src-min-noconflict/ace.js') }}"></script>
+  <script src="{{ url_for('static', filename='controller/ProblemPadController.js') }}"></script>
+{% endblock %}
+{% block content %}
+  {{super()}}
+  <div class="container pad" ng-controller="problemPadController">
+
+<div ui-ace></div>
+
+</div>
+  
+{% endblock %}

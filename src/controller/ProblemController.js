@@ -1,7 +1,7 @@
 app.controller("ProblemController", ProblemController);
 
 
-function ProblemController($scope, Upload, $http, $window, $location) {
+function ProblemController($scope, $http, $window, $location) {
     $scope.id = -1;
     $scope.solutions = 0;
 

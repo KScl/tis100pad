@@ -21,7 +21,7 @@ app.controller("loginController", loginController).directive("verifyUsername", f
     }
 })
 
-function loginController($scope, Upload, $http, $window, $location) {
+function loginController($scope, $http, $window, $location) {
     $scope.isLoginVisible = false;
     $scope.selected = "login";
     $scope.username = "";

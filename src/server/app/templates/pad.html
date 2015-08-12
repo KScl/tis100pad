@@ -1,8 +1,13 @@
 {% extends "layout.html" %}
 {% block app %} ng-app="main"  resize {% endblock %}
+
+{% block modules%}{{super()}},'ngFileUpload'{% endblock %}
+
 {% block title %}Pad{% endblock %}
 {% block head %}
   {{ super() }}
+      <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
   <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
 {% endblock %}
 {% block content %}

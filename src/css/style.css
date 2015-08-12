@@ -167,7 +167,7 @@ body{
     border: 3px double #B3B3B3;
     color: #B5B5B5;
     text-align: center;
-   
+ 
 }
 
 a.tis-button{
@@ -179,7 +179,6 @@ a.tis-button{
 .tis-button:extend(.double-border-center){
   cursor: default;
   clear: left;
-  float: left;
   background: black;
 
   &:hover{
@@ -456,7 +455,6 @@ cursor:pointer;
   }
   .account{
     text-align: center;
-    padding: 15px 0px;
   }
   .menu-items div{
     padding: 0px 5px;
@@ -501,6 +499,8 @@ cursor:pointer;
     background: black;
   }
 }
+
+.ace_editor { height: 200px; }
 
 footer{
   padding-bottom: 20px;
