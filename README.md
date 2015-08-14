@@ -23,6 +23,7 @@ pip install flask-sqlalchemy
 pip install Flask-KVSession
 pip install Redis
 pip install requests
+pip install lupa
 ```
 
 ###Configuration
