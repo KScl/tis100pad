@@ -17,7 +17,7 @@
 <form name="ProblemsPad" novalidate>
   <div class="form-group">
     <label >Identifier</label>
-    <input type="Text" class="form-control" name="Identifier" Name="Title" ng-model="problemPad.identifier" placeholder="Title" required="" verify-identifier="">
+    <input type="Text" class="form-control" name="Identifier" ng-model-options="{ debounce: 150 }" ng-model="problemPad.identifier" placeholder="Identifier" required="" verify-identifier="">
     <alert type="danger" class="simple-alert" ng-show="(ProblemsPad.$submitted || ProblemsPad.Identifier.$touched) && ProblemsPad.Identifier.$error.required">Required</alert>
     <alert type="danger" class="simple-alert" ng-show="ProblemsPad.Identifier.$pending.verifyIdentifier">Checking Identifier</alert>
     <alert type="danger" class="simple-alert" ng-show="ProblemsPad.Identifier.$error.verifyIdentifier">Identifier Already Used</alert>

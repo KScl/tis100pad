@@ -90,6 +90,14 @@ end';
     }
 
     $scope.submitProblem = function() {
+        $http.post('/problemPad/submit.json', {
+            identifier: $scope.problemPad.identifier,
+            description: $scope.problemPad.description,
+            code: $scope.code
 
+        }).success(function(data, status, headers, config) {
+
+
+        });
     }
 };
