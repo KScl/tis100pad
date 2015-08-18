@@ -178,7 +178,6 @@ a.tis-button{
 
 .tis-button:extend(.double-border-center){
   cursor: default;
-  clear: left;
   background: black;
 
   &:hover{

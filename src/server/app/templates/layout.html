@@ -113,7 +113,6 @@
          
           <div class="container-fluid">
             <div class="row">
-               
               <div class="col-xs-6"> <button class="tis-button login-button full-width large" ng-click="selected = 'login';">Login</button></div>
               <div class="col-xs-6"><button class="tis-button new-account-button full-width large" ng-click="selected ='register';">New Account</button></div>
             </div>
@@ -145,7 +144,7 @@
         <p class="navbar-text navbar-right">
               <a href ng-click="open()" ng-if="username == ''">Login / Sign Up</a>
               <span ng-if="username != ''">
-                <a href='/user/{{'{{username}}'}}'>{{'{{username}}'}}</a> /   <a href  ng-click="logout()" ng-if="username != ''">Logout</a>
+                <a href='/user/{{'{{username}}'}}'>{{'{{username}}'}}</a> / <a href  ng-click="logout()" ng-if="username != ''">Logout</a>
               </span>
         </p>
       </div>

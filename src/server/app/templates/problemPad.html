@@ -37,9 +37,12 @@
     }" required=""></div>
   <alert type="danger" class="simple-alert" ng-show="(ProblemsPad.$submitted || ProblemsPad.Code.$touched) && ProblemsPad.Code.$error.required">Required</alert>
  </div>
-     <div class="form-group">
+ <div class="form-group">
+  <alert ng-repeat="alert in problemPad.output" type="{{'{{alert.type}}'}}" close="problemPad.output.splice(index, 1);">{{'{{alert.out}}'}}</alert>
+ </div>
+ <div class="form-group">
    <input type="submit" class="tis-button submit-button full-width large" ng-click="submitProblem()"></input>
-</div>
+ </div>
 </form>
 </div>
   

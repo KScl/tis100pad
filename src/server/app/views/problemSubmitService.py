@@ -63,31 +63,34 @@ end)
    return get_name(), get_description(), get_streams(), get_layout()
    ''')
 
-  problem = Problem()
-  problem.name = output[1]
-  descriptors = []
-  for x in output[2]:
-   descriptors.append(output[2][x])
-  problem.descriptor = json.dumps(descriptors)
+  if output[0] != None:
+   problem = Problem()
+   problem.name = output[1]
+   descriptors = []
+   for x in output[2]:
+    descriptors.append(output[2][x])
+   problem.descriptor = json.dumps(descriptors)
 
-  for x in output[3]:
-   data = []
-   for y in output[3][x][4]:
-    if output[3][x][4][y] > 999 or output[3][x][4][y] < -999:
-     return jsonify(result = False, err = ["input or ouput are out of bound [-999,999] "])
-    data.append(output[3][x][4][y])
-   if output[3][x] == 0:
-    problem.setEntry(output[3][x][3],json.dumps({"name" : output[3][x][2],"data":data }))
-   else:
-    problem.setOutput(output[3][x][3],json.dumps({"name" : output[3][x][2],"data":data }))
+   for x in output[3]:
+    data = []
+    for y in output[3][x][4]:
+     if output[3][x][4][y] > 999 or output[3][x][4][y] < -999:
+      return jsonify(result = False, err = [{'type':'danger', 'out' : "input or ouput are out of bound [-999,999] "}])
+     data.append(output[3][x][4][y])
+    if output[3][x] == 0:
+     problem.setEntry(output[3][x][3],json.dumps({"name" : output[3][x][2],"data":data }))
+    else:
+     problem.setOutput(output[3][x][3],json.dumps({"name" : output[3][x][2],"data":data }))
 
-  for x in output[4]:
-   if(output[4][x] == 0 or output[4][x] == 1 or output[4][x] == 2 ):
-    problem.setRegister(x -1,output[4][x])
-   else:
-    return jsonify(result = False, err = ["layout out of range"])
-  db.session.add(problem)
-  db.session.commit()
+   for x in output[4]:
+    if(output[4][x] == 0 or output[4][x] == 1 or output[4][x] == 2 ):
+     problem.setRegister(x -1,output[4][x])
+    else:
+     return jsonify(result = False, err = [{'type':'danger', 'out' : "layout out of range"}])
+   db.session.add(problem)
+   db.session.commit()
+  else:
+   return jsonify(result = False, err =[{'type':'danger', 'out' : output}] )
 
   return jsonify(result = True)
  return jsonify(result = False)
