@@ -86,8 +86,7 @@ def problem():
   problem = Problem.query.filter_by(identifier =request.get_json().get('identifier')).first()
  if problem == None:
   err = ['unknown problem']
-  return jsonify(errors = err)
-
+  return jsonify(result = False,errors = [{'type': 'danger','out': "Identifiers don't match"}])
 
  outputs = ["","","","","","","","","","","",""]
  register = problem.getRegisters()
@@ -121,4 +120,4 @@ def problem():
 
  db.session.add(solution)
  db.session.commit()
- return jsonify(id= solution.id)
+ return jsonify(result = True,id= solution.id)

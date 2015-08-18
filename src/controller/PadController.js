@@ -261,12 +261,13 @@ function PadController($scope, Upload, $http, $window, $location) {
 
                 }).
                 success(function(data, status, headers, config) {
-                    if (data.errors) {
-                        $scope.errors = data.errors
-                    } else {
+                    if (data.result) {
                         $location.search("id", data.id);
                         $scope.id = data.id;
                         $scope.init();
+                    } else {
+                        $scope.upload_errors = data.errors
+
                         //window.location.pathname = "/pad/" + data.id;
                     }
                 });
