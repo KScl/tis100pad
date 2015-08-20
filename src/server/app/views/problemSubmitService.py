@@ -23,7 +23,11 @@ def IdentityCheck():
 
 @mod.route('/submit.json',methods=['POST'])
 def submit():
+ if session.has_key("account.id") == False:
+  return jsonify(result = False, err = [{'type':'danger', 'out' : "Please Login "}])
+
  if Problem.query.filter_by(identifier = request.get_json().get("identifier")).first() == None:
+  
   lua = lupa.LuaRuntime()
   run = lua.eval('''
    function(c)
@@ -65,7 +69,11 @@ end)
 
   if output[0] != None:
    problem = Problem()
+   problem.userId = session["account.id"]
+   problem.identifier = request.get_json().get("identifier")
+   problem.description = request.get_json().get("description")
    problem.name = output[1]
+   problem.script = request.get_json().get("code")
    descriptors = []
    for x in output[2]:
     descriptors.append(output[2][x])
@@ -77,10 +85,14 @@ end)
      if output[3][x][4][y] > 999 or output[3][x][4][y] < -999:
       return jsonify(result = False, err = [{'type':'danger', 'out' : "input or ouput are out of bound [-999,999] "}])
      data.append(output[3][x][4][y])
-    if output[3][x] == 0:
-     problem.setEntry(output[3][x][3],json.dumps({"name" : output[3][x][2],"data":data }))
+    if output[3][x][1] == 0:
+     if problem.setEntry(output[3][x][3]-1,json.dumps({"name" : output[3][x][2],"data":data })) == False:
+      return jsonify(result = False, err =[{'type':'danger', 'out' : "Entry out of range"}] )
+    elif output[3][x][1] == 1:
+     if problem.setOutput(output[3][x][3]-1,json.dumps({"name" : output[3][x][2],"data":data })) == False:
+      return jsonify(result = False, err =[{'type':'danger', 'out' : "Ouput out of range"}] )
     else:
-     problem.setOutput(output[3][x][3],json.dumps({"name" : output[3][x][2],"data":data }))
+     return jsonify(result = False, err =[{'type':'danger', 'out' : "invald STREAM_INPUT / STREAM_OUTPUT"}] )
 
    for x in output[4]:
     if(output[4][x] == 0 or output[4][x] == 1 or output[4][x] == 2 ):
@@ -89,8 +101,9 @@ end)
      return jsonify(result = False, err = [{'type':'danger', 'out' : "layout out of range"}])
    db.session.add(problem)
    db.session.commit()
+   return jsonify(result = True)
   else:
    return jsonify(result = False, err =[{'type':'danger', 'out' : output}] )
-
-  return jsonify(result = True)
+ else:
+  return jsonify(result = False, err = [{'type':'danger', 'out' : "identifier used"}])
  return jsonify(result = False)

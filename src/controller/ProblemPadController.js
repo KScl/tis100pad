@@ -90,14 +90,19 @@ end';
     }
 
     $scope.submitProblem = function() {
-        $http.post('/problemPad/submit.json', {
-            identifier: $scope.problemPad.identifier,
-            description: $scope.problemPad.description,
-            code: $scope.code
+        if ($scope.ProblemsPad.$valid) {
 
-        }).success(function(data, status, headers, config) {
+            $http.post('/problemPad/submit.json', {
+                identifier: $scope.problemPad.identifier,
+                description: $scope.problemPad.description,
+                code: $scope.code
 
-
-        });
+            }).success(function(data, status, headers, config) {
+                $scope.problemPad.output = data.err;
+                if (data.result) {
+                    $window.location.href = "/pad/#?problem=" + $scope.problemPad.identifier;
+                }
+            });
+        }
     }
 };

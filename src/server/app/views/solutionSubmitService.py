@@ -34,6 +34,17 @@ def getSolution(solution):
   "user" : username ,
   "identifier" : problem.identifier})
 
+@mod.route('/problem/<string:problemIdentifer>', methods=['POST','GET'])
+def getProblem(problemIdentifer):
+ problem = Problem.query.filter_by(identifier = problemIdentifer).first()
+ return jsonify({ 
+  'states' : problem.getRegistersGrid(), 
+  "problemId" : problem.id , 
+  "inputs" : problem.getEntries(),
+  "outputs" : problem.getOutput(),
+  "name" : problem.name,
+  "identifier" : problem.identifier})
+
 @mod.route('/save.json', methods=['POST'])
 def save():
  nodes = request.get_json().get("nodes")
@@ -53,8 +64,7 @@ def save():
   int(output[0]["active"]),int(output[1]["active"]),int(output[2]["active"]),int(output[3]["active"]),userId)
 
  if not problemByState.isValid():
-  err = ['illegal data']
-  return jsonify(errors = err)
+  return jsonify(err = [{'type':'danger', 'out' : "illegal data"}])
 
  finalProblem = None
  if problemByState == problemById:
@@ -70,8 +80,7 @@ def save():
   nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),finalProblem.id,userId)
 
  if solution.isEmpty():
-  err = ['no solution submitted']
-  return jsonify(errors = err)
+  return jsonify(err = [{'type':'danger', 'out' : "no solution submitted"}])
 
  db.session.add(solution)
  db.session.flush()
@@ -86,7 +95,7 @@ def problem():
   problem = Problem.query.filter_by(identifier =request.get_json().get('identifier')).first()
  if problem == None:
   err = ['unknown problem']
-  return jsonify(result = False,errors = [{'type': 'danger','out': "Identifiers don't match"}])
+  return jsonify(result = False,err = [{'type': 'danger','out': "Identifiers don't match"}])
 
  outputs = ["","","","","","","","","","","",""]
  register = problem.getRegisters()

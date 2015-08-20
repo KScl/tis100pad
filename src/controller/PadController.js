@@ -119,7 +119,7 @@ function PadController($scope, Upload, $http, $window, $location) {
     }
 
     $scope.init = function() {
-        if ($location.search().id >= 0) {
+        if ($location.search().id && $location.search().id >= 0) {
             $scope.id = $location.search().id;
 
             $http.post('/pad/solution/' + $scope.id, {}).
@@ -135,8 +135,9 @@ function PadController($scope, Upload, $http, $window, $location) {
                 $scope.id = data.problemId;
                 $scope.identifier = data.identifier;
                 $scope.name = data.name;
+
                 for (var i = data.inputs.length - 1; i >= 0; i--) {
-                    if (data.inputs[i] == "1")
+                    if (data.inputs[i] != null)
                         $scope.in[i].active = true;
                     else
                         $scope.in[i].active = false;
@@ -144,7 +145,7 @@ function PadController($scope, Upload, $http, $window, $location) {
                 };
 
                 for (var i = data.outputs.length - 1; i >= 0; i--) {
-                    if (data.outputs[i] == "1")
+                    if (data.outputs[i] != null)
                         $scope.out[i].active = true;
                     else
                         $scope.out[i].active = false;
@@ -156,6 +157,37 @@ function PadController($scope, Upload, $http, $window, $location) {
             error(function(data, status, headers, config) {
 
             });
+        } else if ($location.search().problem) {
+            $http.post('/pad/problem/' + $location.search().problem, {}).
+            success(function(data, status, headers, config) {
+                for (var x = $scope.nodes.length - 1; x >= 0; x--) {
+                    for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
+                        $scope.nodes[x][y].state = data.states[x][y];
+
+                    };
+                };
+                $scope.id = data.problemId;
+                $scope.identifier = data.identifier;
+                $scope.name = data.name;
+
+                for (var i = data.inputs.length - 1; i >= 0; i--) {
+                    if (data.inputs[i] != null)
+                        $scope.in[i].active = true;
+                    else
+                        $scope.in[i].active = false;
+
+                };
+
+                for (var i = data.outputs.length - 1; i >= 0; i--) {
+                    if (data.outputs[i] != null)
+                        $scope.out[i].active = true;
+                    else
+                        $scope.out[i].active = false;
+
+                };
+
+            });
+
         } else {
             for (var x = $scope.nodes.length - 1; x >= 0; x--) {
                 for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
