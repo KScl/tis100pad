@@ -22,17 +22,17 @@
         <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
           <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
           <div class="row input">
-            <div class="col-xs-3" ng-click="in[0].active = !in[0].active;" ng-class="in[0].getClass()">IN{{'{{in[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-click="in[1].active = !in[1].active;" ng-class="in[1].getClass()">IN{{'{{in[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-click="in[2].active = !in[2].active;" ng-class="in[2].getClass()">IN{{'{{in[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-click="in[3].active = !in[3].active;" ng-class="in[3].getClass()">IN{{'{{in[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[0])" ng-class="{active: (in[0] != null && in[0].active == null) || in[0].active == true}">IN{{'{{in[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[1])" ng-class="{active: (in[1] != null && in[1].active == null) || in[1].active == true}">IN{{'{{in[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[2])" ng-class="{active: (in[2] != null && in[2].active == null) || in[2].active == true}">IN{{'{{in[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[3])" ng-class="{active: (in[3] != null && in[3].active == null) || in[3].active == true}">IN{{'{{in[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
           </div>
           {% for x in range(0,3) %}
             <div class="row node-row" >
               {% for y in range(0,4) %}
                 <div class="col-xs-3" >
                   <div class="row node" ng-class="getClass(nodes[{{x}}][{{y}}])" >
-                    <div class="col-xs-9 node-block node-main">
+                    <div class="node-block node-main" ng-class="{'col-xs-9': identifier == '', 'col-xs-12': identifier != ''}">
                       <textarea class="exec" ng-model="nodes[{{x}}][{{y}}].text" ng-change="updateCount()"></textarea>
                       <div class="stck">
                         <div>█████████████████</div>
@@ -46,7 +46,7 @@
                         <div>█████████████████</div>
                       </div>
                     </div>
-                    <div class="col-xs-3 sidecolumn node-block">
+                    <div class="col-xs-3 sidecolumn node-block" ng-hide="identifier != ''">
                       <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.EXEC)" class="sidecell exec"><p>EXEC<br>NODE</p></div>
                       <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.STCK)"class="sidecell stck"><p>STCK<br>NODE</p></div>
                       <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.ERR)" class="sidecell err"><p>ERR<br>NODE</p></div>
@@ -58,10 +58,10 @@
             </div>
           {% endfor %}
           <div class="row output">
-            <div class="col-xs-3" ng-click="out[0].active = !out[0].active;" ng-class="out[0].getClass()">OUT{{'{{out[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-click="out[1].active = !out[1].active;" ng-class="out[1].getClass()">OUT{{'{{out[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-click="out[2].active = !out[2].active;" ng-class="out[2].getClass()">OUT{{'{{out[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
-            <div class="col-xs-3" ng-click="out[3].active = !out[3].active;" ng-class="out[3].getClass()">OUT{{'{{out[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[0])" ng-class="{active: (out[0] != null && out[0].active == null) || out[0].active == true}">OUT{{'{{out[0].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[1])" ng-class="{active: (out[1] != null && out[1].active == null) || out[1].active == true}">OUT{{'{{out[1].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[2])" ng-class="{active: (out[2] != null && out[2].active == null) || out[2].active == true}">OUT{{'{{out[2].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[3])" ng-class="{active: (out[3] != null && out[3].active == null) || out[3].active == true}">OUT{{'{{out[3].out()}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
           </div>
         </div>
         <!--input type="file" id="files" name="files[]" multiple /-->
@@ -72,9 +72,10 @@
           <button class="tis-button full-width" ng-click="save()">Save</button>
         </div>
       </div>
-      <div class="errors">
-        <div ng-repeat="err in errors">{{'{{err}}'}}</div>
-      </div>
+
+      <alert ng-repeat="err in errors" type="{{'{{alert.type}}'}}" close="errors.splice(index, 1);">{{'{{alert.out}}'}}</alert>
+               
+
       <div class="row">
         <div class="col-xs-4"><div class="double-border-center"><span>Cycle Count: N/A <!--{{ '{{cycleCount}}'}}--></span></div></div>
         <div class="col-xs-4"><div class="double-border-center"><span>Node Count:  {{ '{{nodeCount}}'}}</span></div></div>

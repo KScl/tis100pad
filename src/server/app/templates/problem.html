@@ -50,7 +50,7 @@
           <a class="tis-button large full-width" ngf-select  ngf-change="upload_save($files)">Upload Save</a>
           <a class="tis-button large full-width" ng-href="/pad/#?problem={{identifier}}" >Solution Editor</a>
           {% if hasCode %}
-             <a class="tis-button large full-width" >Problem Editor</a>
+             <a class="tis-button large full-width" ng-href="/problemPad/#?identifier={{identifier}}" >Problem Editor</a>
           {% endif %}
         </div>
 

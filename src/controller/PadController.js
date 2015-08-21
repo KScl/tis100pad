@@ -39,39 +39,53 @@ function PadController($scope, Upload, $http, $window, $location) {
     }
 
     $scope.problem = "";
-    INPUT = function() {
-        this.active = false;
-        this.name = "";
-        this.out = function() {
-            return "." + this.name;
-        }
-        this.getClass = function() {
-            if (this.active)
-                return "active";
-            return "";
-        }
-    }
 
     OUTPUT = function() {
-        this.active = false;
-        this.name = "";
+        this.data = null;
+        this.result = null;
+        this.process = function(data) {
+            this.result = data;
+            if (data == 1)
+                this.data = {
+                    name: "test",
+                    data: {}
+                };
+            else if (data == 0)
+                this.data = null;
+            else
+                this.data = JSON.stringify(eval("(" + data + ")"));
+        }
+
         this.out = function() {
-            return "." + this.name;
+            if (this.data == null)
+                return null;
+            return this.data.name;
         }
         this.getClass = function() {
-            if (this.active)
+            if (this.data != null)
                 return "active";
             return "";
         }
     }
 
-    $scope.in = [
-        new INPUT(), new INPUT(), new INPUT(), new INPUT()
-    ];
-
-    $scope.out = [
-        new OUTPUT(), new OUTPUT(), new OUTPUT(), new OUTPUT()
-    ];
+    $scope.in = [{
+        active: false
+    }, {
+        active: false
+    }, {
+        active: false
+    }, {
+        active: false
+    }];
+    $scope.out = [{
+        active: false
+    }, {
+        active: false
+    }, {
+        active: false
+    }, {
+        active: false
+    }];
 
     NODE = function() {
         this.state = $scope.STATE.EXEC;
@@ -88,8 +102,6 @@ function PadController($scope, Upload, $http, $window, $location) {
     $scope.identifier = "";
     $scope.name = "";
     $scope.errors = [];
-
-
 
     $scope.cycleCount = 0;
     $scope.nodeCount = 0;
@@ -118,6 +130,18 @@ function PadController($scope, Upload, $http, $window, $location) {
         };
     }
 
+    process = function(data) {
+        if (data == 1)
+            return {
+                name: "test",
+                data: {}
+            };
+        else if (data == 0)
+            return null;
+        else
+            return JSON.stringify(eval("(" + data + ")"));
+    }
+
     $scope.init = function() {
         if ($location.search().id && $location.search().id >= 0) {
             $scope.id = $location.search().id;
@@ -137,18 +161,13 @@ function PadController($scope, Upload, $http, $window, $location) {
                 $scope.name = data.name;
 
                 for (var i = data.inputs.length - 1; i >= 0; i--) {
-                    if (data.inputs[i] != null)
-                        $scope.in[i].active = true;
-                    else
-                        $scope.in[i].active = false;
+                    $scope.in[i] = process(data.inputs[i]);
+
 
                 };
 
                 for (var i = data.outputs.length - 1; i >= 0; i--) {
-                    if (data.outputs[i] != null)
-                        $scope.out[i].active = true;
-                    else
-                        $scope.out[i].active = false;
+                    $scope.out[i] = process(data.outputs[i]);
 
                 };
 
@@ -171,18 +190,12 @@ function PadController($scope, Upload, $http, $window, $location) {
                 $scope.name = data.name;
 
                 for (var i = data.inputs.length - 1; i >= 0; i--) {
-                    if (data.inputs[i] != null)
-                        $scope.in[i].active = true;
-                    else
-                        $scope.in[i].active = false;
+                    $scope.in[i] = process(data.inputs[i]);
 
                 };
 
                 for (var i = data.outputs.length - 1; i >= 0; i--) {
-                    if (data.outputs[i] != null)
-                        $scope.out[i].active = true;
-                    else
-                        $scope.out[i].active = false;
+                    $scope.out[i] = process(data.outputs[i]);
 
                 };
 
@@ -213,22 +226,43 @@ function PadController($scope, Upload, $http, $window, $location) {
         }
 
     }
-
+    //18 X 15 characters
 
     $scope.setState = function(node, state) {
         node.state = state;
     }
 
     $scope.save = function() {
-        $http.post('/pad/save.json', {
-            nodes: $scope.nodes,
-            problemId: $scope.id,
-            input: $scope.in,
-            out: $scope.out
-        }).
+
+        var out = {};
+        if ($scope.id == -1) {
+            var input = [];
+            var output = [];
+
+            for (var i = $scope.in.length - 1; i >= 0; i--) {
+                input.push($scope.in[i]);
+            };
+
+            for (var i = $scope.out.length - 1; i >= 0; i--) {
+                output.push($scope.out[i]);
+            };
+
+            out = {
+                nodes: $scope.nodes,
+                input: input,
+                out: output
+            };
+        } else {
+            out = {
+                nodes: $scope.nodes,
+                problemId: $scope.id
+            };
+        }
+
+        $http.post('/pad/save.json', out).
         success(function(data, status, headers, config) {
-            if (data.errors) {
-                $scope.errors = data.errors;
+            if (data.err) {
+                $scope.errors = data.err;
             } else {
                 $location.search("id", data.id);
                 $scope.id = data.id;
@@ -243,13 +277,17 @@ function PadController($scope, Upload, $http, $window, $location) {
     $scope.download = function() {
         var output = "";
         var index = 0;
-        for (var x = $scope.nodes.length - 1; x >= 0; x--) {
-            for (var y = $scope.nodes[x].length - 1; y >= 0; y--) {
-                index++;
-                output += "@" + index;
-                output += $scope.nodes[x][y].text;
+        for (var x = 0; x < $scope.nodes.length; x++) {
+            for (var y = 0; y < $scope.nodes[x].length; y++) {
+                if ($scope.nodes[x][y].state == $scope.STATE.EXEC) {
+                    index++;
+                    output += "@" + (index - 1);
+                    output += "\n";
+                    output += $scope.nodes[x][y].text;
 
-                output += "\n"
+                    output += "\n"
+                    output += "\n"
+                }
             };
         };
 
@@ -257,7 +295,7 @@ function PadController($scope, Upload, $http, $window, $location) {
         anchor.attr({
             href: 'data:attachment/csv;charset=utf-8,' + encodeURI(output),
             target: '_blank',
-            download: 'soltuon.txt'
+            download: $scope.identifier + ".txt"
         })[0].click();
 
     }
@@ -275,8 +313,6 @@ function PadController($scope, Upload, $http, $window, $location) {
         if ($scope.upload_file)
             $scope.upload_save($scope.upload_file);
     });*/
-
-
 
     $scope.upload_save = function(files) {
         FileAPI.readAsText(files[0], function(evt) {
@@ -298,8 +334,7 @@ function PadController($scope, Upload, $http, $window, $location) {
                         $scope.id = data.id;
                         $scope.init();
                     } else {
-                        $scope.upload_errors = data.errors
-
+                        $scope.errors = data.err;
                         //window.location.pathname = "/pad/" + data.id;
                     }
                 });
@@ -310,6 +345,14 @@ function PadController($scope, Upload, $http, $window, $location) {
                 // Error
             }
         });
+
+    }
+
+
+    $scope.changeSwitch = function(input) {
+        if ($scope.id == -1) {
+            input.active = !input.active;
+        }
 
     }
 

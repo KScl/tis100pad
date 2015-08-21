@@ -21,10 +21,26 @@ app.controller("problemPadController", problemPadController).directive("verifyId
 })
 
 function problemPadController($scope, $http, $window, $location) {
+    $scope.problemPad = {
+        identifier: "",
+        description: "",
+        code: ""
+    }
+
     $scope.init = function() {
 
-        $scope.code =
-            '-- The function get_name() should return a single string that is the name of the puzzle.
+        if ($location.search().identifier) {
+            $http.post('/problemPad/problem/' + $location.search().identifier, {}).success(function(data, status, headers, config) {
+                if (data.result) {
+                    $scope.problemPad.identifier = data.identifier;
+                    $scope.problemPad.description = data.description;
+                    $scope.code = data.code;
+                }
+            });
+        } else {
+
+            $scope.code =
+                '-- The function get_name() should return a single string that is the name of the puzzle.
 --
 function get_name()
   return "UNNAMED PUZZLE "
@@ -87,6 +103,7 @@ function get_layout()
     TILE_COMPUTE,   TILE_COMPUTE, TILE_COMPUTE,   TILE_COMPUTE,
   }
 end';
+        }
     }
 
     $scope.submitProblem = function() {

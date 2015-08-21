@@ -21,6 +21,15 @@ def IdentityCheck():
  else:
   return jsonify(result = False)
 
+@mod.route('/problem/<string:identifier>',methods=['POST'])  
+def getProblem(identifier):
+ problem = Problem.query.filter_by(identifier = identifier).first()
+ if problem == None:
+  return jsonify(result = False)
+ else:
+  return jsonify(result = True,identifier = problem.identifier, description = problem.description, code = problem.script)
+ 
+
 @mod.route('/submit.json',methods=['POST'])
 def submit():
  if session.has_key("account.id") == False:
