@@ -1,4 +1,5 @@
 from app import db
+import json
 
 class Problem(db.Model):
  EXEC = 0
@@ -133,33 +134,35 @@ class Problem(db.Model):
    return True
   return False
  
- def setEntry(self,index, value):
+ def setEntry(self,index, name,data):
+  final = json.dumps({"name" : name,"data":data })
   if index == 0:
-   self.entry1 = value
+   self.entry1 = final
    return True
   elif index == 1:
-   self.entry2 = value
+   self.entry2 = final
    return True
   elif index == 2:
-   self.entry3 = value
+   self.entry3 = final
    return True
   elif index == 3:
-   self.entry4 = value
+   self.entry4 = final
    return True
   return False
 
- def setOutput(self,index, value):
+ def setOutput(self,index, name,data):
+  final = json.dumps({"name" : name,"data":data })
   if index == 0:
-   self.output1 = value
+   self.output1 = final
    return True
   elif index == 1:
-   self.output2 = value
+   self.output2 = final
    return True
   elif index == 2:
-   self.output3 = value
+   self.output3 = final
    return True
   elif index == 3:
-   self.output4 = value
+   self.output4 = final
    return True
   return False
 

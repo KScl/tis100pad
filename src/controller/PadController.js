@@ -139,7 +139,7 @@ function PadController($scope, Upload, $http, $window, $location) {
         else if (data == 0)
             return null;
         else
-            return JSON.stringify(eval("(" + data + ")"));
+            return eval("(" + data + ")");
     }
 
     $scope.init = function() {
@@ -227,6 +227,27 @@ function PadController($scope, Upload, $http, $window, $location) {
 
     }
     //18 X 15 characters
+    $scope.NodeEntryChange = function(node) {
+        var output = node.text.split("\n")
+        if (output.length >= 15) {
+            var out = [];
+            for (var x = 0; x < 15; x++) {
+                out.append(output[x])
+            }
+            output = out;
+        }
+        for (var i = output.length - 1; i >= 0; i--) {
+            if (output[i].length > 18) {
+                output[i] = output.substring(18);
+            }
+        };
+        finalout = "";
+        for (var i = output.length - 1; i >= 0; i--) {
+            finalout += output[i];
+            finalout += "\n";
+        };
+        node.text = finalout;
+    }
 
     $scope.setState = function(node, state) {
         node.state = state;
@@ -347,6 +368,7 @@ function PadController($scope, Upload, $http, $window, $location) {
         });
 
     }
+
 
 
     $scope.changeSwitch = function(input) {

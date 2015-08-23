@@ -4,9 +4,12 @@ from app.model.solution import Solution
 from app.model.problem import Problem
 from app.model.account import Account
 
+from multiprocessing import Process,Queue
+
 import json
 import lupa
 import string
+import psutil, os
 
 mod = Blueprint('problemPad', __name__, url_prefix='/problemPad')
 
@@ -28,17 +31,11 @@ def getProblem(identifier):
   return jsonify(result = False)
  else:
   return jsonify(result = True,identifier = problem.identifier, description = problem.description, code = problem.script)
- 
 
-@mod.route('/submit.json',methods=['POST'])
-def submit():
- if session.has_key("account.id") == False:
-  return jsonify(result = False, err = [{'type':'danger', 'out' : "Please Login "}])
-
- if Problem.query.filter_by(identifier = request.get_json().get("identifier")).first() == None:
-  
-  lua = lupa.LuaRuntime()
-  run = lua.eval('''
+def handler(code,result):
+ print "running"
+ lua = lupa.LuaRuntime()
+ run = lua.eval('''
    function(c)
     local BASE_ENV = {}
 ([[
@@ -58,61 +55,134 @@ string.gsub string.len   string.lower string.match  string.reverse
     BASE_ENV[id] = _G[id]
   end
 end)
-
+    
     local untrusted_function, message = load(c, nil, 't', BASE_ENV)
     if not untrusted_function then return nil, message end
     return pcall(untrusted_function)
    end
   ''')
-  output = run('''
+
+ output = run('''
    STREAM_INPUT = 0
    STREAM_OUTPUT = 1
 
    TILE_COMPUTE = 0
    TILE_MEMORY = 1
    TILE_DAMAGED = 2
-   ''' +
-   request.get_json().get("code") + '''
+   ''' + code + '''
    return get_name(), get_description(), get_streams(), get_layout()
    ''')
+ if(output[0] == None):
+  result.put(False)
+  result.put([{'type':'danger', 'out' : output[1]}])
+  return
 
-  if output[0] != None:
+ name = output[1]
+ if not type(name) is unicode:
+  result.put(False)
+  result.put([{'type':'danger', 'out' : "invalid data type for name"}])
+ 
+ descriptors = []
+ for x in output[2]:
+  if not type(output[2][x]) is unicode:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "description must be a string"}])
+  descriptors.append(output[2][x])
+
+ streams = []
+ for x in output[3]:
+  data = []
+  for y in output[3][x][4]:
+   if not type(output[3][x][4][y]) is int:
+    result.put(False)
+    result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" + output[3][x][2] }])
+
+   if output[3][x][4][y] > 999 or output[3][x][4][y] < -999:
+    result.put(False)
+    result.put([{'type':'danger', 'out' : "input or ouput are out of bound [-999,999] for " + output[3][x][2] }])
+    return
+   data.append(output[3][x][4][y])
+
+  if not type(output[3][x][2]) is unicode:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" }])
+   return
+
+  if not type(output[3][x][3]) is int:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" + output[3][x][2] }])
+   return
+
+  if not type(output[3][x][1]) is int:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" + output[3][x][2] }])
+   return
+
+  if output[3][x][3] < 1 or output[3][x][3] > 4:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : output[3][x][2] + ":index out of range"}])
+   return   
+
+  if not (output[3][x][1] == 1 or output[3][x][1] == 0):
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "Invalid STREAM_INPUT/STREAM_OUTPUT"}])
+   return   
+  streams.append({'type':output[3][x][1],'name':output[3][x][2],'index':output[3][x][3],'data':data})
+
+ layout = []
+ for x in output[4]:
+  if type(output[4][x]) is int:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "layout has invalid data types"}])
+
+  if(output[4][x] == 0 or output[4][x] == 1 or output[4][x] == 2 ):
+   layout.append(output[4][x])
+  else:
+   result.put(False)
+   result.put([{'type':'danger', 'out' : "layout has invalid data"}])
+   return
+ result.put(True)
+ result.put({"name":name,"descriptor":descriptors,"stream":streams,"layout":layout})
+
+
+
+@mod.route('/submit.json',methods=['POST'])
+def submit():
+ if session.has_key("account.id") == False:
+  return jsonify(result = False, err = [{'type':'danger', 'out' : "Please Login "}])
+
+ if Problem.query.filter_by(identifier = request.get_json().get("identifier")).first() == None:
+  result = Queue()
+  t = Process(target=handler, args=(request.get_json().get("code"),result))
+  t.start()
+  t.join(2)
+  if t.is_alive():
+   process = psutil.Process(t.pid)
+   process.kill()
+   process.wait()
+   return jsonify(result = False, err =[{'type':'danger', 'out' : "Prcoess terminated"}] )
+
+  if(result.get() == False):
+   return jsonify(result = False, err = result.get())
+  else:
+   output = result.get()
    problem = Problem()
-   problem.userId = session["account.id"]
+   problem.name = output["name"]
    problem.identifier = request.get_json().get("identifier")
    problem.description = request.get_json().get("description")
-   problem.name = output[1]
    problem.script = request.get_json().get("code")
-   descriptors = []
-   for x in output[2]:
-    descriptors.append(output[2][x])
-   problem.descriptor = json.dumps(descriptors)
-
-   for x in output[3]:
-    data = []
-    for y in output[3][x][4]:
-     if output[3][x][4][y] > 999 or output[3][x][4][y] < -999:
-      return jsonify(result = False, err = [{'type':'danger', 'out' : "input or ouput are out of bound [-999,999] "}])
-     data.append(output[3][x][4][y])
-    if output[3][x][1] == 0:
-     if problem.setEntry(output[3][x][3]-1,json.dumps({"name" : output[3][x][2],"data":data })) == False:
-      return jsonify(result = False, err =[{'type':'danger', 'out' : "Entry out of range"}] )
-    elif output[3][x][1] == 1:
-     if problem.setOutput(output[3][x][3]-1,json.dumps({"name" : output[3][x][2],"data":data })) == False:
-      return jsonify(result = False, err =[{'type':'danger', 'out' : "Ouput out of range"}] )
+   problem.descriptor = json.dumps(output["descriptor"])
+   for item in output["stream"]:
+    if item["type"] == 0:
+     problem.setEntry(item["index"],item["name"],item["data"])
     else:
-     return jsonify(result = False, err =[{'type':'danger', 'out' : "invald STREAM_INPUT / STREAM_OUTPUT"}] )
+     problem.setOutput(item["index"],item["name"],item["data"])
+   
+   index = 0
+   for item in output["layout"]:
+    problem.setRegister(index,item)
+    index += 1
 
-   for x in output[4]:
-    if(output[4][x] == 0 or output[4][x] == 1 or output[4][x] == 2 ):
-     problem.setRegister(x -1,output[4][x])
-    else:
-     return jsonify(result = False, err = [{'type':'danger', 'out' : "layout out of range"}])
    db.session.add(problem)
    db.session.commit()
    return jsonify(result = True)
-  else:
-   return jsonify(result = False, err =[{'type':'danger', 'out' : output}] )
- else:
-  return jsonify(result = False, err = [{'type':'danger', 'out' : "identifier used"}])
- return jsonify(result = False)
