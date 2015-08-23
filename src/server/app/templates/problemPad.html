@@ -1,0 +1,51 @@
+{% extends "layout.html" %}
+{% block app %} ng-app="main"  resize {% endblock %}
+
+{% block modules%}{{super()}},'ui.ace'{% endblock %}
+
+{% block title %}Pad{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='lib/js/ui-ace.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='lib/js/src-min-noconflict/ace.js') }}"></script>
+  <script src="{{ url_for('static', filename='controller/ProblemPadController.js') }}"></script>
+{% endblock %}
+{% block content %}
+  {{super()}}
+  <div class="container pad" ng-controller="problemPadController" ng-init="init()">
+
+<form name="ProblemsPad" novalidate>
+  <div class="form-group">
+    <label >Identifier</label>
+    <input type="Text" class="form-control" name="Identifier" ng-model-options="{ debounce: 150 }" ng-model="problemPad.identifier" placeholder="Identifier" required="" verify-identifier="">
+    <alert type="danger" class="simple-alert" ng-show="(ProblemsPad.$submitted || ProblemsPad.Identifier.$touched) && ProblemsPad.Identifier.$error.required">Required</alert>
+    <alert type="danger" class="simple-alert" ng-show="ProblemsPad.Identifier.$pending.verifyIdentifier">Checking Identifier</alert>
+    <alert type="danger" class="simple-alert" ng-show="ProblemsPad.Identifier.$error.verifyIdentifier">Identifier Already Used</alert>
+  </div>
+ <div class="form-group">
+    <label >Description</label>
+    <Textarea type="Text" class="form-control" Name="Description" ng-model="problemPad.description" required=""></Textarea>
+    <alert type="danger" class="simple-alert" ng-show="(ProblemsPad.$submitted || ProblemsPad.Description.$touched) && ProblemsPad.Description.$error.required">Required</alert>
+  </div>
+
+ <div class="form-group">
+    <div ng-model="code"  Name="Code" ui-ace="{
+      useWrapMode : true,
+      showGutter: false,
+      theme:'twilight',
+      mode: 'lua',
+      firstLineNumber: 8,
+      showGutter: true
+    }" required=""></div>
+  <alert type="danger" class="simple-alert" ng-show="(ProblemsPad.$submitted || ProblemsPad.Code.$touched) && ProblemsPad.Code.$error.required">Required</alert>
+ </div>
+ <div class="form-group">
+  <alert ng-repeat="alert in problemPad.output" type="{{'{{alert.type}}'}}" close="problemPad.output.splice(index, 1);">{{'{{alert.out}}'}}</alert>
+ </div>
+ <div class="form-group">
+   <input type="submit" class="tis-button submit-button full-width large" ng-click="submitProblem()"></input>
+ </div>
+</form>
+</div>
+  
+{% endblock %}

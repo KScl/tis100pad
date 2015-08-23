@@ -6,17 +6,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static',filename='assets/favicon.ico') }}" />
 
+
+
     <script src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/angular.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/FileAPI.min.js') }}"></script>
      <script src="{{ url_for('static', filename='lib/js/ui-bootstrap.min.js') }}"></script>
      <script src="{{ url_for('static', filename='lib/js/ui-bootstrap-tpls.min.js') }}" ></script>
-    <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/angular-messages.min.js') }}"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
-    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script type="text/javascript">
+      var app = angular.module('main', [{% block modules%} 'ngMessages', 'ui.bootstrap'{% endblock %}]);
+    </script>
     <script src="{{ url_for('static', filename='controller/AccountController.js') }}"></script>
 
 {% if not googleTrackingCode == '' %}
@@ -67,7 +69,7 @@
                 <alert type="danger" class="simple-alert" ng-show="(Login.$submitted || Login.Password.$touched) && Login.Password.$error.required">Required</alert>
               </div>
 
-              <input type="submit" class="tis-button submit-button full-width" ng-click="accountLogin()"></input>
+              <input type="submit" class="tis-button submit-button full-width large" ng-click="accountLogin()"></input>
             </form>
 
             <form name="NewAccount" class="register-win" autocomplete="off" novalidate>
@@ -104,30 +106,52 @@
                <div class="form-group">
                  <div class="g-recaptcha" data-sitekey="{{public_token}}"></div>
               </div>
-              <input type="submit" class="tis-button submit-button full-width" ng-click="createNewAccount()"></input>
+              <input type="submit" class="tis-button submit-button full-width large" ng-click="createNewAccount()"></input>
             </form>
 
           </div>
          
           <div class="container-fluid">
             <div class="row">
-               
-              <div class="col-xs-6"> <button class="tis-button login-button full-width" ng-click="selected = 'login';">Login</button></div>
-              <div class="col-xs-6"><button class="tis-button new-account-button full-width" ng-click="selected ='register';">New Account</button></div>
+              <div class="col-xs-6"> <button class="tis-button login-button full-width large" ng-click="selected = 'login';">Login</button></div>
+              <div class="col-xs-6"><button class="tis-button new-account-button full-width large" ng-click="selected ='register';">New Account</button></div>
             </div>
           </div>
         </div>
       </div>
 
-       <div class="account">
-          <a href ng-click="open()" ng-if="username == ''">Login / Sign Up</a>
-          <span ng-if="username != ''"><a href='/user/{{'{{username}}'}}'>{{'{{username}}'}}</a> /   <a href  ng-click="logout()" ng-if="username != ''">Logout</a></span>
-       </div>
-      <div class="row menu-items">
-        <div class="col-xs-6"><a class="tis-button full-width large" ng-href="/problem">Problems</a></div>
-        <div class="col-xs-6"><a class="tis-button full-width large" ng-href="/pad">Pad</a></div>
-      </div>
     
+  <nav class="navbar navbar-inverse tis-header-bar">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+           <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+        <a class="navbar-brand" href="/">Tis100Share</a>
+      </div>
+
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+           <li><a href="/problem">Problem List</a></li>
+           <li><a href="/pad">Pad Editor</a></li>
+           <li><a href="/problemPad">Problem Editor</a></li>
+        </ul>
+        
+        <p class="navbar-text navbar-right">
+              <a href ng-click="open()" ng-if="username == ''">Login / Sign Up</a>
+              <span ng-if="username != ''">
+                <a href='/user/{{'{{username}}'}}'>{{'{{username}}'}}</a> / <a href  ng-click="logout()" ng-if="username != ''">Logout</a>
+              </span>
+        </p>
+      </div>
+
+    </div>
+  </nav>
+
       {% block content %}
         <!--div class="header">TIS-100 PAD</div-->
       {% endblock %}

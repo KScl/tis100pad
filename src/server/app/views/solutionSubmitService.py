@@ -34,47 +34,59 @@ def getSolution(solution):
   "user" : username ,
   "identifier" : problem.identifier})
 
+@mod.route('/problem/<string:problemIdentifer>', methods=['POST','GET'])
+def getProblem(problemIdentifer):
+ problem = Problem.query.filter_by(identifier = problemIdentifer).first()
+ return jsonify({ 
+  'states' : problem.getRegistersGrid(), 
+  "problemId" : problem.id , 
+  "inputs" : problem.getEntries(),
+  "outputs" : problem.getOutput(),
+  "name" : problem.name,
+  "identifier" : problem.identifier})
+
 @mod.route('/save.json', methods=['POST'])
 def save():
+ userId = None
+ 
  nodes = request.get_json().get("nodes")
- problemId = request.get_json().get("problemId")
  input = request.get_json().get("input")
  output = request.get_json().get("out")
+ problemId = request.get_json().get("problemId")
 
- problemById = Problem.query.filter_by(id = problemId).first()
- userId = None
  if session.has_key("account.id"):
   userId = session["account.id"]
- problemByState = Problem(
+
+ solution = None
+ problem = None
+
+ if request.get_json().has_key("problemId"):
+  problem = Problem.query.filter_by(id = problemId).first()
+ else:
+  for value in input:
+   if not (value["active"] == 0 or value["active"] == 1):
+    return jsonify(err = [{'type':'danger', 'out' : "illegal data"}])
+  problem = Problem(
   nodes[0][0].get("state"),nodes[0][1].get("state"),nodes[0][2].get("state"),nodes[0][3].get("state"),
   nodes[1][0].get("state"),nodes[1][1].get("state"),nodes[1][2].get("state"),nodes[1][3].get("state"),
   nodes[2][0].get("state"),nodes[2][1].get("state"),nodes[2][2].get("state"),nodes[2][3].get("state"),
   int(input[0]["active"]),int(input[1]["active"]),int(input[2]["active"]),int(input[3]["active"]),
   int(output[0]["active"]),int(output[1]["active"]),int(output[2]["active"]),int(output[3]["active"]),userId)
-
- if not problemByState.isValid():
-  err = ['illegal data']
-  return jsonify(errors = err)
-
- finalProblem = None
- if problemByState == problemById:
-  finalProblem = problemById
- else:
-  finalProblem = problemByState
-  db.session.add(finalProblem)
-  db.session.flush()
+  
+  if not problem.isValid():
+   return jsonify(err = [{'type':'danger', 'out' : "illegal data"}])
+  db.session.add(problem)
+  db.flush()
 
  solution = Solution( 
   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
-  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),finalProblem.id,userId)
+  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),problem.id,userId)
 
  if solution.isEmpty():
-  err = ['no solution submitted']
-  return jsonify(errors = err)
+  return jsonify(err = [{'type':'danger', 'out' : "no solution submitted"}])
 
  db.session.add(solution)
- db.session.flush()
  db.session.commit()
  return jsonify(id = solution.id)
 
@@ -85,9 +97,7 @@ def problem():
  if request.get_json().get('identifier'):
   problem = Problem.query.filter_by(identifier =request.get_json().get('identifier')).first()
  if problem == None:
-  err = ['unknown problem']
-  return jsonify(errors = err)
-
+  return jsonify(result = False,err = [{'type': 'danger','out': "Identifiers don't match"}])
 
  outputs = ["","","","","","","","","","","",""]
  register = problem.getRegisters()
@@ -121,4 +131,4 @@ def problem():
 
  db.session.add(solution)
  db.session.commit()
- return jsonify(id= solution.id)
+ return jsonify(result = True,id= solution.id)

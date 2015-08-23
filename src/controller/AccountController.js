@@ -1,14 +1,14 @@
-app.controller("loginController", loginController).directive("verifyUsername", function($q, $timeout, $http) {
+app.controller("loginController", loginController).directive("verifyIdentity", function($q, $timeout, $http) {
     return {
         restrict: 'A',
         require: 'ngModel',
         link: function(scope, element, attr, ctrl) {
-            ctrl.$asyncValidators.verifyUsername = function(modelValue, viewValue) {
-                console.log(viewValue)
+            ctrl.$asyncValidators.verifyIdentity = function(modelValue, viewValue) {
                 var def = $q.defer();
                 $http.post('/account/nameCheck.json', {
                     name: viewValue
                 }).success(function(data, status, headers, config) {
+                    console.log(data.result)
                     if (data.result == true) {
                         def.resolve();
                     } else {
@@ -21,7 +21,7 @@ app.controller("loginController", loginController).directive("verifyUsername", f
     }
 })
 
-function loginController($scope, Upload, $http, $window, $location) {
+function loginController($scope, $http, $window, $location) {
     $scope.isLoginVisible = false;
     $scope.selected = "login";
     $scope.username = "";

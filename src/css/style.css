@@ -167,19 +167,18 @@ body{
     border: 3px double #B3B3B3;
     color: #B5B5B5;
     text-align: center;
-   
+ 
 }
 
 a.tis-button{
   padding-top: 12px;
   color: #B5B5B5;
   text-decoration: none;
+  display: block;
 }
 
 .tis-button:extend(.double-border-center){
   cursor: default;
-  clear: left;
-  float: left;
   background: black;
 
   &:hover{
@@ -203,6 +202,12 @@ a.tis-button{
     }
 }
 
+
+.tis-header-bar:extend(.double-border-center){
+border-top: none;
+border-radius: 0px;
+background-color: #151819;
+}
 
 .node-window-drag .drag-overlay{
   position: absolute;
@@ -449,8 +454,7 @@ cursor:pointer;
     overflow: hidden;
   }
   .account{
-    text-align: right;
-    padding: 10px 0px;
+    text-align: center;
   }
   .menu-items div{
     padding: 0px 5px;
@@ -495,6 +499,8 @@ cursor:pointer;
     background: black;
   }
 }
+
+.ace_editor { height: 500px; }
 
 footer{
   padding-bottom: 20px;
