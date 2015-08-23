@@ -134,6 +134,7 @@ end)
   if type(output[4][x]) is int:
    result.put(False)
    result.put([{'type':'danger', 'out' : "layout has invalid data types"}])
+   return
 
   if(output[4][x] == 0 or output[4][x] == 1 or output[4][x] == 2 ):
    layout.append(output[4][x])
