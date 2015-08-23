@@ -4,6 +4,12 @@
 
 A web site for uploading and sharing solutions for the game TIS-100. http://www.tis100pad.com
 
+##Feature
+* A user account system
+* Anonmous user or registerd user can submit solution
+* Registered user can submit problems
+* Both solutions and problems can be reviewied by Anonmous/Registed users and resaved as seperate entries
+
 ##Installing
 
 ###Required Libraries
@@ -27,14 +33,15 @@ pip install lupa
 pip install psutil
 ```
 
-###Configuration
+###Install
 
 ```
 npm install
 bower install
 grunt build
+grunt migrate
 ```
-grunt will minify the javascript, and move source files from src to bin. first run the the shell.py file, this will create the tables for the server. then run the run.py to actually run the server.
+
 
 ##Modifying
 
