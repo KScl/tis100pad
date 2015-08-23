@@ -22,7 +22,8 @@ def problem(problem):
   total = Solution.query.filter_by(problemId = problem.id).count(), 
   id = problem.id,
   name = problem.name, 
-  identifier = problem.identifier)
+  identifier = problem.identifier,
+  hasCode = problem.script != None)
 
 @mod.route('/problemPage.json',methods=['POST'])
 def problemPage():

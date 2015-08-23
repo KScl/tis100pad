@@ -1,1 +1,0 @@
-var app = angular.module('main', ['ngFileUpload', 'ngMessages', 'ui.bootstrap']);

@@ -34,8 +34,12 @@ def index():
 def inject_user():
     return dict(googleTrackingCode=app.config["GOOGLE_ANALYTICS_CODE"])
 
-from app.views.padService import mod as padModule
-app.register_blueprint(padModule)
+from app.views.solutionSubmitService import mod as solutionSubmitModule
+app.register_blueprint(solutionSubmitModule)
+
+from app.views.problemSubmitService import mod as problemSubmitModule
+app.register_blueprint(problemSubmitModule)
+
 
 from app.views.problemService import mod as problemModule
 app.register_blueprint(problemModule)

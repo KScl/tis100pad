@@ -1,6 +1,6 @@
 app.controller("UserController", UserController);
 
-function UserController($scope, Upload, $http, $window, $location) {
+function UserController($scope, $http, $window, $location) {
     $scope.IsPassword = true;
 
     $scope.passwordCheck = function() {

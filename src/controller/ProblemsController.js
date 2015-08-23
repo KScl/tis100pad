@@ -1,6 +1,6 @@
 app.controller("ProblemsController", ProblemsController);
 
-function ProblemsController($scope, Upload, $http, $window, $location) {
+function ProblemsController($scope, $http, $window, $location) {
     $scope.problems = [];
     $scope.page = 1;
 

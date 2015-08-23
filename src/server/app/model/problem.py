@@ -1,4 +1,5 @@
 from app import db
+import json
 
 class Problem(db.Model):
  EXEC = 0
@@ -18,6 +19,7 @@ class Problem(db.Model):
  output2 = db.Column(db.Text)
  output3 = db.Column(db.Text)
  output4 = db.Column(db.Text)
+ descriptor = db.Column(db.Text)
  a0 = db.Column(db.Integer)
  a1 = db.Column(db.Integer)
  a2 = db.Column(db.Integer)
@@ -33,7 +35,7 @@ class Problem(db.Model):
  description = db.Column(db.Text)
  userId = db.Column(db.Integer)
 
- def __init__(self, a0,a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,entry1,entry2,entry3,entry4,output1,output2,output3,output4,userId = None,identifier = None,name = None,script = None):
+ def __init__(self, a0 = None,a1 = None,a2 = None,a3 = None,a4 = None,a5 = None,a6 = None,a7 = None,a8 = None,a9 = None,a10 = None,a11 = None,entry1 = None,entry2 = None,entry3 = None,entry4 = None,output1 = None,output2 = None,output3  = None,output4 = None,userId = None,identifier = None,name = None,script = None,descriptor = None):
   self.a0 = a0
   self.a1 = a1
   self.a2 = a2
@@ -54,10 +56,12 @@ class Problem(db.Model):
   self.output2 = output2
   self.output3 = output3
   self.output4 = output4
+  self.descriptor =  descriptor
   self.name = name
   self.identifier = identifier
   self.script = script
   self.userId = userId
+
 
  def getEntries(self):
   return [self.entry1, self.entry2, self.entry3, self.entry4]
@@ -76,7 +80,6 @@ class Problem(db.Model):
 
    for x,y in zip(other.getOutput(),self.getOutput()):
     if str(x) != str(y):
-     print "fail"
      return False
 
    for x,y in zip(other.getOutput(),self.getOutput()):
@@ -91,6 +94,80 @@ class Problem(db.Model):
    if register != self.EXEC and register != self.STCK and register != self.ERR :
     return False
   return True
+ 
+ def setRegister(self, index, value):
+  if(index == 0):
+   self.a0 = value
+   return True
+  elif(index == 1):
+   self.a1 = value
+   return True
+  elif(index == 2):
+   self.a2 = value
+   return True
+  elif(index == 3):
+   self.a3 = value
+   return True
+  elif(index == 4):
+   self.a4 = value
+   return True
+  elif(index == 5):
+   self.a5 = value
+   return True
+  elif(index == 6):
+   self.a6 = value
+   return True
+  elif(index == 7):
+   self.a7 = value
+   return True
+  elif(index == 8):
+   self.a8 = value
+   return True
+  elif(index == 9):
+   self.a9 = value
+   return True
+  elif(index == 10):
+   self.a10 = value
+   return True
+  elif(index == 11):
+   self.a11 = value
+   return True
+  return False
+ 
+ def setEntry(self,index, name,data):
+  final = json.dumps({"name" : name,"data":data })
+  if index == 0:
+   self.entry1 = final
+   return True
+  elif index == 1:
+   self.entry2 = final
+   return True
+  elif index == 2:
+   self.entry3 = final
+   return True
+  elif index == 3:
+   self.entry4 = final
+   return True
+  return False
+
+ def setOutput(self,index, name,data):
+  final = json.dumps({"name" : name,"data":data })
+  if index == 0:
+   self.output1 = final
+   return True
+  elif index == 1:
+   self.output2 = final
+   return True
+  elif index == 2:
+   self.output3 = final
+   return True
+  elif index == 3:
+   self.output4 = final
+   return True
+  return False
+
+
+
 
  def getRegistersGrid(self):
    return [
