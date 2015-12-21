@@ -82,7 +82,7 @@ GOOGLE_ANALYTICS_CODE = ""
 
 `SQLALCHEMY_DATABASE_URI` this is the configuration url for sqlAlchemy to connect to a database. The current configuration creates a local sqlite database.
 
-NOTE: for `sqlite:\\`  migrating backwards with the current configuration might become problematic due to the way sqlite work. i.e removing columns isn't possible. scale is a limitation of sqlite.
+NOTE: for `sqlite:\\`  migrating backwards with the current configuration might become problematic due to the way sqlite works. i.e removing columns isn't possible. scale is a limitation of sqlite.
 
 more information can be found here: http://docs.sqlalchemy.org/en/latest/core/engines.html
 
