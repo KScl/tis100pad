@@ -44,7 +44,7 @@ sa.Column("a11",sa.Integer))
 
 def upgrade():
  conn = op.get_bind()
- res = conn.execute(problemtable.select().where(problemtable.c.userId == -1))
+ res = conn.execute(problemtable.select().where(problemtable.c.identifier == '00150'))
  if len(res.fetchall()) == 0:
   op.bulk_insert(problemtable,[
 {"userId":-1,'identifier':'00150',"a0" : 0, "a1":2, "a2" : 0, "a3":0, "a4":0, "a5" : 2, "a6" : 0, "a7" : 2, "a8":0, "a9":2, "a10":0, 'a11':0,"entry1":1,"entry2":0,"entry3":0,"entry4":1,"output1":1,"output2":0,"output3":0,"output4":1,"name":'Self-test diagnostic'},
