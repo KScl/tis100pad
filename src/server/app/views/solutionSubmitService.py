@@ -76,7 +76,7 @@ def save():
   if not problem.isValid():
    return jsonify(err = [{'type':'danger', 'out' : "illegal data"}])
   db.session.add(problem)
-  db.flush()
+  db.session.flush()
 
  solution = Solution( 
   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),

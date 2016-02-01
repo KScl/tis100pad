@@ -1,12 +1,15 @@
 <!doctype html>
+  <!--
+  TIS 100 Pad - 0.1.0
+  http://www.tis100pad.com/
+  Copyright (c) 2016 pollend
+  License: MIT-->
 <html {% block app %} {% endblock %}>
   <head>
     {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='lib/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="icon" href="{{ url_for('static',filename='assets/favicon.ico') }}" />
-
-
 
     <script src="{{ url_for('static', filename='lib/js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='lib/js/bootstrap.min.js') }}"></script>

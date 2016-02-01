@@ -7,8 +7,14 @@
 {% endblock %}
 {% block content %}
   {{super()}}
-  <div class="" ng-controller="ProblemsController"  ng-init="init()">
-    <div class="tis-list-container problems-list">
+
+  <div class="" class="container" ng-controller="ProblemsController" ng-init="init()">
+      <div class="row">
+        <a class="col-md-6 tis-button hover"  ng-click="problem_type = 'USER_CREATED';getPage();" >USER CREATED PROBLEMS</a>
+        <a class="col-md-6 tis-button hover"   ng-click="problem_type = 'OFFICIAL';getPage();">OFFICAL PROBLEMS</a>
+      </div>
+
+    <div class="row tis-list-container problems-list">
       <a ng-repeat="problem in problems" class="hover" ng-href="/problem/p/{{'{{problem.identifier}}'}}">
         <td>
           <div class="game-title" >
@@ -19,7 +25,7 @@
       </a>
     </div>
     <div>
-    <pagination ng-model="currentPage" ng-change="getPage();" items-per-page="12"  total-items="{{total}}" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+    <pagination ng-model="currentPage" ng-change="getPage();" items-per-page="12"  total-items="total" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
   </div>
 </div>
 </div>

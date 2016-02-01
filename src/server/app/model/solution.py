@@ -1,6 +1,7 @@
 from app import db
 from app.model.problem import Problem
 from app.model.account import Account
+import datetime
 
 from flask import jsonify
 
@@ -54,6 +55,7 @@ class Solution(db.Model):
   self.a11 = a11
   self.problemId = problemId
   self.userId = userId
+  self.date = datetime.datetime.now()
 
   self.cycles = -1
   self.nodeCount = 0
@@ -103,7 +105,7 @@ class Solution(db.Model):
    if(account != None):
     name = account.name
    output.append({'cycles' :item.cycles , 'nodeCount' : item.nodeCount ,'instructionCount': item.instructionCount, 'id' : item.id, 'name' : name});
-  return jsonify({"results" : output})
+  return output
 
 
 

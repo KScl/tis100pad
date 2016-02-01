@@ -19,7 +19,6 @@ def problems():
 def problem(problem):
  problem = Problem.query.filter_by(identifier = problem).first()
  return render_template("problem.html", 
-  total = Solution.query.filter_by(problemId = problem.id).count(), 
   id = problem.id,
   name = problem.name, 
   identifier = problem.identifier,
@@ -28,10 +27,16 @@ def problem(problem):
 @mod.route('/problemPage.json',methods=['POST'])
 def problemPage():
  page = int(request.get_json().get("page"))-1
+ problem_type = request.get_json().get("type")
+ problem_query = 0
+ if(problem_type == "USER_CREATED"):
+  problem_query = Problem.query.filter(Problem.userId != -1)
+ else:
+  problem_query = Problem.query.filter(Problem.userId == -1)
  results = []
- for problem in Problem.query.filter(Problem.userId != None).offset(page*12).limit(12):
+ for problem in problem_query.offset(page*12).limit(12):
   results.append({"name" : problem.name, "description" : problem.description, "identifier" : problem.identifier})
- return jsonify(result = results)
+ return jsonify(result = results, count = problem_query.count())
 
 @mod.route('/solutionPage.json',methods=['POST'])
 def solutionPage():
@@ -39,8 +44,8 @@ def solutionPage():
  page =  int(request.get_json().get("page")) -1
  problem = Problem.query.filter_by(id = request.get_json().get("problemId")).first()
  if ordering == "CYL":
-  return Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.cycles)).offset(page*12).limit(12))
+  return jsonify({"results" :Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.cycles)).offset(page*12).limit(12))})
  elif ordering == "NOD":
-  return Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12))
+  return jsonify({"results" :Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12))})
  elif ordering == "INS":
-  return Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12))
+  return jsonify({"results" :Solution.simpleJsonify(Solution.query.filter_by(problemId = problem.id).order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12))})

@@ -1,9 +1,9 @@
 {
   "name": "lib",
   "version": "0.0.0",
-  "homepage": "http://www.tis100pad.com/",
+  "homepage": "https://tis100share.me/",
   "authors": [
-    "michael pollind <m_pollen@yahoo.com>"
+    "michael pollind <mpollind@gmail.com>"
   ],
   "description": "A web site for uploading and sharing solutions for the game TIS-100",
   "main": "components",

@@ -2,7 +2,10 @@ app.controller("UserController", UserController);
 
 function UserController($scope, $http, $window, $location) {
     $scope.IsPassword = true;
-
+    $scope.problem_page = 1;
+    $scope.solution_page  = 1;
+    $scope.state = 'submitted_problem';
+    $scope.solution_ordering = "INS";
     $scope.passwordCheck = function() {
         if ($scope.ChangePassword.newPassword == $scope.ChangePassword.repeatPassword) {
             $scope.IsPassword = true;
@@ -32,54 +35,58 @@ function UserController($scope, $http, $window, $location) {
 
     $scope.$watch('state', function(newValue, oldValue) {
         $location.search('state', newValue);
-        $scope.currentPage = 1;
-
         if (newValue == 'profile') {
             delete $location.$$search.order
 
         } else if (newValue == 'submitted_problem') {
-            delete $location.$$search.order
+             delete $location.$$search.order
+             $scope.update_problems();
 
         } else if (newValue == 'submitted_solution') {
+            
             $scope.update_solutions();
         }
     });
 
 
-    $scope.$watch('ordering', function(newValue, oldValue) {
+    $scope.$watch('solution_ordering', function(newValue, oldValue) {
         $location.search('order', newValue);
         $scope.update_solutions();
     });
 
-    $scope.update_solutions = function() {
-        $http.post("/user/solutionPage.json", {
-            ordering: $scope.ordering,
-            page: $scope.currentPage,
+    $scope.update_problems = function(){
+        $location.search('page', $scope.problem_page);
+        $http.post("/user/problemsPage.json", {
+            page: $scope.problem_page,
             user: $scope.user
         }).
         error(function(data, status, headers, config) {
 
         }).
         success(function(data, status, headers, config) {
+            $scope.problems = data.results;
+            $scope.problem_total = data.total;
+        });
+    }
+
+    $scope.update_solutions = function() {
+       $location.search('page', $scope.solution_page);
+        $http.post("/user/solutionPage.json", {
+            page: $scope.solution_page,
+            user: $scope.user,
+            ordering: $scope.solution_ordering
+        }).
+        error(function(data, status, headers, config) {
+
+        }).
+        success(function(data, status, headers, config) {
             $scope.solutions = data.results;
+            $scope.solution_total = data.total;
         });
 
     }
 
     $scope.init = function() {
-
-        if ($location.$$search.page)
-            $scope.currentPage = $location.$$search.page;
-        else
-            $scope.currentPage = 1;
-
-        if ($location.$$search.order)
-            $scope.ordering = $location.$$search.order
-        else
-            $scope.ordering = "INS"
-
-        if ($scope.user)
-            $scope.state = 'submitted_problem';
 
         if ($location.$$search.state)
             $scope.state = $location.$$search.state;
@@ -88,6 +95,23 @@ function UserController($scope, $http, $window, $location) {
 
         if ($scope.state = 'profile' && !$scope.owner)
             $scope.state = 'submitted_solution';
+
+        if($location.$$search.state)
+        {
+            $scope.state = $location.$$search.state;
+
+            if ($scope.state == "submitted_problem")
+            {
+                $scope.problem_page = $location.$$search.page;
+            }
+            if($scope.state == "submitted_solution")
+            {
+                if ($location.$$search.order)
+                     $scope.solution_ordering = $location.$$search.order
+                $scope.solution_page = $location.$$search.page;
+            }
+        }
+        
     }
 
 

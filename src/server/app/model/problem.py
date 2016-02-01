@@ -33,8 +33,7 @@ class Problem(db.Model):
  a10 = db.Column(db.Integer)
  a11 = db.Column(db.Integer)
  description = db.Column(db.Text)
- userId = db.Column(db.Integer)
-
+ 
  def __init__(self, a0 = None,a1 = None,a2 = None,a3 = None,a4 = None,a5 = None,a6 = None,a7 = None,a8 = None,a9 = None,a10 = None,a11 = None,entry1 = None,entry2 = None,entry3 = None,entry4 = None,output1 = None,output2 = None,output3  = None,output4 = None,userId = None,identifier = None,name = None,script = None,descriptor = None):
   self.a0 = a0
   self.a1 = a1

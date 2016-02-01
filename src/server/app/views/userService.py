@@ -40,15 +40,29 @@ def changePassword():
   return jsonify(result = True,output= [{'type':'danger', 'out' : "Invalid old password"}])
  return jsonify(result = False, output= [{'type':'danger', 'out' : "Try Again"}])
 
+@mod.route('/problemsPage.json',methods=['POST'])
+def problemPage():
+ page = int(request.get_json().get("page"))-1
+ results = []
+ user = Account.query.filter_by(name = request.get_json().get("user")).first()
+ for problem in Problem.query.filter(Problem.identifier != None,Problem.userId == user.id).offset(page*12).limit(12):
+  results.append({"name" : problem.name, "description" : problem.description, "identifier" : problem.identifier})
+ return jsonify(results = results, total = Problem.query.filter(Problem.identifier != None,Problem.userId == user.id).count())
 
 @mod.route('/solutionPage.json',methods=['POST'])
 def solutionPage():
  ordering = request.get_json().get("ordering")
  page =  int(request.get_json().get("page")) -1
  user = Account.query.filter_by(name = request.get_json().get("user")).first()
- if ordering == "CYL":
-  return Solution.simpleJsonify(Solution.query.filter_by(userId = user.id).order_by(db.desc(Solution.cycles)).offset(page*12).limit(12))
- elif ordering == "NOD":
-  return Solution.simpleJsonify(Solution.query.filter_by(userId = user.id).order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12))
- elif ordering == "INS":
-  return Solution.simpleJsonify(Solution.query.filter_by(userId = user.id).order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12))
+ problem_query = Problem.query.join(Solution,Problem.id == Solution.problemId)
+ # .filter_by(userId = user.id)
+ results = []
+ for item in problem_query:
+  results.append({"name" : item.name, "description" : item.description, "identifier" : item.identifier})
+ return jsonify(results = results)
+ # if ordering == "CYL":
+ #  return jsonify({"results" : Solution.simpleJsonify(solution_query.order_by(db.desc(Solution.cycles)).offset(page*12).limit(12)), "total" : solution_query.count()})
+ # elif ordering == "NOD":
+ #  return jsonify({"results" : Solution.simpleJsonify(solution_query.order_by(db.desc(Solution.nodeCount)).offset(page*12).limit(12)), "total" : solution_query.count()})
+ # elif ordering == "INS":
+ #  return jsonify({"results" : Solution.simpleJsonify(solution_query.order_by(db.desc(Solution.instructionCount)).offset(page*12).limit(12)), "total" : solution_query.count()})

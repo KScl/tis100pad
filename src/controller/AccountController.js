@@ -107,8 +107,4 @@ function loginController($scope, $http, $window, $location) {
         return grecaptcha.getResponse();
     }
 
-
-
-
-
 }

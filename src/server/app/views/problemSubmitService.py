@@ -95,27 +95,27 @@ end)
   for y in output[3][x][4]:
    if not type(output[3][x][4][y]) is int:
     result.put(False)
-    result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" + output[3][x][2] }])
+    result.put([{'type':'danger', 'out' : "input or output has an invalid data type for" + output[3][x][2] }])
 
    if output[3][x][4][y] > 999 or output[3][x][4][y] < -999:
     result.put(False)
-    result.put([{'type':'danger', 'out' : "input or ouput are out of bound [-999,999] for " + output[3][x][2] }])
+    result.put([{'type':'danger', 'out' : "input or output are out of bound [-999,999] for " + output[3][x][2] }])
     return
    data.append(output[3][x][4][y])
 
   if not type(output[3][x][2]) is unicode:
    result.put(False)
-   result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" }])
+   result.put([{'type':'danger', 'out' : "input or output has an invalid data type for" }])
    return
 
   if not type(output[3][x][3]) is int:
    result.put(False)
-   result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" + output[3][x][2] }])
+   result.put([{'type':'danger', 'out' : "input or output has an invalid data type for" + output[3][x][2] }])
    return
 
   if not type(output[3][x][1]) is int:
    result.put(False)
-   result.put([{'type':'danger', 'out' : "input or ouput has an invalid data type for" + output[3][x][2] }])
+   result.put([{'type':'danger', 'out' : "input or output has an invalid data type for" + output[3][x][2] }])
    return
 
   if output[3][x][3] < 1 or output[3][x][3] > 4:
@@ -131,7 +131,7 @@ end)
 
  layout = []
  for x in output[4]:
-  if type(output[4][x]) is int:
+  if not ((output[4][x]+1)%1 == 0):
    result.put(False)
    result.put([{'type':'danger', 'out' : "layout has invalid data types"}])
    return
@@ -161,7 +161,7 @@ def submit():
    process = psutil.Process(t.pid)
    process.kill()
    process.wait()
-   return jsonify(result = False, err =[{'type':'danger', 'out' : "Prcoess terminated"}] )
+   return jsonify(result = False, err =[{'type':'danger', 'out' : "Process terminated"}] )
 
   if(result.get() == False):
    return jsonify(result = False, err = result.get())
@@ -173,6 +173,7 @@ def submit():
    problem.description = request.get_json().get("description")
    problem.script = request.get_json().get("code")
    problem.descriptor = json.dumps(output["descriptor"])
+   problem.userId = session["account.id"]
    for item in output["stream"]:
     if item["type"] == 0:
      problem.setEntry(item["index"],item["name"],item["data"])
