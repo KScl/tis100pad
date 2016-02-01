@@ -42,6 +42,7 @@ pip install Redis
 pip install requests
 pip install lupa
 pip install psutil
+pip install alembic
 ```
 
 ###Install
