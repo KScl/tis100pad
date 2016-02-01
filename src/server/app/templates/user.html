@@ -84,17 +84,29 @@
               
             </a>
           </div> -->
-          <div class="container-fluid solution-list tis-list-container">
-            <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
-              <div class="col-xs-8 stats">
-                <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span>
-                <span ng-if="item.cycles == -1">NILL</span>
-                / <span>{{ '{{item.instructionCount}}'}}</span>
-                / <span>{{'{{item.nodeCount}}'}}</span>
+        <div class="container-fluid">
+          <div class="row hover" ng-repeat="item in solutions">
+            <div class=" solution-list tis-list-container">
+              <div class="container">
+                <a ng-href="/pad/{{'{{item.id}}'}}">
+                  <div class="col-xs-1 glyphicon glyphicon-plus"></div>
+                  <div class="col-xs-4">{{'{{item.name}}'}} </div>
+                </a>
               </div>
-              <div class="col-xs-4">{{'{{item.name}}'}} </div>
-            </a>
+            </div>
+            <div class="row">
+              <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
+                <div class="col-xs-8 stats">
+                  <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span>
+                  <span ng-if="item.cycles == -1">NILL</span>
+                  / <span>{{ '{{item.instructionCount}}'}}</span>
+                  / <span>{{'{{item.nodeCount}}'}}</span>
+                </div>
+                <div class="col-xs-4">{{'{{item.name}}'}} </div>              
+              </a>
+            </div>
           </div>
+        </div>
         <pagination  ng-model="solution_page" ng-change="update_solutions();" items-per-page="12" max-size="5" total-items="solution_total" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
       </div>
       
