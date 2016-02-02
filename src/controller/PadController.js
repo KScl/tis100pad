@@ -98,7 +98,8 @@ function PadController($scope, Upload, $http, $window, $location) {
         [new NODE(), new NODE(), new NODE(), new NODE()]
     ];
     $scope.user = '';
-    $scope.id = -1;
+    $scope.solutionId = -1;
+    $scope.problemId = -1;
     $scope.identifier = "";
     $scope.name = "";
     $scope.errors = [];
@@ -144,9 +145,9 @@ function PadController($scope, Upload, $http, $window, $location) {
 
     $scope.init = function() {
         if ($location.search().id && $location.search().id >= 0) {
-            $scope.id = $location.search().id;
+            $scope.solutionId = $location.search().id;
 
-            $http.post('/pad/solution/' + $scope.id, {}).
+            $http.post('/pad/solution/' + $scope.solutionId, {}).
             success(function(data, status, headers, config) {
                 $scope.user = data.user
                 for (var x = $scope.nodes.length - 1; x >= 0; x--) {
@@ -156,7 +157,7 @@ function PadController($scope, Upload, $http, $window, $location) {
 
                     };
                 };
-                $scope.id = data.problemId;
+                $scope.problemId = data.problemId;
                 $scope.identifier = data.identifier;
                 $scope.name = data.name;
 
@@ -185,7 +186,7 @@ function PadController($scope, Upload, $http, $window, $location) {
 
                     };
                 };
-                $scope.id = data.problemId;
+                $scope.problemId = data.problemId;
                 $scope.identifier = data.identifier;
                 $scope.name = data.name;
 
@@ -256,7 +257,7 @@ function PadController($scope, Upload, $http, $window, $location) {
     $scope.save = function() {
 
         var out = {};
-        if ($scope.id == -1) {
+        if ($scope.problemId == -1) {
             var input = [];
             var output = [];
 
@@ -276,7 +277,8 @@ function PadController($scope, Upload, $http, $window, $location) {
         } else {
             out = {
                 nodes: $scope.nodes,
-                problemId: $scope.id
+                problemId: $scope.problemId,
+                solutionId: $scope.solutionId
             };
         }
 
@@ -285,8 +287,8 @@ function PadController($scope, Upload, $http, $window, $location) {
             if (data.err) {
                 $scope.errors = data.err;
             } else {
-                $location.search("id", data.id);
-                $scope.id = data.id;
+                $location.search("id", data.solutionId);
+                $scope.solutionId = data.solutionId;
                 $scope.init();
             }
         }).
@@ -351,8 +353,8 @@ function PadController($scope, Upload, $http, $window, $location) {
                 }).
                 success(function(data, status, headers, config) {
                     if (data.result) {
-                        $location.search("id", data.id);
-                        $scope.id = data.id;
+                        $location.search("id", data.solutionId);
+                        $scope.solutionId = data.solutionId;
                         $scope.init();
                     } else {
                         $scope.errors = data.err;

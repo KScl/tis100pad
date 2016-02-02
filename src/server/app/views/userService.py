@@ -49,16 +49,42 @@ def problemPage():
   results.append({"name" : problem.name, "description" : problem.description, "identifier" : problem.identifier})
  return jsonify(results = results, total = Problem.query.filter(Problem.identifier != None,Problem.userId == user.id).count())
 
+@mod.route('/solution_list.json',methods=['POST'])
+def solution_list():
+ user = Account.query.filter_by(name = request.get_json().get("user")).first()
+ problem_id = request.get_json().get("problem_id")
+ ordering = request.get_json().get("ordering")
+ solution_query = None
+ if(problem_id == -1):
+  if ordering == "CYL":
+   solution_query = Solution.query.filter(Solution.userId == user.id, Problem.identifier == None).join(Problem, Problem.id == Solution.problemId).order_by(db.desc(Solution.cycles))
+  elif ordering == "NOD":
+   solution_query = Solution.query.filter(Solution.userId == user.id, Problem.identifier == None).join(Problem, Problem.id == Solution.problemId).order_by(db.desc(Solution.nodeCount))
+  elif ordering == "INS":
+   solution_query = Solution.query.filter(Solution.userId == user.id, Problem.identifier == None).join(Problem, Problem.id == Solution.problemId).order_by(db.desc(Solution.instructionCount))
+ else:
+  if ordering == "CYL":
+   solution_query = Solution.query.filter(Solution.userId == user.id ,  Solution.problemId == problem_id).order_by(db.desc(Solution.cycles))
+  elif ordering == "NOD":
+   solution_query = Solution.query.filter(Solution.userId == user.id ,  Solution.problemId == problem_id).order_by(db.desc(Solution.nodeCount))
+  elif ordering == "INS":
+   solution_query = Solution.query.filter(Solution.userId == user.id ,  Solution.problemId == problem_id).order_by(db.desc(Solution.instructionCount))
+ return jsonify({"results" : Solution.simpleJsonify(solution_query)})
+
+
+
 @mod.route('/solutionPage.json',methods=['POST'])
 def solutionPage():
  ordering = request.get_json().get("ordering")
  page =  int(request.get_json().get("page")) -1
  user = Account.query.filter_by(name = request.get_json().get("user")).first()
- problem_query = Problem.query.join(Solution,Problem.id == Solution.problemId)
+ problem_query = Problem.query.join(Solution,Problem.id == Solution.problemId).filter(Solution.userId == user.id, Problem.identifier != None)
  # .filter_by(userId = user.id)
  results = []
+ if(Problem.query.join(Solution,Problem.id == Solution.problemId).filter(Solution.userId == user.id, Problem.identifier == None).count() > 0):
+  results.append({"name" : "NILL","id" : -1, "description" : "--", "identifier" : "--"})
  for item in problem_query:
-  results.append({"name" : item.name, "description" : item.description, "identifier" : item.identifier})
+  results.append({"name" : item.name,"id" : item.id, "description" : item.description, "identifier" : item.identifier})
  return jsonify(results = results)
  # if ordering == "CYL":
  #  return jsonify({"results" : Solution.simpleJsonify(solution_query.order_by(db.desc(Solution.cycles)).offset(page*12).limit(12)), "total" : solution_query.count()})

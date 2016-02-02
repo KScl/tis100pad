@@ -33,6 +33,33 @@ function UserController($scope, $http, $window, $location) {
         }
     }
 
+    $scope.show_solution_items = function(problem,toggle){
+        if(typeof problem.ordering === 'undefined')
+            problem.ordering = 'CYL';
+
+        if(toggle)
+        {
+            if(problem.show  === true)
+                problem.show = false;
+            else
+                problem.show = true;
+        }
+
+        $http.post("/user/solution_list.json", {
+            user: $scope.user,
+            problem_id: problem.id,
+            ordering : problem.ordering
+        }).
+        error(function(data, status, headers, config) {
+
+        }).
+        success(function(data, status, headers, config) {
+            problem.items = data.results;
+            problem.page = data.page;
+        });
+        
+    }
+
     $scope.$watch('state', function(newValue, oldValue) {
         $location.search('state', newValue);
         if (newValue == 'profile') {
@@ -64,8 +91,8 @@ function UserController($scope, $http, $window, $location) {
 
         }).
         success(function(data, status, headers, config) {
-            $scope.problems = data.results;
-            $scope.problem_total = data.total;
+            $scope.submitted_problems = data.results;
+            $scope.submitted_problems_total = data.total;
         });
     }
 
@@ -80,8 +107,8 @@ function UserController($scope, $http, $window, $location) {
 
         }).
         success(function(data, status, headers, config) {
-            $scope.solutions = data.results;
-            $scope.solution_total = data.total;
+            $scope.problems_solutions = data.results;
+            $scope.problems_solutions_total = data.total;
         });
 
     }

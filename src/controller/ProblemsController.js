@@ -29,6 +29,10 @@ function ProblemsController($scope, $http, $window, $location) {
             $scope.currentPage = $location.search().page;
         else
             $scope.currentPage = 1;
+
+        if($location.search().type)
+            $scope.problem_type = $location.search().type;
+
         $scope.getPage();
     }
 

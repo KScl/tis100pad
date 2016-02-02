@@ -15,11 +15,17 @@ def problems():
  return render_template("problems.html", 
   total = Problem.query.filter(Problem.userId != None).count())
 
+@mod.route('/p/download/<string:problem>')
+def download_problem(problem):
+ problem = Problem.query.filter(Problem.identifier == problem)
+ return problem.first().script
+
 @mod.route('/p/<string:problem>')
 def problem(problem):
  problem = Problem.query.filter_by(identifier = problem).first()
  return render_template("problem.html", 
   id = problem.id,
+  IsUserProblem = (problem.script != None),
   name = problem.name, 
   identifier = problem.identifier,
   hasCode = problem.script != None)
@@ -30,9 +36,9 @@ def problemPage():
  problem_type = request.get_json().get("type")
  problem_query = 0
  if(problem_type == "USER_CREATED"):
-  problem_query = Problem.query.filter(Problem.userId != -1)
+  problem_query = Problem.query.filter(Problem.userId != -1 , Problem.identifier != None)
  else:
-  problem_query = Problem.query.filter(Problem.userId == -1)
+  problem_query = Problem.query.filter(Problem.userId == -1, Problem.identifier != None)
  results = []
  for problem in problem_query.offset(page*12).limit(12):
   results.append({"name" : problem.name, "description" : problem.description, "identifier" : problem.identifier})

@@ -46,6 +46,23 @@ function ProblemController($scope, $http, $window, $location) {
         });
     }
 
+    $scope.download_problem = function(identifier) {
+        var anchor = angular.element('<a/>');
+
+        $http.get("/problem/p/download/" + identifier).
+        error(function(data, status, headers, config) {
+
+        }).
+        success(function(data, status, headers, config) {
+            anchor.attr({
+                 href: 'data:attachment/csv;charset=utf-8,' + encodeURI(data),
+                target: '_blank',
+                download: identifier + ".txt"
+            })[0].click();
+        });
+
+    }
+
     $scope.upload_save = function(files) {
         FileAPI.readAsText(files[0], function(evt) {
             //$scope.new_solution();

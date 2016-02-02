@@ -267,6 +267,10 @@ margin-bottom: @node-bottom-padding;
 
 }
 
+.item-nested{
+  margin-left: 20px !important; 
+}
+
 .tis-list-container{
   &>*{
     display: block;

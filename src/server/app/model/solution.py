@@ -31,7 +31,7 @@ class Solution(db.Model):
 
  def countInstructions(self,input):
   intstructions = 0
-  lines = re.split("/\r\n|\r|\n/g",input)
+  lines = re.split("\r\n|\r|\n",input)
   for line in lines:
    if(not (line.strip() == "" or line.strip()[:1] == "#")):
     intstructions+=1

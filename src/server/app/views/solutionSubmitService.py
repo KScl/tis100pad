@@ -53,6 +53,7 @@ def save():
  input = request.get_json().get("input")
  output = request.get_json().get("out")
  problemId = request.get_json().get("problemId")
+ solutionId = request.get_json().get("solutionId")
 
  if session.has_key("account.id"):
   userId = session["account.id"]
@@ -78,17 +79,25 @@ def save():
   db.session.add(problem)
   db.session.flush()
 
- solution = Solution( 
-  nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
-  nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
-  nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),problem.id,userId)
+ s = Solution.query.filter(Solution.userId == userId, Solution.id == solutionId ).first()
+ if(s == None or userId == None):
+  solution = Solution( 
+   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
+   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
+   nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),problem.id,userId)
+  db.session.add(solution)
+ else:
+  solution = s
+  solution.__init__(
+   nodes[0][0].get("text"),nodes[0][1].get("text"),nodes[0][2].get("text"),nodes[0][3].get("text"),
+   nodes[1][0].get("text"),nodes[1][1].get("text"),nodes[1][2].get("text"),nodes[1][3].get("text"),
+   nodes[2][0].get("text"),nodes[2][1].get("text"),nodes[2][2].get("text"),nodes[2][3].get("text"),problem.id,userId)
 
  if solution.isEmpty():
   return jsonify(err = [{'type':'danger', 'out' : "no solution submitted"}])
 
- db.session.add(solution)
  db.session.commit()
- return jsonify(id = solution.id)
+ return jsonify(solutionId = solution.id)
 
 
 @mod.route('/problem.json', methods=['POST'])
@@ -131,4 +140,4 @@ def problem():
 
  db.session.add(solution)
  db.session.commit()
- return jsonify(result = True,id= solution.id)
+ return jsonify(result = True,solutionId= solution.id)

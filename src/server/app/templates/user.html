@@ -14,7 +14,6 @@
       <button class="tis-button full-width" ng-click="state = 'submitted_solution'" >Submitted Solutions</button>
     </div>
     <div class="col-md-9">
-
       <div ng-show="state == 'profile'" >
         <div class="panel panel-default">
           <div class="panel-heading">Change Password</div>
@@ -45,11 +44,10 @@
             </form>
           </div>
         </div>
-
       </div>
       <div ng-show="state == 'submitted_problem'">
         <div class="tis-list-container problems-list">
-          <a ng-repeat="problem in problems" class="hover" ng-href="/problem/p/{{'{{problem.identifier}}'}}">
+          <a ng-repeat="problem in submitted_problems" class="hover" ng-href="/problem/p/{{'{{problem.identifier}}'}}">
             <td>
               <div class="game-title" >
                 <h3>{{'{{problem.name}}'}}</h3>
@@ -59,7 +57,7 @@
           </a>
         </div>
         <div>
-          <pagination ng-model="problem_page" ng-change="getPage();" items-per-page="12"  total-items="problem_total" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+          <pagination ng-model="problem_page" ng-change="getPage();" items-per-page="12"  total-items="submitted_problems_total" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
         </div>
       </div>
       <div ng-show="state == 'submitted_solution'" >
@@ -84,33 +82,37 @@
               
             </a>
           </div> -->
-        <div class="container-fluid">
-          <div class="row hover" ng-repeat="item in solutions">
-            <div class=" solution-list tis-list-container">
-              <div class="container">
-                <a ng-href="/pad/{{'{{item.id}}'}}">
-                  <div class="col-xs-1 glyphicon glyphicon-plus"></div>
-                  <div class="col-xs-4">{{'{{item.name}}'}} </div>
-                </a>
-              </div>
-            </div>
+        <div ng-repeat="problem in problems_solutions" class="container-fluid tis-list-container">
             <div class="row">
-              <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
-                <div class="col-xs-8 stats">
-                  <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span>
-                  <span ng-if="item.cycles == -1">NILL</span>
-                  / <span>{{ '{{item.instructionCount}}'}}</span>
-                  / <span>{{'{{item.nodeCount}}'}}</span>
-                </div>
-                <div class="col-xs-4">{{'{{item.name}}'}} </div>              
-              </a>
+                <a ng-click="show_solution_items(problem,true)" class="col-xs-1">
+                  <span ng-show="problem.show == true " class="glyphicon glyphicon-minus"></span>
+                  <span ng-show="problem.show == false || problem.show == null" class="glyphicon glyphicon-plus"></span>
+                </a>
+                <a ng-href="/problem/p/{{'{{problem.identifier}}'}}" class="col-xs-6"> <div class="game-title" > <h3>{{'{{problem.name}}'}}</h3></div></a>
+                {{'{{problem.identifier}}'}}   
             </div>
-          </div>
+
+            <div class="row item-nested"  ng-show="problem.items != null && problem.show == true">
+                <div class="col-xs-8 stats">
+                  <span><a href ng-click="problem.ordering = 'CYL';show_solution_items(problem,false);">CYL</a><div ng-if="problem.ordering == 'CYL'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> /
+                  <span><a href ng-click="problem.ordering = 'INS';show_solution_items(problem,false);">INS</a><div ng-if="problem.ordering == 'INS'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> /
+                  <span><a href ng-click="problem.ordering = 'NOD';show_solution_items(problem,false);">NOD</a><div ng-if="problem.ordering == 'NOD'" class="selection glyphicon glyphicon-triangle-bottom"></div></span>
+                </div>
+                <div class="col-xs-4"></div>
+            </div>
+
+            <a class="row hover item-nested" ng-show="problem.items != null && problem.show == true" ng-repeat="solution in problem.items" ng-href="/pad/{{'{{solution.id}}'}}">
+              <div class="col-xs-8 stats">
+                <span ng-if="item.cycles != -1">{{'{{solution.cycles}}'}}</span>
+                <span ng-if="item.cycles == -1">NILL</span>
+                / <span>{{ '{{solution.instructionCount}}'}}</span>
+                / <span>{{'{{solution.nodeCount}}'}}</span>
+              </div>
+              <div class="col-xs-4">{{'{{solution.name}}'}} </div>              
+            </a>
+            <!-- <a ng-hide="solution.items == null" class="item-nested row hover"> MORE</a> -->
         </div>
-        <pagination  ng-model="solution_page" ng-change="update_solutions();" items-per-page="12" max-size="5" total-items="solution_total" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        <pagination  ng-model="solution_page" ng-change="update_solutions();" items-per-page="12" max-size="5" total-items="problems_solutions_total" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
       </div>
-      
-    </div>
-    
   </div>
 {% endblock %}

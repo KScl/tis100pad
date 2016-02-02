@@ -52,6 +52,7 @@
           {% if hasCode %}
              <a class="tis-button large full-width" ng-href="/problemPad/#?identifier={{identifier}}" >Problem Editor</a>
           {% endif %}
+           <a ng-show="{{IsUserProblem}}"class="tis-button large full-width"  ng-click="download_problem('{{identifier}}')">DOWNLOAD PROBLEM</a>
         </div>
 
         </div>
