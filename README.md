@@ -1,5 +1,5 @@
 # tis100pad
-A web site for uploading and sharing solutions for the game TIS-100. http://www.tis100pad.com
+A web site for uploading and sharing solutions for the game TIS-100.
 
 This repo does not reflect the actual directory structure of tis100pad.com. If you attempt to run this site on your own server, you can put the .py files anywhere as long as your web server is able to execute them. Needless to say I recommend putting them somewhere externally inaccessible.
 
