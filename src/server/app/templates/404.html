@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block app %} ng-app="main"  resize {% endblock %} 
+
+{% block title %}Pad{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+  {{super()}}
+  <h1>404 ERROR</h1>
+{% endblock %}

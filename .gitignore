@@ -1,5 +1,13 @@
 *.txt
 *.db
 *.pyc
-log
+*.sh
+*.wsgi
+*log
 /min/*
+
+bin/*
+node_modules/*
+bower_components/*
+
+config.py

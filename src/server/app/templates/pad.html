@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block app %} ng-app="main"  resize {% endblock %}
+
+{% block modules%}{{super()}},'ngFileUpload'{% endblock %}
+
+{% block title %}Pad{% endblock %}
+{% block head %}
+  {{ super() }}
+      <script src="{{ url_for('static', filename='lib/js/ng-file-upload-shim.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='controller/PadController.js') }}"></script>
+{% endblock %}
+{% block content %}
+  {{super()}}
+  <div class="container pad" ng-controller="PadController" ng-init="init()" resize>
+    <div>
+      <div class="game-title"><h3>{{'{{name}}'}}</h3>{{'{{identifier}}'}}</div>
+    </div>
+    <span ng-show="user != ''">Submitted By: <a  ng-href="/user/{{'{{user}}'}}">{{'{{user}}'}}</a></span>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-10" ngf-drop ng-model="upload_file" ngf-drag-over-class="node-window-drag">
+          <div class="drag-overlay glyphicon glyphicon-cloud-upload"></div>
+          <div class="row input">
+            <div class="col-xs-3" ng-click="changeSwitch(in[0])" ng-class="{active: (in[0] != null && in[0].active == null) || in[0].active == true}"><span ng-hide="in[0].active == null">IN</span>{{'{{in[0].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[1])" ng-class="{active: (in[1] != null && in[1].active == null) || in[1].active == true}"><span ng-hide="in[1].active == null">IN</span>{{'{{in[1].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[2])" ng-class="{active: (in[2] != null && in[2].active == null) || in[2].active == true}"><span ng-hide="in[2].active == null">IN</span>{{'{{in[2].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(in[3])" ng-class="{active: (in[3] != null && in[3].active == null) || in[3].active == true}"><span ng-hide="in[3].active == null">IN</span>{{'{{in[3].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+          </div>
+          {% for x in range(0,3) %}
+            <div class="row node-row" >
+              {% for y in range(0,4) %}
+                <div class="col-xs-3" >
+                  <div class="row node" ng-class="getClass(nodes[{{x}}][{{y}}])" >
+                    <div class="node-block node-main" ng-class="{'col-xs-9': identifier == '', 'col-xs-12': identifier != ''}">
+                      <textarea cols="18" rows="15" class="exec" ng-model="nodes[{{x}}][{{y}}].text" ng-change="updateCount()"></textarea>
+                      <div class="stck">
+                        <div>█████████████████</div>
+                        <div>STACK MEMORY NODE</div>
+                        <div>█████████████████</div>
+                      </div>
+                      <div class="err">
+                        <div>█████████████████</div>
+                        <div>COMMUNICATION</div>
+                        <div>FAILURE</div>
+                        <div>█████████████████</div>
+                      </div>
+                    </div>
+                    <div class="col-xs-3 sidecolumn node-block" ng-hide="identifier != ''">
+                      <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.EXEC)" class="sidecell exec"><p>EXEC<br>NODE</p></div>
+                      <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.STCK)"class="sidecell stck"><p>STCK<br>NODE</p></div>
+                      <div ng-click="setState(nodes[{{x}}][{{y}}], STATE.ERR)" class="sidecell err"><p>ERR<br>NODE</p></div>
+                      <div class="sidecell bottom"></div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% endfor %}
+          <div class="row output">
+            <div class="col-xs-3" ng-click="changeSwitch(out[0])" ng-class="{active: (out[0] != null && out[0].active == null) || out[0].active == true}"><span ng-hide="out[0].active == null">OUT</span>{{'{{out[0].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[1])" ng-class="{active: (out[1] != null && out[1].active == null) || out[1].active == true}"><span ng-hide="out[1].active == null">OUT</span>{{'{{out[1].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[2])" ng-class="{active: (out[2] != null && out[2].active == null) || out[2].active == true}"><span ng-hide="out[2].active == null">OUT</span>{{'{{out[2].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+            <div class="col-xs-3" ng-click="changeSwitch(out[3])" ng-class="{active: (out[3] != null && out[3].active == null) || out[3].active == true}"><span ng-hide="out[3].active == null">OUT</span>{{'{{out[3].name}}'}}&nbsp;&nbsp;&nbsp;<span>&#8681;</div>
+          </div>
+        </div>
+        <!--input type="file" id="files" name="files[]" multiple /-->
+        <div  class="col-md-2">
+          <button class="tis-button full-width" ng-click="download()">Download Solution</button>
+          <button  class="tis-button full-width" ngf-select  ngf-change="upload_save($files)" ngf-multiple="multiple">Upload Save File</button>
+          <button class="tis-button full-width" ng-click="new_solution()">New Solution</button>
+          <button class="tis-button full-width" ng-click="save()">Save</button>
+        </div>
+      </div>
+
+      <alert ng-repeat="err in errors" type="{{'{{alert.type}}'}}" close="errors.splice(index, 1);">{{'{{alert.out}}'}}</alert>
+               
+
+      <div class="row">
+        <div class="col-xs-4"><div class="double-border-center"><span>Cycle Count: N/A <!--{{ '{{cycleCount}}'}}--></span></div></div>
+        <div class="col-xs-4"><div class="double-border-center"><span>Node Count:  {{ '{{nodeCount}}'}}</span></div></div>
+        <div class="col-xs-4"> <div class="double-border-center"><span>Instruction Count: {{ '{{instructionCount}}'}}</span></div></div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

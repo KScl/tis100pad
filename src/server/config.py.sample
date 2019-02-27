@@ -1,0 +1,24 @@
+import os
+import datetime
+_basedir = os.path.abspath(os.path.dirname(__file__))
+
+DEBUG = True
+
+IP = "192.168.0.14"
+
+SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(_basedir, 'app.db')
+DATABASE_CONNECT_OPTIONS = {}
+
+THREADS_PER_PAGE = 8
+
+CSRF_ENABLED = True
+
+RECAPTCHA_PRIVATE_TOKEN = "qnbauwbefliuabwel"
+RECAPTCHA_PUBLIC_TOKEN = "qnbauwbefliuabwel"
+
+PASSWORD_HASH="auwnpanwe8fawefh05sfgs"
+
+SECRET_KEY = "aps8fp9a8wnef8ansdfa"
+PERMANENT_SESSION_LIFETIME = datetime.timedelta(hours = 1)
+
+GOOGLE_ANALYTICS_CODE = ""

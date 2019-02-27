@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block app %} ng-app="main"  resize {% endblock %}
+
+{% block modules%}{{super()}},'ngFileUpload'{% endblock %}
+
+{% block title %}Pad{% endblock %}
+{% block head %}
+  {{ super() }}
+  <script src="{{ url_for('static', filename='lib/js/ng-file-upload.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='controller/ProblemController.js') }}"></script>
+{% endblock %}
+{% block content %}
+  {{super()}}
+  <div ng-controller="ProblemController"  class="container" ng-init="id ={{id}};identifier = {{identifier}} ;init();  ">
+    <div class="game-title">
+      <h3>{{name}}</h3>
+      {{identifier}}
+    </div>
+    <div class="description">
+    
+    </div>
+    
+    <div class="container">
+
+    <div class=" col-md-8">
+      <span class=" solution-list tis-list-container">
+      <div class="row">
+        <div class="col-xs-8 stats">
+          <span><a href ng-click="ordering = 'CYL';getPage();">CYL</a><div ng-if="ordering == 'CYL'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> /
+          <span><a href ng-click="ordering = 'INS';getPage();">INS</a><div ng-if="ordering == 'INS'" class="selection glyphicon glyphicon-triangle-bottom"></div></span> /
+          <span><a href ng-click="ordering = 'NOD';getPage();">NOD</a><div ng-if="ordering == 'NOD'" class="selection glyphicon glyphicon-triangle-bottom"></div></span></div>
+          <div class="col-xs-4"></div>
+        </div>
+        <a class="row hover" ng-repeat="item in solutions" ng-href="/pad/{{'{{item.id}}'}}">
+          <div class="col-xs-8 stats">
+            <span ng-if="item.cycles != -1">{{'{{item.cycles}}'}}</span>
+            <span ng-if="item.cycles == -1">NILL</span> / <span>{{ '{{item.instructionCount}}'}}</span> / <span>{{'{{item.nodeCount}}'}}</span>
+          </div>
+          <div class="col-xs-4">{{'{{item.name}}'}}</div>
+        </a>
+        </span>
+        <div class="col-md-12">
+            <pagination  ng-model="currentPage" ng-change="page = currentPage;getPage();" items-per-page="12" max-size="5" total-items="{{total}}" boundary-links="true" rotate="false"  previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination>
+        </div>
+    </div>
+        
+      
+        <div class="col-md-4">
+          <alert ng-repeat="alert in sideError" type="{{'{{alert.type}}'}}" close="sideError.splice(index, 1);">{{'{{alert.out}}'}}</alert>
+          <a class="tis-button large full-width" ngf-select  ngf-change="upload_save($files)">Upload Save</a>
+          <a class="tis-button large full-width" ng-href="/pad/#?problem={{identifier}}" >Solution Editor</a>
+          {% if hasCode %}
+             <a class="tis-button large full-width" ng-href="/problemPad/#?identifier={{identifier}}" >Problem Editor</a>
+          {% endif %}
+           <a ng-show="{{IsUserProblem}}"class="tis-button large full-width"  ng-click="download_problem('{{identifier}}')">DOWNLOAD PROBLEM</a>
+        </div>
+
+        </div>
+      </div>
+  
+  </div>
+{% endblock %}
